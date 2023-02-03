@@ -46,14 +46,20 @@ import OutlineButton from '@/components/ui/outline-button/outline-button';
 import ConfirmModal from '@/components/ui/confirm-modal/confirm-modal';
 import { setLoader } from '@/redux/features/loadingBarSlice';
 import useAddToCart from '@/hooks/useAddToCart';
-import { foodsSelector } from '@/redux/features/foodsSlice';
+import { foodsSelector, likeFood } from '@/redux/features/foodsSlice';
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
+import {
+  useAddLikeMutation,
+  useGetCommentsQuery,
+} from '@/redux/features/apiSlice';
+import CommentsModal from '@/components/comments-modal/comments-modal';
+import LoadingSpinner from '@/components/ui/loading-spinner/loading-spinner';
 
 const foodItemVariants: Variants = {
-  initial: { opacity: 0.6, x: -80, scale: 0.95 },
+  initial: { opacity: 0 },
   animation: {
     opacity: 1,
-    x: 0,
-    scale: 1,
+    transition: { duration: 0.6 },
   },
   exit: { x: 50, scale: 0.95 },
   // imgAnimation: { y: 50 },
@@ -76,7 +82,11 @@ const FoodItem: FC<IFood> = ({
   integredients,
   price,
   slug,
+  likes,
 }) => {
+  // const { status, data: currentUser } = useSession();
+  const { status, data: currentUser } = useSession();
+
   const {
     addToCart,
     removeFromCart,
@@ -87,8 +97,15 @@ const FoodItem: FC<IFood> = ({
     removeQuantity,
   } = useAddToCart({ name, price, image: coverImage });
   const framerRef = useRef<HTMLDivElement>(null);
-  const inview = useFramerInView(framerRef);
+  const { data: comments, isLoading: commentsLoading } =
+    useGetCommentsQuery(slug);
   const { activeCategory, foods } = useAppSelector(foodsSelector);
+  const [isAlreadyLike, setIsAlreadyLike] = useState(
+    !!likes?.find((email) => email === currentUser?.user?.email)
+  );
+  const [likesLength, setLikesLength] = useState(likes.length);
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
+  const [addLike] = useAddLikeMutation();
 
   const animation = useAnimationControls();
   const foodDetailsAnimControl = useAnimationControls();
@@ -97,7 +114,6 @@ const FoodItem: FC<IFood> = ({
     threshold: 0.2,
   });
 
-  const { status } = useSession();
   const [showRemoveItemConfirmModal, setshowRemoveItemConfirmModal] =
     useState(false);
   const dispatch = useAppDispatch();
@@ -123,23 +139,56 @@ const FoodItem: FC<IFood> = ({
   };
 
   const onFoodDetails: MouseEventHandler<HTMLAnchorElement> = (e) => {
+    e.stopPropagation();
     if (!e.ctrlKey) {
       dispatch(setLoader(80));
     }
   };
 
-  // useEffect(() => {
-  //   if (foods.length < 1) return;
-  //   console.log(name, inView);
-  //   if (inView) {
-  //     animation.start(foodItemVariants.animation);
-  //   } else {
-  //     animation.start(foodItemVariants.initial);
-  //   }
-  // }, [animation, inView, foods]);
+  const addLikeHandler = async () => {
+    if (status !== 'authenticated') return;
+    try {
+      setIsAlreadyLike((prev) => !prev);
+      setLikesLength((prev) => (isAlreadyLike ? --prev : ++prev));
+      dispatch(
+        likeFood({
+          foodName: name,
+          userEmail: currentUser?.user?.email as string,
+        })
+      );
+      await addLike({
+        userEmail: currentUser?.user?.email!,
+        foodName: name,
+      });
+    } catch (error) {
+      console.log(error, 'like error');
+    }
+  };
+
+  useEffect(() => {
+    if (foods.length < 1) return;
+
+    if (inView) {
+      animation.start(foodItemVariants.animation);
+    } else {
+      animation.start(foodItemVariants.initial);
+    }
+  }, [animation, inView, foods]);
+
+  useEffect(() => {
+    if (!likes || !currentUser) return;
+    setIsAlreadyLike(
+      !!likes?.find((email) => email === currentUser?.user?.email)
+    );
+  }, [likes]);
 
   return (
     <AnimatePresence>
+      <CommentsModal
+        show={showCommentsModal}
+        onClose={setShowCommentsModal.bind(null, false)}
+        foodSlug={slug}
+      />
       <ConfirmModal
         modalBody={confirmModalBody}
         onConfirm={removeFromCart}
@@ -151,9 +200,9 @@ const FoodItem: FC<IFood> = ({
         ref={viewRef}
         as={motion.div}
         variants={foodItemVariants}
-        // initial="initial"
-        // animate={animation}
-        // exit="exit"
+        initial="initial"
+        animate={animation}
+        exit="exit"
         key={name + slug} //AnimatePresenceKey
       >
         <Container onClick={onFoodItem}>
@@ -169,11 +218,15 @@ const FoodItem: FC<IFood> = ({
           <FoodContent
             // variants={foodItemVariants}
             as={motion.div}
-            // initial={{ boxShadow: '-1px 2px 4px 1px #ff7a008c' }}
+            initial={{
+              boxShadow: '-1px 2px 4px 1px #ff7a008c',
+              background: '#fff',
+            }}
             // animate={{ boxShadow: '-1px 2px 4px 1px #ff7a008c' }}
             whileHover={{
               cursor: 'pointer',
               boxShadow: ' -3px 4px 4px 1px #ff730088',
+              background: '#f5f5f5',
             }}
             transition={{ duration: 0.3 }}
           >
@@ -230,19 +283,35 @@ const FoodItem: FC<IFood> = ({
             </QuantityCounter>
 
             <CommentsContainer>
-              <ButtonSm text="مشاهده نظرات" color={theme.colors.blue} />
-              <p>38</p>
+              <ButtonSm
+                onClick={setShowCommentsModal.bind(null, true)}
+                text="مشاهده نظرات"
+                color={theme.colors.blue}
+              />
+              <p style={{ marginRight: '.3rem' }}>
+                {comments ? comments?.length : <LoadingSpinner />}
+              </p>
               <LikeWrapper as={motion.div}>
-                <IconButton
-                  ariaLabel="like food"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  tapEffect
-                >
-                  <FcLike size={'2rem'} />
-                </IconButton>
-                <p>20</p>
+                {isAlreadyLike ? (
+                  <IconButton
+                    ariaLabel="unlike food"
+                    onClick={addLikeHandler}
+                    tapEffect
+                  >
+                    <BsHeartFill size="1.6rem" color={theme.colors.primary} />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    ariaLabel="like food"
+                    style={{ outline: 'none' }}
+                    tapEffect
+                    onClick={addLikeHandler}
+                  >
+                    <BsHeart size="1.6rem" color={theme.colors.primary} />
+                  </IconButton>
+                )}
+
+                <p>{likesLength}</p>
               </LikeWrapper>
             </CommentsContainer>
 

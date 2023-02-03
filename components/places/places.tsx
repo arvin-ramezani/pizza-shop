@@ -66,6 +66,16 @@ const placeVariants: Variants = {
   // }),
 };
 
+// const placeMoreVariants: Variants = {
+//   tap: {
+//     width: ' 100vw',
+//     height: '100vh',
+//     position: 'fixed',
+//     right: 0,
+//     top: 0,
+//   },
+// };
+
 interface CartPlacesProps {
   selectable?: boolean;
 }
@@ -251,6 +261,7 @@ function PlaceItem({
       <AnimateStyledPlace
         variants={placeVariants}
         animate="activeAnimation"
+        whileTap={'tap'}
         style={
           {
             // background: isSelected ? theme.colors.primary : theme.colors.darkWhite,
@@ -268,7 +279,10 @@ function PlaceItem({
         {/* {isSelected && <PlaceActiveStyle layout layoutId="activePlace" />} */}
         {selectable && (
           <AnimatePresence>
-            <StyledDeactivePlace key="placeCircleIcon">
+            <StyledDeactivePlace
+              key="placeCircleIcon"
+              whileTap={{ scale: 0.6 }}
+            >
               <BiCircle size="1.4rem" color={theme.colors.primary} />
             </StyledDeactivePlace>
             {isSelected && (
@@ -292,7 +306,9 @@ function PlaceItem({
         whileHover="hover"
         transition={{ type: 'tween' }}
       >
-        <PlaceMore>بیشتر</PlaceMore>
+        <PlaceMore variants={placeMoreVariants} whileTap="tap">
+          بیشتر
+        </PlaceMore>
       </PLaceMoreWrapper>
     </StyledPlace>
   );
@@ -302,6 +318,7 @@ const placeMoreVariants: Variants = {
   initial: { fontSize: '0.7rem' },
   // animate: { fontSize: '0.7rem' },
   hover: { fontSize: '0.9rem' },
+  tap: { scale: 0.2 },
 };
 
 export default Places;

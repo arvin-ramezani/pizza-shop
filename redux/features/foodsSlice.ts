@@ -38,11 +38,66 @@ export const foodsSlice = createSlice({
       state.allFoods = action.payload;
       state.foods = action.payload;
     },
+
+    likeFood: (
+      state,
+      action: PayloadAction<{ foodName: string; userEmail: string }>
+    ) => {
+      const isAlreadyLike = state.allFoods
+        .find((food) => food.name === action.payload.foodName)
+        ?.likes.includes(action.payload.userEmail);
+      if (isAlreadyLike) {
+        // console.log(
+        //   isAlreadyLike,
+        //   state.allFoods.map((food) =>
+        //     food.name === action.payload.foodName
+        //       ? food.likes.filter((email) => email !== action.payload.userEmail)
+        //       : food
+        //   )
+        // );
+
+        state.foods = state.foods.map((food) =>
+          food.name === action.payload.foodName
+            ? {
+                ...food,
+                likes: food.likes.filter(
+                  (email) => email !== action.payload.userEmail
+                ),
+              }
+            : food
+        );
+
+        state.allFoods = state.allFoods.map((food) =>
+          food.name === action.payload.foodName
+            ? {
+                ...food,
+                likes: food.likes.filter(
+                  (email) => email !== action.payload.userEmail
+                ),
+              }
+            : food
+        );
+      } else {
+        state.allFoods.map((food) =>
+          food.name === action.payload.foodName
+            ? { ...food, likes: food.likes.push(action.payload.userEmail) }
+            : food
+        );
+
+        state.foods.map((food) =>
+          food.name === action.payload.foodName
+            ? { ...food, likes: food.likes.push(action.payload.userEmail) }
+            : food
+        );
+      }
+
+      // state.allFoods.map(food => food.name === action.payload.foodName ? food.likes.push)
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCategory, setFoods } = foodsSlice.actions;
+export const { setCategory, setFoods, likeFood } = foodsSlice.actions;
 
 export const foodsSelector = (state: RootState) => state.foods;
 export const foodsFriesSelector = (state: RootState) =>

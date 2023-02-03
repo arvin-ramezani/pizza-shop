@@ -21,6 +21,8 @@ export interface CommentDoc extends mongoose.Document {
   user: UserDoc;
   text: string;
   foodSlug: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const CommentSchema = new mongoose.Schema(
@@ -38,10 +40,12 @@ const CommentSchema = new mongoose.Schema(
     },
   },
   {
+    timestamps: true,
     toJSON: {
       transform(doc, ret) {
         ret.id = doc._id;
         delete ret._id;
+        delete ret.__V;
       },
       versionKey: false,
     },

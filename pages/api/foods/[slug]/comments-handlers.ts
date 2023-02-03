@@ -1,8 +1,11 @@
-import { Comment } from '@/models/Comment';
-import { User } from '@/models/User';
-import dbConnect from '@/utils/db/dbConnect';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
+
+import dbConnect from '@/utils/db/dbConnect';
+import { Comment } from '@/models/Comment';
+import { User } from '@/models/User';
+import Food from '@/pages/foods/[slug]';
+
 export async function foodsCommentsGetHandler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -15,6 +18,11 @@ export async function foodsCommentsGetHandler(
     const comments = await Comment.find({ foodSlug: slug })
       .sort({ _id: -1 })
       .populate('user');
+
+    // console.log(
+    //   typeof comments[0].createdAt,
+    //   console.log(comments[0].createdAt, 'date')
+    // );
 
     res.status(200).json(comments);
     return;
@@ -42,6 +50,10 @@ export async function foodsCommentsPostHandler(
 
     const user = await User.findOne({ email: session?.email });
 
+    if (!slug) {
+      return res.status(400).json({ message: 'Food slug is required !' });
+    }
+
     const newComment = Comment.build({
       text,
       user: user!,
@@ -50,6 +62,82 @@ export async function foodsCommentsPostHandler(
 
     await newComment.save();
     res.status(201).json(newComment);
+    return;
+  } catch (error) {
+    res.status(500).json({ message: 'Somethin went wrong !' });
+  }
+}
+
+export async function foodsCommentsDeleteHandler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  try {
+    const secret = process.env.JWT_SECRET;
+    const session = await getToken({ req, secret });
+    if (!session) {
+      res.status(401).json({ message: 'You are not authenticated' });
+      return;
+    }
+
+    await dbConnect();
+
+    if (session.email !== req.body.user.email) {
+      return res.status(401).json({ message: 'You are not authenticated' });
+    }
+
+    const commentToDelete = await Comment.findById(req.body.id).populate(
+      'user'
+    );
+    if (!commentToDelete) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+    if (commentToDelete.user.email !== session.email) {
+      return res.status(401).json({ message: 'You are not authenticated' });
+    }
+    console.log(session.email, req.body.user.email);
+    const ress = await commentToDelete.delete();
+    console.log(ress);
+
+    res.status(200).json(ress);
+    return;
+  } catch (error) {
+    res.status(500).json({ message: 'Somethin went wrong !' });
+  }
+}
+
+export async function foodsCommentsPatchHandler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  try {
+    const secret = process.env.JWT_SECRET;
+    const session = await getToken({ req, secret });
+    if (!session) {
+      res.status(401).json({ message: 'You are not authenticated' });
+      return;
+    }
+
+    await dbConnect();
+
+    if (session.email !== req.body.user.email) {
+      return res.status(401).json({ message: 'You are not authenticated' });
+    }
+
+    const commentToEdit = await Comment.findById(req.body.id).populate('user');
+    if (!commentToEdit) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+    if (commentToEdit.user.email !== session.email) {
+      return res.status(401).json({ message: 'You are not authenticated' });
+    }
+
+    commentToEdit.text = req.body.text;
+    await commentToEdit.save();
+
+    console.log(commentToEdit, req.body);
+
+    res.status(200).json(commentToEdit);
     return;
   } catch (error) {
     res.status(500).json({ message: 'Somethin went wrong !' });

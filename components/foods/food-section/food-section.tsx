@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import React, { FC, useEffect } from 'react';
 
-import Carousel from '@/components/carousel/carousel';
 import {
   foodsFriesSelector,
   foodsSaladsSelector,
@@ -19,7 +18,6 @@ import ReactCarousel from '@/components/ui/react-multi-carousel/react-carousel';
 const FoodSection: FC<IFoodSection> = ({ foods, categories }) => {
   const { data } = useGetFoodsQuery();
   const { activeCategory, foods: storeFoods } = useAppSelector(foodsSelector);
-  const mainFoods = useAppSelector(mainFoodsSelector);
   const fries = useAppSelector(foodsFriesSelector);
   const salads = useAppSelector(foodsSaladsSelector);
   const dispatch = useAppDispatch();
@@ -33,19 +31,6 @@ const FoodSection: FC<IFoodSection> = ({ foods, categories }) => {
   return (
     <StyledFoodSection>
       <CategoryList categories={categories} />
-
-      {/* <Carousel
-        key="carousel1"
-        foods={data ? storeFoods : foods}
-        title="انواع فست فود"
-      /> */}
-
-      {/* <Carousel key="carousel2" foods={foods} title="انواع فست فود" /> */}
-
-      {/* <Carousel key="carousel3" foods={fries} title="انواع سیب زمینی سرخ شده" />
-      <Carousel key="carousel4" foods={salads} title="انواع سالاد" /> */}
-
-      {/* --------------------------------- */}
 
       <ReactCarousel
         foods={data ? (storeFoods.length < 0 ? foods : storeFoods) : foods}

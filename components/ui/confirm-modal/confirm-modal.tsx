@@ -65,7 +65,7 @@ const ConfirmModal: FC<confirmModalProps> = ({
       confirmModalDiv.style.top = '0';
       confirmModalDiv.style.right = '0';
       confirmModalDiv.style.width = '100%';
-      confirmModalDiv.style.zIndex = '4';
+      confirmModalDiv.style.zIndex = '5';
 
       document.body.appendChild(confirmModalDiv);
     }
@@ -79,6 +79,14 @@ const ConfirmModal: FC<confirmModalProps> = ({
   const onCancelClickHandler = () => {
     onCancel(false);
   };
+
+  useEffect(() => {
+    if (document) {
+      show
+        ? (document.body.style.overflow = 'hidden')
+        : (document.body.style.overflow = 'auto');
+    }
+  }, [show]);
 
   let content = (
     <AnimatePresence>

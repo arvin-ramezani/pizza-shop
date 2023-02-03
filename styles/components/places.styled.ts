@@ -23,6 +23,7 @@ export const StyledPlace = styled(motion.div)<{
 `;
 
 export const AnimateStyledPlace = styled(motion.div)`
+  cursor: pointer;
   padding: 0.2rem 0.5rem;
   border-radius: 0.3rem;
 `;
@@ -43,6 +44,7 @@ export const StyledDeactivePlace = styled(motion.div)`
   position: absolute;
   top: -10px;
   right: -6px;
+  cursor: pointer;
 `;
 
 export const PLaceMoreWrapper = styled(motion.div)`
@@ -57,5 +59,6 @@ export const PLaceMoreWrapper = styled(motion.div)`
 
 export const PlaceMore = styled(motion.span)`
   color: ${({ theme }) => theme.colors.white};
-  /* font-size: 0.7rem; */
+  width: 100%;
+  text-align: center;
 `;

@@ -16,6 +16,7 @@ import { FaCircle } from 'react-icons/fa';
 import { FiCircle } from 'react-icons/fi';
 import { useInView } from 'react-intersection-observer';
 import { useAnimationControls, motion, Variants } from 'framer-motion';
+import { BsRecordCircle } from 'react-icons/bs';
 
 interface CustomRightArrowProps extends ArrowProps {
   previous?: () => void;
@@ -149,7 +150,7 @@ export const StyledCarousel = styled(motion.div)`
 `;
 
 export const StyledReactCarousel = styled(Carousel)`
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
 
   & ul:first-child {
     align-items: center !important;
@@ -158,7 +159,13 @@ export const StyledReactCarousel = styled(Carousel)`
 
 const CustomLeftArrow = ({ next }: CustomLeftArrowProps) => {
   return (
-    <IconButton ariaLabel="go to next slide" onClick={next && next}>
+    <IconButton
+      ariaLabel="go to next slide"
+      onClick={next && next}
+      tapEffect
+      boxShadow
+      style={{ outline: 'none' }}
+    >
       <AiFillLeftCircle color={theme.colors.blue} size={'2rem'} />
     </IconButton>
   );
@@ -167,9 +174,11 @@ const CustomLeftArrow = ({ next }: CustomLeftArrowProps) => {
 const CustomRightArrow = ({ previous }: CustomRightArrowProps) => {
   return (
     <IconButton
-      style={{ width: '36px', height: '36px' }}
       ariaLabel="go to previous slide"
       onClick={previous && previous}
+      tapEffect
+      boxShadow
+      style={{ outline: 'none' }}
     >
       <AiFillRightCircle color={theme.colors.blue} size={'2rem'} />
     </IconButton>
@@ -178,7 +187,7 @@ const CustomRightArrow = ({ previous }: CustomRightArrowProps) => {
 
 const CarouselButtonGroup = ({ next, previous }: CarouselButtonGroupProps) => {
   return (
-    <div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <CustomRightArrow previous={previous} />
       <CustomLeftArrow next={next} />
     </div>
@@ -189,17 +198,38 @@ const CustomDot = ({ onClick, ...rest }: DotProps) => {
   const { active } = rest;
 
   return (
-    <IconButton
+    <StyledIconBtn
       style={{ width: '100%', padding: '0 .1rem', outline: 'none' }}
       onClick={onClick && onClick}
+      tapEffect
     >
       {active ? (
-        <FaCircle color={theme.colors.blue} size=".4rem" />
+        <FaCircle color={theme.colors.blue} size=".55rem" />
       ) : (
-        <FiCircle color={theme.colors.blue} size=".4rem" />
+        <BsRecordCircle color={theme.colors.blue} size=".55rem" />
       )}
-    </IconButton>
+    </StyledIconBtn>
   );
 };
+
+const StyledIconBtn = styled(IconButton)`
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    margin-top: 0.5rem;
+
+    & svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    margin-top: 0.5rem;
+
+    & svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+`;
 
 export default ReactCarousel;

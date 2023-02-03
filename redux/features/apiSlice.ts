@@ -4,12 +4,11 @@ import { IPlace, IPlaceToEditBody } from '@/utils/types/place/place.types';
 import { IPlaceApiResponse } from '@/utils/types/place/place.types';
 import { IGetMeApiResponse } from '@/utils/types/user/user.types';
 import { IFood } from '@/utils/types/foods/food.interface';
-
-interface IAddComment {
-  userEmail: string;
-  text: string;
-  foodSlug: string;
-}
+import {
+  IAddComment,
+  IComment,
+  ICommentApiResponse,
+} from '@/utils/types/comments/comment.interfaces';
 
 export const foodsApi = createApi({
   reducerPath: 'foodsApi',
@@ -36,23 +35,83 @@ export const foodsApi = createApi({
   },
 });
 
+export const likesApi = createApi({
+  reducerPath: 'likesApi',
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
+  tagTypes: ['Likes'],
+  endpoints: (build) => {
+    return {
+      addLike: build.mutation<
+        string | undefined,
+        { userEmail: string; foodName: string }
+      >({
+        query(data) {
+          return {
+            url: `foods/likes/${data.foodName}`,
+            method: 'POST',
+            body: data.userEmail,
+          };
+        },
+        invalidatesTags: ['Likes'],
+      }),
+    };
+  },
+});
+
 export const commentsApi = createApi({
   reducerPath: 'commentsApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
   tagTypes: ['Comment'],
   endpoints: (build) => {
     return {
-      getComments: build.query<CommentDoc[], string>({
+      getComments: build.query<ICommentApiResponse[], string>({
         query: (foodSlug) => `foods/${foodSlug}/comments`,
         providesTags: ['Comment'],
+
+        transformResponse: (response: ICommentApiResponse[], meta, arg) =>
+          response.map((comment) => ({
+            ...comment,
+            user: {
+              ...comment.user,
+              image:
+                comment.user.image?.slice(7, comment.user?.image?.length) ||
+                undefined,
+            },
+          })),
       }),
 
-      addComment: build.mutation<CommentDoc, IAddComment>({
+      addComment: build.mutation<ICommentApiResponse, IAddComment>({
         query(data) {
           const { foodSlug, ...body } = data;
           return {
             url: `foods/${foodSlug}/comments`,
             method: 'POST',
+            body,
+          };
+        },
+        invalidatesTags: ['Comment'],
+      }),
+
+      deleteComment: build.mutation<void, IComment>({
+        query(data) {
+          const { foodSlug, ...body } = data;
+          console.log(data);
+          return {
+            url: `foods/${foodSlug}/comments`,
+            method: 'DELETE',
+            body,
+          };
+        },
+        invalidatesTags: ['Comment'],
+      }),
+
+      editComment: build.mutation<void, IComment>({
+        query(data) {
+          const { foodSlug, ...body } = data;
+          console.log(data);
+          return {
+            url: `foods/${foodSlug}/comments`,
+            method: 'PATCH',
             body,
           };
         },
@@ -150,7 +209,13 @@ export const meApi = createApi({
 
 export const { useGetFoodsQuery } = foodsApi;
 
-export const { useAddCommentMutation, useGetCommentsQuery } = commentsApi;
+export const {
+  useAddCommentMutation,
+  useGetCommentsQuery,
+  useDeleteCommentMutation,
+  useEditCommentMutation,
+} = commentsApi;
+export const { useAddLikeMutation } = likesApi;
 
 export const {
   useGetUserPlacesQuery,

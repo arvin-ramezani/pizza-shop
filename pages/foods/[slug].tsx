@@ -24,7 +24,7 @@ import PrimaryButton from '@/components/ui/primary-button/primary-button';
 import ButtonSm from '@/components/ui/button-sm/button-sm';
 import { theme } from '@/utils/theme.styled';
 import Input from '@/components/ui/input/input';
-import Comment from '@/components/comment/comment';
+import Comment from '@/components/comments/comments';
 import { useGetCommentsQuery } from '@/redux/features/apiSlice';
 
 interface FoodPageProps {
@@ -79,6 +79,7 @@ const Food: NextPage<FoodPageProps> = ({ food }) => {
               name={food.name}
               price={food.price}
               image={food.coverImage}
+              likes={food.likes}
             />
           </TitleBlock>
 

@@ -38,6 +38,7 @@ const CategoryItem: FC<ICategoryItem> = ({ category, active }) => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
+      whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
       onClick={onCategory.bind(null, category.name)}
       custom={active}
     >

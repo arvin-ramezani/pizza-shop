@@ -12,6 +12,7 @@ import { foodsSlice } from '@/redux/features/foodsSlice';
 import {
   commentsApi,
   foodsApi,
+  likesApi,
   meApi,
   userPlasesApi,
 } from './features/apiSlice';
@@ -31,6 +32,7 @@ export const store = configureStore({
     loadingBar: loadingBarReducer,
     [foodsApi.reducerPath]: foodsApi.reducer,
     [commentsApi.reducerPath]: commentsApi.reducer,
+    [likesApi.reducerPath]: likesApi.reducer,
     [userPlasesApi.reducerPath]: userPlasesApi.reducer,
     [meApi.reducerPath]: meApi.reducer,
   },
@@ -39,6 +41,7 @@ export const store = configureStore({
     getDefaultMiddleware().concat(
       foodsApi.middleware,
       commentsApi.middleware,
+      likesApi.middleware,
       userPlasesApi.middleware,
       meApi.middleware,
       rtkQueryErrorLogger

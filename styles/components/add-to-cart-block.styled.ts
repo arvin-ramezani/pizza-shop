@@ -33,4 +33,5 @@ export const StyledButtonWrapper = styled(motion.div)`
   margin: 1.2rem 0 0.5rem;
   width: 100%;
   z-index: 100;
+  display: flex;
 `;

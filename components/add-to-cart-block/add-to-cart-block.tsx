@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { motion, Variants } from 'framer-motion';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from 'react-icons/io';
 import { useSession } from 'next-auth/react';
 
@@ -19,6 +19,10 @@ import {
   StyledButtonWrapper,
   StyledPrice,
 } from '@/styles/components/add-to-cart-block.styled';
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
+import { theme } from '@/utils/theme.styled';
+import { RiHeart3Line } from 'react-icons/ri';
+import { useAddLikeMutation } from '@/redux/features/apiSlice';
 
 // const foodContentVariants: Variants = {
 //   initial: { opacity: 0, x: -50 },
@@ -49,10 +53,11 @@ interface AddToCartProps {
   name: IFood['name'];
   price: IFood['price'];
   image: IFood['coverImage'];
+  likes: string[];
 }
 
-const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image }) => {
-  const { status } = useSession();
+const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image, likes }) => {
+  const { status, data: currentUser } = useSession();
   const {
     addToCart,
     removeFromCart,
@@ -62,6 +67,12 @@ const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image }) => {
     addQuantity,
     removeQuantity,
   } = useAddToCart({ name, price, image });
+  const [isAlreadyLike, setIsAlreadyLike] = useState(
+    !!likes?.find((email) => email === currentUser?.user?.email)
+  );
+  const [addLike] = useAddLikeMutation();
+
+  console.log(likes);
 
   const [showRemoveItemConfirmModal, setshowRemoveItemConfirmModal] =
     useState(false);
@@ -75,10 +86,32 @@ const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image }) => {
     setshowRemoveItemConfirmModal(false);
   };
 
+  const addLikeHandler = async () => {
+    if (status !== 'authenticated') return;
+    try {
+      setIsAlreadyLike((prev) => !prev);
+
+      const res = await addLike({
+        userEmail: currentUser?.user?.email!,
+        foodName: name,
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error, 'like error');
+    }
+  };
+
   let addToCartBtnText =
     status === 'authenticated' ? 'افزودن به سبد' : 'لطفا وارد شوید';
 
   let confirmModalBodyContent = <p>از سبد خرید حذف شود ؟</p>;
+
+  useEffect(() => {
+    if (!likes || !currentUser) return;
+    setIsAlreadyLike(
+      !!likes?.find((email) => email === currentUser?.user?.email)
+    );
+  }, [likes, currentUser?.user?.email]);
 
   return (
     <Container variants={foodItemVariants}>
@@ -116,6 +149,20 @@ const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image }) => {
         </PriceContainer>
       </QuantityCounter>
       <StyledButtonWrapper as={motion.div}>
+        {isAlreadyLike ? (
+          <IconButton onClick={addLikeHandler} tapEffect>
+            <BsHeartFill size="1.6rem" color={theme.colors.primary} />
+          </IconButton>
+        ) : (
+          <IconButton
+            style={{ outline: 'none' }}
+            tapEffect
+            onClick={addLikeHandler}
+          >
+            <BsHeart size="1.6rem" color={theme.colors.primary} />
+          </IconButton>
+        )}
+
         {isInCart ? (
           <OutlineButton fullWidth onClick={onDeleteFromCart} text="حذف" />
         ) : (

@@ -1,21 +1,37 @@
-import Input from '@/components/ui/input/input';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 export const StyledComment = styled(motion.div)`
+  position: relative;
+`;
+
+export const StyledCommentContainer = styled(motion.div)`
   padding: 1rem;
+  display: block;
 
   & > h4 {
     margin: 1.5rem 0 0.8rem;
     font-size: 1.2rem;
   }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: flex;
+    gap: 3rem;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    display: flex;
+    justify-content: start;
+    gap: 5rem;
+  }
 `;
 
 export const CommentListWrapper = styled.div`
   overflow-y: auto;
-  height: 255px;
+  /* height: 280px; */
   direction: ltr;
   margin-right: -0.7rem;
+  flex: 1;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -30,25 +46,52 @@ export const CommentListWrapper = styled.div`
 
 export const StyledCommentList = styled(motion.div)`
   direction: rtl;
-  height: 255px;
-  margin-right: 0.8rem;
+  min-height: 160px;
+  max-height: 255px;
+  margin: 0 0.8rem -2rem 0;
 `;
 
 export const CommentBlock = styled(motion.div)`
   margin-top: 0.5rem;
-  width: fit-content;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 0.8rem;
   background: #f5f5f5;
   border-radius: 0.8rem;
+  width: 100%;
 
   & > h5 {
-    margin: 0;
+    margin: 0 0 1rem;
     font-size: 1rem;
     line-height: 1;
   }
   & > p {
     font-size: 0.8rem;
   }
+
+  /* @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: 60%;
+  } */
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: 100%;
+  }
+`;
+
+export const UserInfo = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+
+  & > h5 {
+    margin: 0;
+  }
+`;
+
+export const StyledMomentBlock = styled(motion.span)`
+  font-size: 0.7rem;
+  width: 100%;
+  display: block;
+  text-align: end;
 `;
 
 export const AddCommentForm = styled(motion.form)`
@@ -56,6 +99,7 @@ export const AddCommentForm = styled(motion.form)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  flex: 1;
 
   & > span {
     margin-top: 0.5rem;
@@ -68,3 +112,10 @@ export const AddCommentForm = styled(motion.form)`
 `;
 
 export const StyledCommentInput = styled(motion.div)``;
+
+export const AddCommentFormBtnContainer = styled(motion.div)`
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+`;
