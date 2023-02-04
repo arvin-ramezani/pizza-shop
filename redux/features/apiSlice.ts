@@ -74,7 +74,7 @@ export const commentsApi = createApi({
             user: {
               ...comment.user,
               image:
-                comment.user.image?.slice(7, comment.user?.image?.length) ||
+                comment.user?.image?.slice(7, comment.user?.image?.length) ||
                 undefined,
             },
           })),
@@ -94,12 +94,11 @@ export const commentsApi = createApi({
 
       deleteComment: build.mutation<void, IComment>({
         query(data) {
-          const { foodSlug, ...body } = data;
-          console.log(data);
+          const { foodSlug } = data;
           return {
             url: `foods/${foodSlug}/comments`,
             method: 'DELETE',
-            body,
+            body: data,
           };
         },
         invalidatesTags: ['Comment'],

@@ -5,7 +5,7 @@ export interface IFood {
   name: string;
   integredients: string;
   likes: string[];
-  comments: string[];
+  commentsLength?: number;
   details: string;
   coverImage: string;
   images?: string[];

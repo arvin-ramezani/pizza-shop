@@ -83,6 +83,7 @@ const FoodItem: FC<IFood> = ({
   price,
   slug,
   likes,
+  commentsLength,
 }) => {
   // const { status, data: currentUser } = useSession();
   const { status, data: currentUser } = useSession();
@@ -96,9 +97,9 @@ const FoodItem: FC<IFood> = ({
     addQuantity,
     removeQuantity,
   } = useAddToCart({ name, price, image: coverImage });
-  const framerRef = useRef<HTMLDivElement>(null);
-  const { data: comments, isLoading: commentsLoading } =
-    useGetCommentsQuery(slug);
+  // const framerRef = useRef<HTMLDivElement>(null);
+  // const { data: comments, isLoading: commentsLoading } =
+  //   useGetCommentsQuery(slug);
   const { activeCategory, foods } = useAppSelector(foodsSelector);
   const [isAlreadyLike, setIsAlreadyLike] = useState(
     !!likes?.find((email) => email === currentUser?.user?.email)
@@ -128,7 +129,6 @@ const FoodItem: FC<IFood> = ({
   let confirmModalBody = <p>از سبد خرید حذف شود ؟</p>;
 
   const onFoodItem = () => {
-    console.log('click');
     foodDetailsAnimControl.start({
       display: 'inline-flex',
       // scale: [1.1, 1.3, 1],
@@ -288,9 +288,7 @@ const FoodItem: FC<IFood> = ({
                 text="مشاهده نظرات"
                 color={theme.colors.blue}
               />
-              <p style={{ marginRight: '.3rem' }}>
-                {comments ? comments?.length : <LoadingSpinner />}
-              </p>
+              <p style={{ marginRight: '.3rem' }}>{commentsLength || 0}</p>
               <LikeWrapper as={motion.div}>
                 {isAlreadyLike ? (
                   <IconButton

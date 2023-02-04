@@ -140,8 +140,8 @@ const Comments: FC<CommentsProps> = ({ modalMode, closeModal, foodSlug }) => {
   const deleteCommentHandler = async () => {
     if (!commentToDel) return;
     try {
+      console.log(commentToDel);
       const ress = await deleteComment(commentToDel);
-      console.log(ress);
     } catch (error) {
       console.log(error);
     }

@@ -12,6 +12,7 @@ export interface FoodAttrs {
   images: string[];
   price: number;
   category: Category;
+  commentsLength?: number;
 }
 
 // Food collection properties and methods.
@@ -32,6 +33,7 @@ export interface FoodDoc extends mongoose.Document {
   price: number;
   category: Category;
   slug: string;
+  commentsLength?: number;
 }
 
 const foodSchema = new mongoose.Schema(
@@ -70,6 +72,11 @@ const foodSchema = new mongoose.Schema(
     category: {
       type: String,
       enum: Category,
+    },
+    commentsLength: {
+      type: Number,
+      default: 0,
+      min: 0,
     },
   },
   {
