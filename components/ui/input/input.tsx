@@ -9,7 +9,7 @@ import React, {
 import { UseFormRegister, FieldValues } from 'react-hook-form';
 import { Property } from '@/node_modules/csstype/index';
 
-import { IFormInputs } from '../../../utils/types/auth.interface';
+import { IFormInputs } from '../../../utils/types/auth.types';
 import {
   ErrorText,
   StyledInput,

@@ -23,6 +23,7 @@ export default NextAuth({
       credentials: {
         email: {},
         password: {},
+        id: {},
       },
       async authorize(credentials, req) {
         const isBodyValid = await signinSchema.isValid(credentials);
@@ -45,14 +46,26 @@ export default NextAuth({
           throw new Error('Invalid Password!');
         }
 
-        console.log(existUser);
-
         return {
           email: existUser.email,
-          id: existUser._id,
+          id: existUser.id,
           name: existUser.firstName,
         };
       },
     }),
   ],
+  callbacks: {
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token.sub; // I added optional id field to Session type
+      }
+      return session;
+    },
+    // jwt: async ({ user, token }) => {
+    //   if (user) {
+    //     token.uid = user.id;
+    //   }
+    //   return token;
+    // },
+  },
 });

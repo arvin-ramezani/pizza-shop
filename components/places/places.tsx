@@ -78,9 +78,10 @@ const placeVariants: Variants = {
 
 interface CartPlacesProps {
   selectable?: boolean;
+  onAddPlace?: Function;
 }
 
-const Places: FC<CartPlacesProps> = ({ selectable }) => {
+const Places: FC<CartPlacesProps> = ({ selectable, onAddPlace }) => {
   const { status } = useSession();
   const {
     data,
@@ -105,6 +106,8 @@ const Places: FC<CartPlacesProps> = ({ selectable }) => {
 
   const onPlaceHandler = (name: string) => {
     setCurrentSelectedPlace(() => name);
+    onAddPlace &&
+      onAddPlace(placeList?.find((place) => place.placeName === name));
   };
 
   const onAddTemporaryPlaceHandler = (place: IPlaceApiResponse) => {
@@ -130,6 +133,15 @@ const Places: FC<CartPlacesProps> = ({ selectable }) => {
     setMapEditMode(true);
     setShowAddPlaceModal((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (!placeList || placeList?.length < 1) return;
+
+    onAddPlace &&
+      onAddPlace(
+        placeList.find((place) => place.placeName === currentSelectedPlace)
+      );
+  }, [currentSelectedPlace]);
 
   useEffect(() => {
     // Prevent body to scroll when the modal is opened.
@@ -159,9 +171,10 @@ const Places: FC<CartPlacesProps> = ({ selectable }) => {
   }, [isLoading, data]);
 
   useEffect(() => {
-    placeList &&
-      placeList?.length > 0 &&
-      setCurrentSelectedPlace(placeList[0].placeName);
+    if (!placeList || placeList.length < 1) return;
+    placeList?.length > 0 && setCurrentSelectedPlace(placeList[0].placeName);
+
+    onAddPlace && onAddPlace(placeList[0].id);
   }, [placeList]);
 
   if (status === 'unauthenticated') {
@@ -232,7 +245,7 @@ interface PlaceProps {
 }
 
 function PlaceItem({
-  place: { placeName, placeAddress },
+  place: { placeName },
   currentSelectedPlace,
   onPlaceHandler,
   onMoreButton,

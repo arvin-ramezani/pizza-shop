@@ -32,7 +32,7 @@ import {
   useGetCommentsQuery,
 } from '@/redux/features/apiSlice';
 import { useRouter } from 'next/router';
-import commentSechema from '@/utils/yup-schema/commentSechema';
+import commentSechema from '@/utils/yup-schema/comment.schema';
 import {
   CommentFieldValues,
   IComment,

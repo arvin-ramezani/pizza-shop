@@ -14,17 +14,15 @@ import transformUserPlacesResponse from '@/utils/transform-api-response/transfor
 import { TransformPlacesArgsTypes } from '@/utils/types/place/place.types';
 import nextConnect from 'next-connect';
 import {
-  usersPlacesDeleteHandler,
-  usersPlacesGetHandler,
-  usersPlacesPatchHandler,
-  usersPlacesPostHandler,
-} from './places-handlers';
+  usersOrdersGetHandler,
+  usersOrdersPostHandler,
+} from './orders-handlers';
 
-interface PlaceApiRequest extends NextApiRequest {
-  body: (IPlace & IPlaceToEditBody) | '';
+interface UserOrdersApiRequest extends NextApiRequest {
+  body: any;
 }
 
-const usersPlacesRoutes = nextConnect<PlaceApiRequest, NextApiResponse>({
+const usersOrdersRoutes = nextConnect<UserOrdersApiRequest, NextApiResponse>({
   onError(err, req, res) {
     console.log(err, 'onError');
     res
@@ -39,9 +37,7 @@ const usersPlacesRoutes = nextConnect<PlaceApiRequest, NextApiResponse>({
   },
 });
 
-usersPlacesRoutes.get(usersPlacesGetHandler);
-usersPlacesRoutes.post(usersPlacesPostHandler);
-usersPlacesRoutes.patch(usersPlacesPatchHandler);
-usersPlacesRoutes.delete(usersPlacesDeleteHandler);
+usersOrdersRoutes.get(usersOrdersGetHandler);
+usersOrdersRoutes.post(usersOrdersPostHandler);
 
-export default usersPlacesRoutes;
+export default usersOrdersRoutes;

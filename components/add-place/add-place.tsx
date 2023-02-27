@@ -12,8 +12,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useForm, SubmitHandler, UseFormRegister } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { UseFormRegister } from 'react-hook-form';
 
 import {
   AddLocationWrapper,

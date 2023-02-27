@@ -1,5 +1,5 @@
-import { motion, Variants } from 'framer-motion';
-import React, { FC } from 'react';
+import { motion, MotionStyle, Variants } from 'framer-motion';
+import React, { FC, CSSProperties } from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import styled from 'styled-components';
 import { theme } from '../../../utils/theme.styled';
@@ -8,6 +8,7 @@ interface ICloseIcon {
   onClick?: () => void;
   size?: string;
   color?: string;
+  style?: CSSProperties;
 }
 
 const closeIconVariants: Variants = {
@@ -17,7 +18,7 @@ const closeIconVariants: Variants = {
   animation: { opacity: 1, cursor: 'pointer' },
 };
 
-const CloseIcon: FC<ICloseIcon> = ({ onClick, size, color }) => {
+const CloseIcon: FC<ICloseIcon> = ({ onClick, size, color, style }) => {
   return (
     <IconWrapper
       // whileHover="hover"
@@ -25,6 +26,7 @@ const CloseIcon: FC<ICloseIcon> = ({ onClick, size, color }) => {
       // animate="animation"
       role="close-icon"
       onClick={onClick}
+      style={style}
     >
       <motion.span
         variants={closeIconVariants}

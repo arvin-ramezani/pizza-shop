@@ -9,9 +9,9 @@ import CloseIcon from '../ui/close-icon/close-icon';
 import Input from '../ui/input/input';
 import PrimaryButton from '../ui/primary-button/primary-button';
 import SecondaryButton from '../ui/secondary-button/secondary-button';
-import signupSchema from '../../utils/yup-schema/signup-schema';
-import { AuthModalProps, IFormInputs } from '../../utils/types/auth.interface';
-import signinSchema from '../../utils/yup-schema/signin-schema';
+import signupSchema from '../../utils/yup-schema/signup.schema';
+import { AuthModalProps, IFormInputs } from '../../utils/types/auth.types';
+import signinSchema from '../../utils/yup-schema/signin.schema';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
   loadingBarSelector,
@@ -31,7 +31,7 @@ import LoadingBar from 'react-top-loading-bar';
 import { theme } from '@/utils/theme.styled';
 import OutlineButton from '../ui/outline-button/outline-button';
 import { Coordinates } from '@/utils/types/map/map.types';
-import addPlaceFormSchema from '@/utils/yup-schema/add-placeSchema';
+import addPlaceFormSchema from '@/utils/yup-schema/add-place.schema';
 import { IPlaceInputs, IPlace } from '@/utils/types/place/place.types';
 import { validatePlaceInputs } from '@/utils/validation/add-place.validation';
 import { toast } from 'react-toastify';
@@ -80,10 +80,9 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
   };
 
   const pickedFileHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target.files);
     if (e.target.files && e.target.files.length === 1) {
       setSelectedImage(e.target.files[0]);
-      console.log(e.target.files[0], 'selected');
+      // console.log(e.target.files[0], 'selected');
     }
   };
 

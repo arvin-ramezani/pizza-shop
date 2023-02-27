@@ -83,7 +83,7 @@ const Button = styled(motion.button)<{ fullwidth: BooleanEnum }>`
   background-color: ${({ theme, color }) =>
     color ? color : theme.colors.primary};
   width: ${({ fullwidth }) =>
-    fullwidth === BooleanEnum.TRUE ? '95%' : 'fit-content'};
+    fullwidth === BooleanEnum.TRUE ? '100%' : 'fit-content'};
 
   &:hover {
     cursor: pointer;

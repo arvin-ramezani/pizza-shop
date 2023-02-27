@@ -42,8 +42,8 @@ import {
   IPlaceApiResponse,
   IPlaceToEditBody,
 } from '@/utils/types/place/place.types';
-import addAddressSchema from '@/utils/yup-schema/add-placeSchema';
-import { Coordinates } from '@/utils/types/map/map.types';
+import addAddressSchema from '@/utils/yup-schema/add-place.schema';
+import { ICoordinates } from '@/utils/types/map/map.types';
 import {
   useAddUserPlacesMutation,
   useDeleteUserPlacesMutation,
@@ -131,7 +131,7 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
   } = useForm<IPlaceInputs>({
     resolver: yupResolver(addAddressSchema),
   });
-  const [coordinates, setCoordinates] = useState<Coordinates | undefined>(
+  const [coordinates, setCoordinates] = useState<ICoordinates | undefined>(
     initialPlace?.placeLocation
   );
   const [savePlaceToDb, setSavePlaceToDb] = useState<boolean>(false);
@@ -327,7 +327,7 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
                 zoom={13}
                 initialCoordinates={coordinates}
                 onAddCoordinates={setCoordinates}
-                stableMarker={!submitEditBtn}
+                stableMarker={editMode && !submitEditBtn}
 
                 // onClick={runEditButtonAnimation}
               />
@@ -378,6 +378,7 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
                   onClick={setShowDeletePlaceConfirmModal.bind(null, true)}
                   color={theme.colors.blue}
                   disabled={isEditing}
+                  style={{ width: 'fit-content' }}
                 />
 
                 <SecondaryButton

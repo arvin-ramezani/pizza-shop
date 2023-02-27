@@ -7,7 +7,7 @@ import {
   IPlaceToEditBody,
   TransformPlacesArgsTypes,
 } from '@/utils/types/place/place.types';
-import placeSchema from '@/utils/yup-schema/placeSchema';
+import placeSchema from '@/utils/yup-schema/place.schema';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
 

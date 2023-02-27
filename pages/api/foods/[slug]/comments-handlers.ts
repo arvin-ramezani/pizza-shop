@@ -20,11 +20,6 @@ export async function foodsCommentsGetHandler(
       .sort({ _id: -1 })
       .populate('user');
 
-    // console.log(
-    //   typeof comments[0].createdAt,
-    //   console.log(comments[0].createdAt, 'date')
-    // );
-
     res.status(200).json(comments);
     return;
   } catch (error) {

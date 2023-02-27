@@ -21,6 +21,7 @@ interface IconButtonProps {
   className?: string;
   disabled?: boolean;
   style?: CSSProperties | undefined;
+  wrapperStyles?: CSSProperties | undefined;
   tapEffect?: boolean;
   toastBtn?: boolean;
   boxShadow?: boolean;
@@ -48,6 +49,7 @@ const IconButton: FC<IconButtonProps> = ({
   tapEffect,
   toastBtn,
   boxShadow,
+  wrapperStyles,
 }) => {
   const onClickHandler: IconButtonHandler = (e: IconButtonEvent) => {
     !toastBtn && e.stopPropagation();
@@ -57,7 +59,7 @@ const IconButton: FC<IconButtonProps> = ({
   };
 
   return (
-    <StyledIconButton onClick={onClickHandler}>
+    <StyledIconButton onClick={onClickHandler} style={wrapperStyles}>
       <StyledButton
         className={className}
         as={motion.button}

@@ -16,7 +16,7 @@ import { FaCircle } from 'react-icons/fa';
 import { FiCircle } from 'react-icons/fi';
 import { useInView } from 'react-intersection-observer';
 import { useAnimationControls, motion, Variants } from 'framer-motion';
-import { BsRecordCircle } from 'react-icons/bs';
+import { BsRecordCircle, BsRecordCircleFill } from 'react-icons/bs';
 
 interface CustomRightArrowProps extends ArrowProps {
   previous?: () => void;
@@ -204,7 +204,7 @@ const CustomDot = ({ onClick, ...rest }: DotProps) => {
       tapEffect
     >
       {active ? (
-        <FaCircle color={theme.colors.blue} size=".55rem" />
+        <BsRecordCircleFill color={theme.colors.blue} size=".55rem" />
       ) : (
         <BsRecordCircle color={theme.colors.blue} size=".55rem" />
       )}

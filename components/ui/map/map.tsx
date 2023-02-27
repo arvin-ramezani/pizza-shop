@@ -1,5 +1,5 @@
 import { theme } from '@/utils/theme.styled';
-import { Coordinates } from '@/utils/types/map/map.types';
+import { ICoordinates } from '@/utils/types/map/map.types';
 import { motion } from 'framer-motion';
 import React, { CSSProperties, FC, useEffect, useMemo, useState } from 'react';
 import MapBox, { Marker } from 'react-map-gl';
@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 interface MapProps {
   stableMarker?: boolean;
-  initialCoordinates?: Coordinates;
+  initialCoordinates?: ICoordinates;
   style?: CSSProperties;
   zoom?: number;
   onAddCoordinates?: Function;
@@ -28,7 +28,7 @@ const Map: FC<MapProps> = ({
   );
 
   const markerHandler = (e: mapboxgl.MapLayerMouseEvent) => {
-    const newCoordinates: Coordinates = {
+    const newCoordinates: ICoordinates = {
       lng: e.lngLat.lng,
       lat: e.lngLat.lat,
     };

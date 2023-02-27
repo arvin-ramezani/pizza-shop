@@ -3,18 +3,36 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaUserEdit } from 'react-icons/fa';
 import { MdOutlineChecklistRtl } from 'react-icons/md';
+import { getSession, useSession } from 'next-auth/react';
+import ActiveLink from '../ui/active-link/active-link';
 
 const ProfileNav = () => {
+  const { data: userData } = useSession();
+
+  console.log(userData?.user);
+
   return (
     <StyledNav>
       <ul>
         <li>
           <FaUserEdit size="1.4rem" />
-          <span>حساب کاربری</span>
+          <ActiveLink
+            activeClassName="profile-page__link--active-class"
+            className="profile-page__link--default"
+            href={'/profile'}
+          >
+            حساب کاربری
+          </ActiveLink>
         </li>
         <li>
           <MdOutlineChecklistRtl size="1.4rem" />
-          <span>لیست سفارشات</span>
+          <ActiveLink
+            activeClassName="profile-page__link--active-class"
+            className="profile-page__link--default"
+            href={`/profile/${encodeURIComponent(userData?.user?.id!)}/orders`}
+          >
+            لیست سفارشات
+          </ActiveLink>
         </li>
       </ul>
     </StyledNav>
@@ -48,6 +66,7 @@ export const StyledNav = styled.nav`
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       flex-direction: column;
       margin-top: 2rem;
+      padding: 0.5rem 0;
     }
   }
 
@@ -56,11 +75,19 @@ export const StyledNav = styled.nav`
     align-items: center;
     gap: 0.4rem;
     cursor: pointer;
+  }
 
-    :first-child {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
+  font-size: 1rem;
+
+  .profile-page__link--default {
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: #000;
+  }
+
+  .profile-page__link--active-class {
+    font-size: 1.2rem;
+    font-weight: bold;
   }
 `;
 

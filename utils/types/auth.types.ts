@@ -1,3 +1,4 @@
+import { Session } from 'next-auth/core/types';
 export interface AuthModalProps {
   onClose: () => void;
   show: boolean;
@@ -22,4 +23,8 @@ export interface UserAttrs {
   phone: string;
   password: string;
   image?: string;
+}
+
+export interface SessionWithUserId extends Session {
+  id: string;
 }

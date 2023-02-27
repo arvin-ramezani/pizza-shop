@@ -1,6 +1,6 @@
 import { PlaceDoc } from '@/models/Place';
 import { Types } from 'mongoose';
-import { Coordinates } from '../map/map.types';
+import { ICoordinates } from '../map/map.types';
 
 export interface IPlaceInputs {
   placeName: string;
@@ -10,7 +10,7 @@ export interface IPlaceInputs {
 export interface IPlace {
   placeName: string;
   placeAddress: string;
-  placeLocation?: Coordinates;
+  placeLocation?: ICoordinates;
 }
 
 export interface IPlaceApiResponse extends IPlace {

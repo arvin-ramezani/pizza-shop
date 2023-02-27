@@ -39,7 +39,7 @@ export const Container = styled.div`
   }
 `;
 
-export const Logo = styled.div`
+export const Logo = styled(motion.div)`
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -48,8 +48,8 @@ export const Logo = styled.div`
   cursor: pointer;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 80px;
-    height: 80px;
+    width: 66px;
+    height: 66px;
   }
 `;
 
@@ -95,14 +95,15 @@ export const CartLengthWrapper = styled(motion.div)`
   left: -12px;
   top: -12px;
   overflow: hidden;
-  min-width: 28px;
-  min-height: 28px;
+  width: fit-content;
+  min-height: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem 0.7rem;
   font-weight: 600;
   font-size: 1rem;
-  padding: 3px 1px 0;
+  /* padding: 3px 1px 0; */
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     /* padding: 0.3rem 0.5rem;

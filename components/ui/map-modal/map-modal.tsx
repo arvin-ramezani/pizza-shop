@@ -39,15 +39,35 @@ const mapModalVariants: Variants = {
 interface MapModalProps {
   show: boolean;
   onClose: Function;
-  onAddCoordinates: Function;
+  stableCoordinates?: boolean;
+  initialCoordinates?: { lat: number; lng: number };
+  onAddCoordinates?: Function;
 }
 
-const MapModal = ({ show, onAddCoordinates, onClose }: MapModalProps) => {
+const MapModal = ({
+  show,
+  onAddCoordinates,
+  onClose,
+  stableCoordinates,
+  initialCoordinates,
+}: MapModalProps) => {
   const [mounted, setMounted] = useState(false);
   const [coordinates, setCoordinates] = useState({
-    lng: 52.65785405322845,
-    lat: 36.71204604981793,
+    // lng: initialCoordinates?.lng,
+    // lat: initialCoordinates?.lat,
+    lng: initialCoordinates?.lng || 52.65785405322845,
+    lat: initialCoordinates?.lat || 36.71204604981793,
   });
+
+  console.log(initialCoordinates, 'initial');
+
+  useEffect(() => {
+    if (!initialCoordinates || !initialCoordinates.lat) return;
+    setCoordinates({
+      lng: initialCoordinates?.lng,
+      lat: initialCoordinates?.lat,
+    });
+  }, [initialCoordinates?.lat, initialCoordinates?.lng]);
 
   useEffect(() => {
     setMounted(true);
@@ -72,6 +92,8 @@ const MapModal = ({ show, onAddCoordinates, onClose }: MapModalProps) => {
   const onMarker = (e: mapboxgl.MapLayerMouseEvent) => {
     e.originalEvent.stopPropagation();
 
+    if (stableCoordinates) return;
+
     const coordinates = {
       lng: e.lngLat.lng,
       lat: e.lngLat.lat,
@@ -80,7 +102,7 @@ const MapModal = ({ show, onAddCoordinates, onClose }: MapModalProps) => {
   };
 
   const onAddLocation: React.MouseEventHandler<HTMLDivElement> = () => {
-    onAddCoordinates(coordinates);
+    onAddCoordinates && onAddCoordinates(coordinates);
     toast(<p>موقعیت ذخیره شد!</p>, { type: 'success' });
     onClose();
   };
@@ -112,10 +134,10 @@ const MapModal = ({ show, onAddCoordinates, onClose }: MapModalProps) => {
           >
             <CoordinatesText>
               <motion.span>
-                <strong>Latitude:</strong> {coordinates.lat}
+                <strong>Latitude:</strong> {coordinates?.lat}
               </motion.span>
               <motion.span>
-                <strong>Longitude:</strong> {coordinates.lng}
+                <strong>Longitude:</strong> {coordinates?.lng}
               </motion.span>
             </CoordinatesText>
             <MapBox
@@ -124,8 +146,8 @@ const MapModal = ({ show, onAddCoordinates, onClose }: MapModalProps) => {
                 'pk.eyJ1IjoiYXJ2aW4tcmFtZXphbmkiLCJhIjoiY2w3cmF3MnFlMDVoODN3b3Zjc2EycWZqcCJ9.a3zLLJhRZQsqXofvlhjOVw'
               }
               initialViewState={{
-                longitude: 52.65785405322845,
-                latitude: 36.71204604981793,
+                longitude: initialCoordinates?.lng || 52.65785405322845,
+                latitude: initialCoordinates?.lat || 36.71204604981793,
                 zoom: 14,
               }}
               style={{
@@ -136,8 +158,8 @@ const MapModal = ({ show, onAddCoordinates, onClose }: MapModalProps) => {
               mapStyle="mapbox://styles/mapbox/streets-v9"
               children={
                 <Marker
-                  longitude={coordinates.lng}
-                  latitude={coordinates.lat}
+                  longitude={coordinates?.lng}
+                  latitude={coordinates?.lat}
                   color="red"
                 />
               }

@@ -14,7 +14,8 @@ import {
   foodsApi,
   likesApi,
   meApi,
-  userPlasesApi,
+  ordersApi,
+  userPlacesApi,
 } from './features/apiSlice';
 
 export const reducers = {
@@ -33,8 +34,9 @@ export const store = configureStore({
     [foodsApi.reducerPath]: foodsApi.reducer,
     [commentsApi.reducerPath]: commentsApi.reducer,
     [likesApi.reducerPath]: likesApi.reducer,
-    [userPlasesApi.reducerPath]: userPlasesApi.reducer,
+    [userPlacesApi.reducerPath]: userPlacesApi.reducer,
     [meApi.reducerPath]: meApi.reducer,
+    [ordersApi.reducerPath]: ordersApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
@@ -42,8 +44,9 @@ export const store = configureStore({
       foodsApi.middleware,
       commentsApi.middleware,
       likesApi.middleware,
-      userPlasesApi.middleware,
+      userPlacesApi.middleware,
       meApi.middleware,
+      ordersApi.middleware,
       rtkQueryErrorLogger
     ),
 });

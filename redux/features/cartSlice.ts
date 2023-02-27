@@ -2,10 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../store';
-import { CartItem } from '@/utils/types/cart/cart.interface';
+import { ICartItem } from '@/utils/types/cart/cart.interface';
 
 export interface cartState {
-  cartItems: CartItem[];
+  cartItems: ICartItem[];
   cartLength: number;
   totalPrice: number;
 }
@@ -20,7 +20,7 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<CartItem>) => {
+    addToCart: (state, action: PayloadAction<ICartItem>) => {
       let itemExist = state.cartItems.find(
         (item) => item.name === action.payload.name
       );
@@ -44,10 +44,10 @@ export const cartSlice = createSlice({
       state.cartLength += itemExist.quantity;
       state.cartItems = state.cartItems.map((item) => {
         return item.name === itemExist!.name ? itemExist : item;
-      }) as CartItem[];
+      }) as ICartItem[];
     },
 
-    removeFromCart: (state, action: PayloadAction<CartItem['name']>) => {
+    removeFromCart: (state, action: PayloadAction<ICartItem['name']>) => {
       const toRemoveItem = state.cartItems.find(
         (item) => item.name === action.payload
       )!;

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { TfiShoppingCart } from 'react-icons/tfi';
 import { IoArrowBackCircleOutline } from 'react-icons/io5';
 import { useSession, signOut } from 'next-auth/react';
-import { FaUserCircle } from 'react-icons/fa';
 
 import {
   AnimatePresence,
@@ -112,6 +111,14 @@ const Header = ({}) => {
     router.push('/profile');
   };
 
+  const homePageRouteHandler = () => {
+    router.push('/');
+
+    if (router.pathname != '/') {
+      dispatch(setLoader(80));
+    }
+  };
+
   useEffect(() => {
     dispatch(setLoader(100));
     quantityWrapperAnimController.start(headerVariants.visible);
@@ -153,10 +160,9 @@ const Header = ({}) => {
         {/* <CustomLoadingBar progress={progress} /> */}
         <Container>
           <Logo
-            onClick={() => {
-              router.push('/');
-              dispatch(setLoader(80));
-            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.6 }}
+            // onClick={homePageRouteHandler}
           >
             <Image src="/images/pizza-logo.svg" alt="pizza shop logo" fill />
           </Logo>
@@ -167,7 +173,7 @@ const Header = ({}) => {
               animate={quantityWrapperAnimController}
             >
               <IconButton onClick={cartPageHandler} ariaLabel="cart" tapEffect>
-                <TfiShoppingCart color={theme.colors.white} size="1.6rem" />
+                <TfiShoppingCart color={theme.colors.white} size="1.4rem" />
                 <AnimatePresence>
                   <CartLengthWrapper as={motion.div}>
                     <CartLengthNumber

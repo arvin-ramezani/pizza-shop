@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import { Category } from '@/utils/types/categories/category.enum';
 import slugify from '@/utils/slugify/slugify';
-import { CommentDoc } from './Comment';
 
 export interface FoodAttrs {
   name: string;

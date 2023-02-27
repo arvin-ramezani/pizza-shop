@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { CommentDoc } from '@/models/Comment';
+
 import { IPlace, IPlaceToEditBody } from '@/utils/types/place/place.types';
 import { IPlaceApiResponse } from '@/utils/types/place/place.types';
 import { IGetMeApiResponse } from '@/utils/types/user/user.types';
@@ -9,6 +9,8 @@ import {
   IComment,
   ICommentApiResponse,
 } from '@/utils/types/comments/comment.interfaces';
+import { IOrdersApiReq, IOrdersApiRes } from '@/utils/types/order/order.types';
+import transformImageUrl from '@/utils/common/transform-image-url';
 
 export const foodsApi = createApi({
   reducerPath: 'foodsApi',
@@ -120,7 +122,7 @@ export const commentsApi = createApi({
   },
 });
 
-export const userPlasesApi = createApi({
+export const userPlacesApi = createApi({
   reducerPath: 'userPlacesApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
   tagTypes: ['UserPlaces'],
@@ -186,8 +188,7 @@ export const meApi = createApi({
           userPlaces,
           user: {
             ...user,
-            // image: undefined,
-            image: user.image?.slice(7, user?.image?.length) || undefined,
+            image: transformImageUrl(user.image),
           },
         }),
       }),
@@ -206,6 +207,31 @@ export const meApi = createApi({
   },
 });
 
+export const ordersApi = createApi({
+  reducerPath: 'ordersApi',
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
+  tagTypes: ['UserOrder'],
+  endpoints: (build) => {
+    return {
+      getOrders: build.query<IOrdersApiRes[], string>({
+        query: (userId) => `users/${userId}/orders`,
+        providesTags: ['UserOrder'],
+      }),
+
+      addOrder: build.mutation<{ id: string }, IOrdersApiReq>({
+        query(data) {
+          return {
+            url: `users/${data.userId}/orders`,
+            method: 'POST',
+            body: data,
+          };
+        },
+        invalidatesTags: ['UserOrder'],
+      }),
+    };
+  },
+});
+
 export const { useGetFoodsQuery } = foodsApi;
 
 export const {
@@ -214,6 +240,7 @@ export const {
   useDeleteCommentMutation,
   useEditCommentMutation,
 } = commentsApi;
+
 export const { useAddLikeMutation } = likesApi;
 
 export const {
@@ -221,6 +248,8 @@ export const {
   useAddUserPlacesMutation,
   useEditUserPlacesMutation,
   useDeleteUserPlacesMutation,
-} = userPlasesApi;
+} = userPlacesApi;
 
 export const { useGetMeQuery, useEditUserMutation } = meApi;
+
+export const { useAddOrderMutation, useGetOrdersQuery } = ordersApi;

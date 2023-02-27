@@ -18,12 +18,12 @@ import ButtonSm from '../ui/button-sm/button-sm';
 import ConfirmModal from '../ui/confirm-modal/confirm-modal';
 import PrimaryButton from '../ui/primary-button/primary-button';
 import Places from '../places/places';
-import CartPlaces from '../places/places';
 
 interface CartDetailsProps {
   totalPrice: number;
   totalQuantity: number;
-  onClick: () => void;
+  onAddOrder: () => void;
+  addOrderPlace?: (placeId: string) => void;
 }
 
 const cartDetailsVariants: Variants = {
@@ -48,7 +48,8 @@ const cartDetailsVariants: Variants = {
 const CartDetails: FC<CartDetailsProps> = ({
   totalQuantity,
   totalPrice,
-  onClick,
+  onAddOrder,
+  addOrderPlace,
 }) => {
   const [showClearCartModal, setShowClearCartModal] = useState(false);
   const dispatch = useAppDispatch();
@@ -57,6 +58,11 @@ const CartDetails: FC<CartDetailsProps> = ({
   const onClearCart = () => {
     setShowClearCartModal(false);
     dispatch(clearCart());
+  };
+
+  const onAddPlace = (placeId: string) => {
+    addOrderPlace && addOrderPlace(placeId);
+    return;
   };
 
   let confirmModalContent = <p>سبد خرید کاملا پاک میشود.</p>;
@@ -118,12 +124,12 @@ const CartDetails: FC<CartDetailsProps> = ({
         </ClearCartBtnWrapper>
       </CartDetailsContainer>
       <CreateOrderContainer>
-        <Places selectable={true} />
+        <Places onAddPlace={onAddPlace} selectable={true} />
 
         <PrimaryButton
           disabled={!totalQuantity}
           fullWidth
-          onClick={onClick}
+          onClick={onAddOrder}
           text="تکمیل خرید"
         />
       </CreateOrderContainer>

@@ -5,16 +5,16 @@ import {
   cartSelector,
   removeFromCart as removeFromCartReducer,
 } from '@/redux/features/cartSlice';
-import { CartItem } from '@/utils/types/cart/cart.interface';
+import { ICartItem } from '@/utils/types/cart/cart.interface';
 import { toast } from 'react-toastify';
 import { FC, MouseEvent, useEffect, useMemo, useState } from 'react';
 import { useAnimationControls, Variants } from 'framer-motion';
 
 interface UseAddToCartProps {
-  name: CartItem['name'];
-  price: CartItem['price'];
-  image: CartItem['image'];
-  quantity?: CartItem['quantity'];
+  name: ICartItem['name'];
+  price: ICartItem['price'];
+  image: ICartItem['image'];
+  quantity?: ICartItem['quantity'];
 }
 
 const foodItemVariants: Variants = {
@@ -37,7 +37,7 @@ const useAddToCart = ({
   quantity: initialQuantity,
 }: UseAddToCartProps) => {
   const { cartItems } = useAppSelector(cartSelector);
-  const [isInCart, setIsInCart] = useState<CartItem | false>(
+  const [isInCart, setIsInCart] = useState<ICartItem | false>(
     cartItems.find((item) => item.name === name) || false
   );
   const dispatch = useAppDispatch();

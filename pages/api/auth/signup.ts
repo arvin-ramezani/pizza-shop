@@ -5,9 +5,9 @@ import { IPlace } from '@/utils/types/place/place.types';
 import { User } from '@/models/User';
 import dbConnect from '@/utils/db/dbConnect';
 import { signupSchema } from '@/utils/zod-validation/auth/auth.schema';
-import placeSchema from '@/utils/yup-schema/placeSchema';
+import placeSchema from '@/utils/yup-schema/place.schema';
 import { Place } from '@/models/Place';
-import { UserAttrs } from '@/utils/types/auth.interface';
+import { UserAttrs } from '@/utils/types/auth.types';
 import runMulterMiddleware, { upload } from '@/middleware/multer-middleware';
 
 interface SignupApiRequest extends NextApiRequest {
@@ -95,6 +95,7 @@ async function signupHandler(req: SignupApiRequest, res: NextApiResponse) {
     res.status(201).json({ email: createdUser.email, id: createdUser.id });
     return;
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Somethin went wrong !' });
   }
 }

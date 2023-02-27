@@ -1,27 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useAppSelector } from '@/redux/hooks';
-import { cartSelector } from '@/redux/features/cartSlice';
-import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { cartSelector, clearCart } from '@/redux/features/cartSlice';
 import CartItem from '@/components/cart-item/cart-item';
 import CartDetails from '@/components/cart-details/cart-details';
 import PrimaryButton from '@/components/ui/primary-button/primary-button';
 import { theme } from '@/utils/theme.styled';
 import { useRouter } from 'next/router';
-import {
-  AnimatePresence,
-  AnimateSharedLayout,
-  motion,
-  Variants,
-} from 'framer-motion';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { useSession } from 'next-auth/react';
-import {
-  loadingBarSelector,
-  setLoader,
-} from '@/redux/features/loadingBarSlice';
+import { setLoader } from '@/redux/features/loadingBarSlice';
 import { useDispatch } from 'react-redux';
 import { CartItemsContainer, Container } from '@/styles/pages/cart-page.styled';
 import { NextPage } from 'next';
+import { useAddOrderMutation } from '@/redux/features/apiSlice';
+import ConfirmModal from '@/components/ui/confirm-modal/confirm-modal';
+import { toast } from 'react-toastify';
+import { IPlace } from '@/utils/types/place/place.types';
 
 const cartItemsContainerVariant: Variants = {
   hidden: {
@@ -45,29 +40,61 @@ const cartEmptyVariants: Variants = {
   },
 };
 
-// const cartItems = [
-//   {
-//     name: 'پیتزا ویژه',
-//     image: '/images/pizza-image-2.jpg',
-//     price: 150,
-//     quantity: 2,
-//   },
-//   {
-//     name: 'پیتزا پپرونی',
-//     image: '/images/pizza-image-3.jpg',
-//     price: 110,
-//     quantity: 2,
-//   },
-// ];
-
 const Cart: NextPage = () => {
   const { cartItems, totalPrice, cartLength } = useAppSelector(cartSelector);
-  const { status } = useSession();
+  const { data: userData, status } = useSession();
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const [addOrder, { isSuccess }] = useAddOrderMutation();
+  const [orderPlace, setOrderPlace] = useState<string | IPlace | undefined>(
+    undefined
+  );
+  const [showOrderConfirmModal, setShowOrderConfirmModal] = useState(false);
 
-  const createOrderHandler = () => {
-    console.log('TODO: create order');
+  const createOrderHandler = async () => {
+    console.log(orderPlace, 'orderplace');
+    if (!orderPlace) return;
+    try {
+      let res;
+      if (typeof orderPlace === 'string') {
+        res = await addOrder({
+          userId: userData?.user?.id!,
+          cartFoods: cartItems,
+          cartLength: cartLength,
+          totalPrice,
+          placeId: orderPlace,
+        }).unwrap();
+      } else {
+        res = await addOrder({
+          userId: userData?.user?.id!,
+          cartFoods: cartItems,
+          cartLength: cartLength,
+          totalPrice,
+          place: orderPlace,
+        }).unwrap();
+      }
+
+      if (res.id) {
+        toast(<p>سفارش شما با موفقیت ثبت شد.</p>, {
+          type: 'success',
+          position: 'top-center',
+        });
+
+        dispatch(clearCart());
+
+        router.push(`/`);
+      }
+
+      // toast(
+      //   <p>
+      //     سفارش شما ثبت شد. برای مشاهده و پیگیری وارد <strong>پروفایل</strong>{' '}
+      //     شوید.
+      //   </p>,
+      //   { type: 'success', autoClose: false, position: 'top-center' }
+      // );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (status === 'unauthenticated') {
@@ -80,10 +107,18 @@ const Cart: NextPage = () => {
 
   return (
     <Container>
+      <ConfirmModal
+        show={showOrderConfirmModal}
+        onConfirm={createOrderHandler}
+        onCancel={setShowOrderConfirmModal.bind(null, false)}
+        modalBody={<p>سفارش ثبت شود ؟</p>}
+      />
+
       <CartDetails
         totalPrice={totalPrice}
         totalQuantity={cartLength}
-        onClick={() => createOrderHandler}
+        onAddOrder={setShowOrderConfirmModal.bind(null, true)}
+        addOrderPlace={setOrderPlace}
       />
 
       <CartItemsContainer

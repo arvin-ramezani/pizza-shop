@@ -8,6 +8,7 @@ const ProfilePlaces = () => {
 
   return (
     <StyledProfilePlaces>
+      <h3>لیست مکان ها</h3>
       <Places key={'profilePlaces'} />
     </StyledProfilePlaces>
   );
