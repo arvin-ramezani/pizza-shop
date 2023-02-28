@@ -31,6 +31,7 @@ import {
   CartLengthWrapper,
   Container,
   Logo,
+  LogoWrapper,
   StyledUserNameLetter,
   Wrapper,
   WrapperIconButton,
@@ -83,9 +84,12 @@ const Header = ({}) => {
 
   const onSignOut = () => {
     setShowConfirmSignoutModal(false);
-    dispatch(setLoader(80));
-    // setLoading(80);
 
+    if (router.pathname !== '/') {
+      router.replace('/');
+    }
+
+    dispatch(setLoader(80));
     signOut();
   };
 
@@ -96,13 +100,11 @@ const Header = ({}) => {
     }
 
     dispatch(setLoader(80));
-    // setLoading(80);
     router.push('/cart');
   };
 
   const backRouterHandler = () => {
     dispatch(setLoader(80));
-    // setLoading(80);
     router.back();
   };
 
@@ -157,16 +159,13 @@ const Header = ({}) => {
           color={theme.colors.primary}
           height={4}
         />
-        {/* <CustomLoadingBar progress={progress} /> */}
-        <Container>
-          <Logo
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.6 }}
-            // onClick={homePageRouteHandler}
-          >
-            <Image src="/images/pizza-logo.svg" alt="pizza shop logo" fill />
-          </Logo>
 
+        <Container>
+          <LogoWrapper onClick={homePageRouteHandler}>
+            <Logo whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.6 }}>
+              <Image src="/images/pizza-logo.svg" alt="pizza shop logo" fill />
+            </Logo>
+          </LogoWrapper>
           {status === 'authenticated' && router.pathname !== '/cart' && (
             <WrapperIconButton
               variants={headerVariants}

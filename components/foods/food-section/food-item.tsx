@@ -35,6 +35,7 @@ import {
   StyledPrice,
   StyledFoodItem,
   StyledDetailsLink,
+  StyledTotalPrice,
 } from '@/styles/components/food-item.styled';
 import { IFood } from '@/utils/types/foods/food.interface';
 import ButtonSm from '../../ui/button-sm/button-sm';
@@ -48,12 +49,9 @@ import { setLoader } from '@/redux/features/loadingBarSlice';
 import useAddToCart from '@/hooks/useAddToCart';
 import { foodsSelector, likeFood } from '@/redux/features/foodsSlice';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
-import {
-  useAddLikeMutation,
-  useGetCommentsQuery,
-} from '@/redux/features/apiSlice';
+import { useAddLikeMutation } from '@/redux/features/apiSlice';
 import CommentsModal from '@/components/comments-modal/comments-modal';
-import LoadingSpinner from '@/components/ui/loading-spinner/loading-spinner';
+import priceToText from '@/utils/common/priceTextSeperator';
 
 const foodItemVariants: Variants = {
   initial: { opacity: 0 },
@@ -62,18 +60,19 @@ const foodItemVariants: Variants = {
     transition: { duration: 0.6 },
   },
   exit: { x: 50, scale: 0.95 },
-  // imgAnimation: { y: 50 },
   quantityCounterText: {
     scale: [0, 1.4, 1],
     opacity: [0, 1],
     transition: { duration: 0.3 },
   },
   hoverItem: {
-    // scale: 1.01,
-    cursor: 'pointer',
     boxShadow: 'inset -1px 2px 4px 1px #ff7a008c',
-    // transition: { duration: 0.3, type: 'tween' },
   },
+};
+
+const foodItemTotalPriceVariants: Variants = {
+  initial: { opacity: 0.5, scale: 0.4 },
+  animation: { opacity: 1, scale: [0.5, 1.2, 1] },
 };
 
 const FoodItem: FC<IFood> = ({
@@ -85,7 +84,6 @@ const FoodItem: FC<IFood> = ({
   likes,
   commentsLength,
 }) => {
-  // const { status, data: currentUser } = useSession();
   const { status, data: currentUser } = useSession();
 
   const {
@@ -97,9 +95,7 @@ const FoodItem: FC<IFood> = ({
     addQuantity,
     removeQuantity,
   } = useAddToCart({ name, price, image: coverImage });
-  // const framerRef = useRef<HTMLDivElement>(null);
-  // const { data: comments, isLoading: commentsLoading } =
-  //   useGetCommentsQuery(slug);
+
   const { activeCategory, foods } = useAppSelector(foodsSelector);
   const [isAlreadyLike, setIsAlreadyLike] = useState(
     !!likes?.find((email) => email === currentUser?.user?.email)
@@ -109,8 +105,8 @@ const FoodItem: FC<IFood> = ({
   const [addLike] = useAddLikeMutation();
 
   const animation = useAnimationControls();
+  const foodItemTotalPriceAnimController = useAnimationControls();
   const foodDetailsAnimControl = useAnimationControls();
-  // const { ref, inView } = useInView({ threshold: 0.2 });
   const [viewRef, inView] = useInView({
     threshold: 0.2,
   });
@@ -131,9 +127,8 @@ const FoodItem: FC<IFood> = ({
   const onFoodItem = () => {
     foodDetailsAnimControl.start({
       display: 'inline-flex',
-      // scale: [1.1, 1.3, 1],
-      // fontSize: ['0.9rem', '1rem', '0.8rem'],
       x: [-16, 16, -10, 10, -6, 6, 0],
+
       transition: { duration: 0.6 },
     });
   };
@@ -164,6 +159,12 @@ const FoodItem: FC<IFood> = ({
       console.log(error, 'like error');
     }
   };
+
+  useEffect(() => {
+    foodItemTotalPriceAnimController.start(
+      foodItemTotalPriceVariants.animation
+    );
+  }, [quantity]);
 
   useEffect(() => {
     if (foods.length < 1) return;
@@ -215,21 +216,7 @@ const FoodItem: FC<IFood> = ({
               style={{ borderRadius: '50%' }}
             />
           </StyledImageWrapper>
-          <FoodContent
-            // variants={foodItemVariants}
-            as={motion.div}
-            initial={{
-              boxShadow: '-1px 2px 4px 1px #ff7a008c',
-              background: '#fff',
-            }}
-            // animate={{ boxShadow: '-1px 2px 4px 1px #ff7a008c' }}
-            whileHover={{
-              cursor: 'pointer',
-              boxShadow: ' -3px 4px 4px 1px #ff730088',
-              background: '#f5f5f5',
-            }}
-            transition={{ duration: 0.3 }}
-          >
+          <FoodContent as={motion.div} transition={{ duration: 0.3 }}>
             <FoodHeader>{name}</FoodHeader>
             <IntegredientText>
               {integredients}.
@@ -272,13 +259,28 @@ const FoodItem: FC<IFood> = ({
                 <IoMdRemoveCircleOutline color={'#9747FF'} size={'1.6rem'} />
               </IconButton>
               <PriceContainer>
-                <StyledPrice>{`${price}.000`}</StyledPrice>
+                <StyledPrice>{priceToText(price)}</StyledPrice>
                 <Image
                   src={'/images/price.svg'}
                   alt="تومان"
                   width={32}
                   height={38}
                 />
+                {quantity > 1 && (
+                  <StyledTotalPrice
+                    as={motion.p}
+                    variants={foodItemTotalPriceVariants}
+                    animate={foodItemTotalPriceAnimController}
+                  >
+                    {priceToText(price, quantity)}
+                    <Image
+                      src={'/images/price.svg'}
+                      alt="تومان"
+                      width={32}
+                      height={38}
+                    />
+                  </StyledTotalPrice>
+                )}
               </PriceContainer>
             </QuantityCounter>
 
@@ -295,6 +297,7 @@ const FoodItem: FC<IFood> = ({
                     ariaLabel="unlike food"
                     onClick={addLikeHandler}
                     tapEffect
+                    style={{ outline: 'none' }}
                   >
                     <BsHeartFill size="1.6rem" color={theme.colors.primary} />
                   </IconButton>

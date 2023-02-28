@@ -8,7 +8,6 @@ export const Wrapper = styled.header`
     rgb(63 61 61 / 68%)
   );
   box-shadow: 0px 1px 8px 1px #000c;
-
   position: sticky;
   z-index: 2;
   height: 70px;
@@ -32,12 +31,13 @@ export const Container = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     max-width: 80%;
   }
 `;
+
+export const LogoWrapper = styled(motion.div)``;
 
 export const Logo = styled(motion.div)`
   width: 50px;
@@ -89,18 +89,17 @@ export const WrapperIconButton = styled(motion.div)`
 export const CartLengthWrapper = styled(motion.div)`
   background: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.white};
-  /* display: block; */
   border-radius: 50%;
   position: absolute;
   left: -12px;
   top: -12px;
   overflow: hidden;
-  width: fit-content;
-  min-height: 24px;
+  min-width: 30px;
+  min-height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0.7rem;
+  /* padding: 0.9rem 0.5rem; */
   font-weight: 600;
   font-size: 1rem;
   /* padding: 3px 1px 0; */

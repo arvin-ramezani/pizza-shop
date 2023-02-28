@@ -11,6 +11,7 @@ export const theme = {
   backgroundColors: {
     white: '#f5f5f5',
     dark: '#252525',
+    blue: '#479bff',
   },
   breakpoints: {
     // xs: '320px',

@@ -2,16 +2,23 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 export const StyledOrderItem = styled(motion.div)`
-  /* display: flex; */
   font-size: 1.6rem;
-  /* border: 1px solid red; */
   border-radius: 0.6rem;
   margin: 0.5rem auto;
   padding: 0.5rem 1rem;
-  box-shadow: -1px 1px 8px 0px ${({ theme }) => theme.colors.primary};
   width: 100%;
 
+  box-shadow: -1px 1px 8px 0px ${({ theme }) => theme.colors.primary};
+
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: 40%;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: 60%;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     width: 40%;
   }
 `;
@@ -22,9 +29,24 @@ export const OrderItemHeader = styled(motion.div)`
   position: relative;
   padding: 0 0.5rem;
   border-radius: 1rem;
+`;
 
-  & > h5 {
-    cursor: pointer;
+export const ProfileOrderItemPlaceName = styled(motion.h4)`
+  cursor: pointer;
+  margin: 0;
+  font-size: 1.4rem;
+  color: ${({ theme }) => theme.colors.blue};
+  position: relative;
+
+  ::after {
+    content: '';
+    position: absolute;
+    width: 70%;
+    height: 4px;
+    right: 0;
+    bottom: 0;
+    border-radius: 0.5rem;
+    background-color: ${({ theme }) => theme.colors.blue};
   }
 `;
 
@@ -37,7 +59,7 @@ export const OrderItemPlaceAddress = styled(motion.div)`
   position: absolute;
   top: 0.4rem;
   padding: 0.5rem;
-  background: #ccc;
+  background: ${({ theme }) => theme.backgroundColors.blue};
   border-radius: 0.5rem;
 `;
 
@@ -75,7 +97,7 @@ export const TotalPriceBlock = styled(motion.div)`
   align-items: center;
   margin-top: 0.8rem;
   border-top: 1px solid;
-  padding: 1rem 0;
+  padding: 1.4rem 0;
 `;
 
 export const TotalPrice = styled(motion.span)`
@@ -87,6 +109,7 @@ export const TotalQuantity = styled(motion.div)`
   font-weight: 600;
   padding: 0 0.6rem;
   margin-right: auto;
+  line-height: 1;
 `;
 
 export const TotalPriceText = styled(motion.div)`

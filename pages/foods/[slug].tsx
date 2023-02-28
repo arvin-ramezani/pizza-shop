@@ -93,7 +93,7 @@ const Food: NextPage<FoodPageProps> = ({ food }) => {
             <motion.p variants={foodItemVariants}>{food.details}</motion.p>
           </Details>
 
-          <Comment />
+          <Comment foodSlug={food.slug} />
         </FoodContent>
       </Container>
     </FoodContainer>

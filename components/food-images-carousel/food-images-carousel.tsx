@@ -27,8 +27,8 @@ const foodImagesCarouselVariants: Variants = {
     rotate: 0,
     opacity: [0, 1],
     borderRadius: '0.6rem',
-    right: `${(index - position) * 60 - 40}vw`,
-    // right: `${(index - position) * 60 - 30}vw`,
+    // right: `${(index - position) * 60 - 40}vw`,
+    right: `${(index - position) * 50 - 40}vw`,
     transition: { type: 'spring', stiffness: 200, damping: 15 },
   }),
 };

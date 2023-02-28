@@ -5,7 +5,6 @@ import styled from 'styled-components';
 export const StyledFoodItem = styled(motion.div)`
   width: 240px;
   margin: 0 auto;
-  cursor: grab;
 `;
 
 export const Container = styled(motion.div)`
@@ -13,7 +12,6 @@ export const Container = styled(motion.div)`
   padding: 4rem 0.3rem 1.4rem;
   margin: 0 0.2rem;
   background: #fff;
-  cursor: grab;
 `;
 
 export const StyledImageWrapper = styled.div`
@@ -70,9 +68,18 @@ export const PriceContainer = styled.div`
   display: flex;
   align-items: center;
   margin-right: auto;
+  position: relative;
 `;
 
 export const StyledPrice = styled.p``;
+
+export const StyledTotalPrice = styled.p`
+  position: absolute;
+  bottom: 100%;
+  display: flex;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.primary};
+`;
 
 export const CommentsContainer = styled.div`
   display: flex;

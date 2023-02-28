@@ -1,12 +1,12 @@
+import React, { FC } from 'react';
+import { motion, Variants } from 'framer-motion';
+
 import { StyledUserOrdersList } from '@/styles/pages/user-orders';
 import { IOrdersApiRes } from '@/utils/types/order/order.types';
-import { motion, Variants } from 'framer-motion';
-import { useRouter } from 'next/dist/client/router';
-import React, { FC } from 'react';
 import ProfileOrderItem from '../profile-order-item/profile-order-item';
 
 interface IUserOrdersListProps {
-  userOrders: IOrdersApiRes[];
+  userOrders: IOrdersApiRes[] | undefined;
 }
 
 const userOrdersVariants: Variants = {
@@ -18,11 +18,14 @@ const userOrdersVariants: Variants = {
 };
 
 const UserOrdersList: FC<IUserOrdersListProps> = ({ userOrders }) => {
-  const router = useRouter();
-
-  if (!userOrders || userOrders.length < 1) {
+  if (!userOrders) {
     return <></>;
   }
+
+  if (userOrders.length < 1) {
+    return <motion.h3>سفارشی برای شما ثبت نشده است !</motion.h3>;
+  }
+
   return (
     <StyledUserOrdersList
       as={motion.div}
@@ -30,9 +33,13 @@ const UserOrdersList: FC<IUserOrdersListProps> = ({ userOrders }) => {
       initial="initial"
       animate="animation"
     >
-      {userOrders.map((order) => (
-        <ProfileOrderItem key={order.id} {...order} />
-      ))}
+      {userOrders.length < 1 ? (
+        <motion.h3>سفارشی برای شما ثبت نشده است !</motion.h3>
+      ) : (
+        userOrders.map((order) => (
+          <ProfileOrderItem key={order.id} {...order} />
+        ))
+      )}
     </StyledUserOrdersList>
   );
 };

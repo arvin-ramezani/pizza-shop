@@ -9,6 +9,7 @@ import {
   OrderFoodsItem,
   OrderItemHeader,
   OrderItemPlaceAddress,
+  ProfileOrderItemPlaceName,
   StyledMapBtnTxt,
   StyledOrderItem,
   TotalPrice,
@@ -22,12 +23,21 @@ import { IOrdersApiRes } from '@/utils/types/order/order.types';
 import MapModal from '../ui/map-modal/map-modal';
 import { ICoordinates } from '@/utils/types/map/map.types';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
+import priceToText from '@/utils/common/priceTextSeperator';
 
 interface ProfileOrderItemProps extends IOrdersApiRes {}
 
 const userOrdersItemVariants: Variants = {
   initial: { opacity: 0, x: -100 },
   animation: { opacity: 1, x: 0 },
+};
+
+const userOrdersItemPlaceNameVariants: Variants = {
+  initial: { opacity: 0, scale: 0.4 },
+  animation: {
+    opacity: 1,
+    scale: 1,
+  },
 };
 
 const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
@@ -40,17 +50,16 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
   const [coordinatesToShow, setCoordinatesToShow] = useState<ICoordinates>();
   const [showAddress, setShowAddress] = useState(false);
 
-  console.log(orderPlace, 'order place', place);
-
   const mapButtonStyles = {
     outline: 'none',
     opacity: 1,
     cursor: 'pointer',
     width: '100%',
     color: 'black',
-    gap: '0.5rem',
-    transform: 'none',
+    gap: '0.2rem',
+    fontSize: '.6rem',
     fontWeight: 'bold',
+    transform: 'none',
   };
 
   const closeAddressStyle = {
@@ -79,9 +88,14 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
           }}
           transition={{ duration: 0.5 }}
         >
-          <h5 onClick={setShowAddress.bind(null, true)}>
+          <ProfileOrderItemPlaceName
+            variants={userOrdersItemPlaceNameVariants}
+            initial="initial"
+            animate="animation"
+            onClick={setShowAddress.bind(null, true)}
+          >
             {orderPlace?.name || place?.placeName}
-          </h5>
+          </ProfileOrderItemPlaceName>
           <AnimatePresence>
             {showAddress && (
               <Fragment key="OrderPlaceAddress">
@@ -127,8 +141,8 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
             <Image
               src="/images/map-icon-transp.png"
               alt="map icon"
-              width="34"
-              height="45"
+              width="24"
+              height="38"
             />
           </IconButton>
         </OrderItemHeader>
@@ -138,7 +152,8 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
               <OrderFoodName>{food.foodName}</OrderFoodName>
               <OrderFoodQuantity>{food.quantity} عدد</OrderFoodQuantity>
               <OrderFoodPrice>
-                {+food.foodPrice * food.quantity}.000
+                {priceToText(+food.foodPrice, food.quantity)}
+
                 <Image
                   src="/images/price.svg"
                   alt="price"
@@ -152,7 +167,7 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
             <TotalPrice>جمع</TotalPrice>
             <TotalQuantity>{foods.length} عدد</TotalQuantity>
             <TotalPriceText>
-              {totalPrice}.000
+              {priceToText(totalPrice)}
               <Image
                 src="/images/price.svg"
                 alt="price"

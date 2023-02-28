@@ -30,7 +30,7 @@ import {
 import LoadingBar from 'react-top-loading-bar';
 import { theme } from '@/utils/theme.styled';
 import OutlineButton from '../ui/outline-button/outline-button';
-import { Coordinates } from '@/utils/types/map/map.types';
+import { ICoordinates } from '@/utils/types/map/map.types';
 import addPlaceFormSchema from '@/utils/yup-schema/add-place.schema';
 import { IPlaceInputs, IPlace } from '@/utils/types/place/place.types';
 import { validatePlaceInputs } from '@/utils/validation/add-place.validation';
@@ -86,7 +86,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
     }
   };
 
-  const [coordinates, setCoordinates] = useState<Coordinates | undefined>(
+  const [coordinates, setCoordinates] = useState<ICoordinates | undefined>(
     undefined
   );
   const [placeInputsErrors, setPlaceInputsErrors] = useState<{

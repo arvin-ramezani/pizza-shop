@@ -155,6 +155,10 @@ export const StyledReactCarousel = styled(Carousel)`
   & ul:first-child {
     align-items: center !important;
   }
+
+  & ul:first-child > li {
+    cursor: grab;
+  }
 `;
 
 const CustomLeftArrow = ({ next }: CustomLeftArrowProps) => {

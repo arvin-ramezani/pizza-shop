@@ -1,11 +1,17 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, {
+  FC,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion, PanInfo, Variants } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
 
-import { CartItem as CartItemProps } from '@/utils/types/cart/cart.interface';
+import { ICartItem as CartItemProps } from '@/utils/types/cart/cart.interface';
 import { theme } from '@/utils/theme.styled';
 import ButtonSm from '../ui/button-sm/button-sm';
 import CloseIcon from '../ui/close-icon/close-icon';
@@ -26,6 +32,7 @@ import {
   StyledImage,
 } from '@/styles/components/cart-item.styled';
 import useAddToCart from '@/hooks/useAddToCart';
+import priceToText from '@/utils/common/priceTextSeperator';
 
 const cartItemVariants: Variants = {
   hidden: {
@@ -62,6 +69,9 @@ const CartItem: FC<CartItemProps> = ({
     setQuantity,
     onCancelQuantity,
   } = useAddToCart({ name, price, image, quantity: initialQuantity });
+  // const [priceToShow, setPriceToShow] = useState(
+  //   priceToText(price * initialQuantity)
+  // );
 
   const onRemoveCartItemHandler = () => {
     setShowConfirmModal(true);
@@ -71,6 +81,7 @@ const CartItem: FC<CartItemProps> = ({
     if (showEditQuantity) {
       onCancelQuantity();
       setShowEditQuantity(false);
+      // setPriceToShow(priceToText(price, initialQuantity));
       return;
     }
 
@@ -94,6 +105,12 @@ const CartItem: FC<CartItemProps> = ({
       return e.preventDefault();
     }
   };
+
+  // useLayoutEffect(() => {
+  //   console.log(priceToText(price, initialQuantity), 'before', initialQuantity);
+  //   setPriceToShow(() => priceToText(price, quantity));
+  //   console.log(priceToShow, 'price after', initialQuantity);
+  // }, [initialQuantity]);
 
   let confirmModalBodyContent = (
     <p>
@@ -123,7 +140,7 @@ const CartItem: FC<CartItemProps> = ({
           <StyledImage src={image} alt={name} width={60} height={60} />
           <h4>{name}</h4>
           <PriceContainer>
-            <p>{`${price}.000`}</p>
+            <p>{priceToText(price)}</p>
             <Image
               src={'/images/price.svg'}
               alt="تومان"
@@ -135,7 +152,7 @@ const CartItem: FC<CartItemProps> = ({
         <QuantityPrice>
           <Quantity>{`${initialQuantity} عدد`}</Quantity>
           <ItemPriceText>قابل پرداخت</ItemPriceText>
-          <ItemPrice>{`${initialQuantity * price}.000`}</ItemPrice>
+          <ItemPrice>{priceToText(price, initialQuantity)}</ItemPrice>
         </QuantityPrice>
         <StyledIconButton
           ariaLabel="remove from cart"

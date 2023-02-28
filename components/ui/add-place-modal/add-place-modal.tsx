@@ -169,9 +169,7 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
     };
 
     if (editMode) {
-      // if (!submitEditBtn) {
-      //   return;
-      // }
+      setSubmitEditBtn(false);
 
       const placeToEdit = {
         ...newPlace,
@@ -270,6 +268,7 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
         onClick={toggleModal.bind(null, false)}
       >
         <AddPlaceModalForm
+          as={motion.form}
           variants={modalFormVariants}
           // custom={{ isEditing, isSending }}
           // custom={isEditing}
@@ -341,13 +340,7 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
                   (submitEditBtn ? (
                     <PrimaryButton
                       text="ارسال"
-                      type="button"
-                      onClick={
-                        setSubmitEditBtn.bind(
-                          null,
-                          false
-                        ) as MouseEventHandler<HTMLDivElement>
-                      }
+                      type="submit"
                       color={theme.colors.primary}
                       disabled={isEditing}
                     />
@@ -359,7 +352,7 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
                     >
                       <PrimaryButton
                         text="ویرایش"
-                        type="submit"
+                        type="button"
                         color={theme.colors.primary}
                         onClick={
                           setSubmitEditBtn.bind(

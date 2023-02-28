@@ -72,8 +72,6 @@ const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image, likes }) => {
   );
   const [addLike] = useAddLikeMutation();
 
-  console.log(likes);
-
   const [showRemoveItemConfirmModal, setshowRemoveItemConfirmModal] =
     useState(false);
 

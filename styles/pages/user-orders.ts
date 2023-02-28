@@ -1,5 +1,12 @@
-import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
+
+export const StyledLoadingImage = styled(motion.img)`
+  display: block;
+  margin: 4rem auto;
+  width: 100px;
+  height: auto;
+`;
 
 export const StyledUserOrdersList = styled.div`
   padding: 1rem;

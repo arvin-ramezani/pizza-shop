@@ -52,9 +52,9 @@ export const Slide = styled(motion.div)`
     width: 60vw;
   }
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
+  /* @media (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
     width: 50vw;
-  }
+  } */
 `;
 
 export const StyledImage = styled(motion.img)`

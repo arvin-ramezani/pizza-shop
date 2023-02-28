@@ -19,7 +19,7 @@ import {
   AuthMapWrapper,
   StyledAddPlaceBlock,
 } from '@/styles/components/add-place.styled';
-import { Coordinates } from '@/utils/types/map/map.types';
+import { ICoordinates } from '@/utils/types/map/map.types';
 import MapModal from '../ui/map-modal/map-modal';
 import { MdOutlineFileDownloadDone } from 'react-icons/md';
 import OutlineButton from '../ui/outline-button/outline-button';
@@ -45,14 +45,14 @@ interface AddPlaceProps {
   placeList: IPlace[];
   onAddPlace: () => void;
   onDeletePlace: (placeName: IPlace['placeName']) => void;
-  coordinates: Coordinates | undefined;
+  coordinates: ICoordinates | undefined;
   inputErrors:
     | {
         placeName: string | undefined;
         placeAddress: string | undefined;
       }
     | undefined;
-  setCoordinates: Dispatch<React.SetStateAction<Coordinates | undefined>>;
+  setCoordinates: Dispatch<React.SetStateAction<ICoordinates | undefined>>;
   register: UseFormRegister<IPlaceInputs>;
 }
 
@@ -135,20 +135,21 @@ const AddPlace: FC<AddPlaceProps> = ({
             errorMessage={inputErrors?.placeAddress}
             errorTextMargin={'-0.3rem 0 1rem'}
           />
-
-          <PrimaryButton
-            text="ذخیره آدرس"
-            type="button"
-            onClick={onAddPlace}
-            color={theme.colors.blue}
-            style={{ marginRight: 'auto' }}
-          />
         </div>
       </AuthInputWrapper>
+      <div>
+        <PrimaryButton
+          text="ذخیره آدرس"
+          type="button"
+          onClick={onAddPlace}
+          color={theme.colors.blue}
+          style={{ marginRight: '1rem' }}
+        />
+      </div>
 
       <MapModal
         show={showMapModal}
-        onAddCoordinates={(coord: Coordinates) => setCoordinates(coord)}
+        onAddCoordinates={(coord: ICoordinates) => setCoordinates(coord)}
         onClose={() => setShowMapModal(false)}
       />
     </StyledAddPlaceBlock>
