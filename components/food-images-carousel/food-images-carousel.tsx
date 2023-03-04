@@ -1,4 +1,4 @@
-import { motion, PanInfo, useAnimationControls, Variants } from 'framer-motion';
+import { motion, PanInfo, Variants } from 'framer-motion';
 import React, { FC, useState } from 'react';
 import { AiFillLeftCircle, AiFillRightCircle } from 'react-icons/ai';
 
@@ -45,25 +45,6 @@ const foodImageVariants: Variants = {
 
 const FoodImagesCarousel: FC<FoodImagesCarouselProps> = ({ images, name }) => {
   const [position, setPosition] = useState(0);
-  const slideAnimController = useAnimationControls();
-
-  console.log(images, 'slugimages');
-
-  // const swipeHandlers = useSwipeable({
-  //   onSwiped: ({ dir }) => onSwipedHandler(dir),
-  //   // ...config,
-  // });
-
-  // const onSwipedHandler = (dir: SwipeDirections) => {
-  //   if (dir === 'Right') {
-  //     onLeft();
-  //     return;
-  //   }
-  //   if (dir === 'Left') {
-  //     onRight();
-  //     return;
-  //   }
-  // };
 
   const onLeft = () => {
     if (position < images.length - 1) {
@@ -81,22 +62,21 @@ const FoodImagesCarousel: FC<FoodImagesCarouselProps> = ({ images, name }) => {
     event: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo
   ) => void = (e, info) => {
-    if (!e.movementX) return;
+    console.log(info, 'info');
+    if (!info.offset.x) return;
 
-    if (e.movementX > 1) {
+    if (info.offset.x > 1) {
       onLeft();
       return;
     }
-    if (e.movementX < -1) {
+    if (info.offset.x < -1) {
       onRight();
       return;
     }
   };
 
   return (
-    <Container
-    //  {...swipeHandlers}
-    >
+    <Container>
       <SlidesContainer as={motion.div}>
         {images.map((item, index) => {
           if (item.length < 1) {

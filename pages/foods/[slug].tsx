@@ -20,12 +20,7 @@ import {
   Integredients,
   TitleBlock,
 } from '@/styles/pages/[slug].styled';
-import PrimaryButton from '@/components/ui/primary-button/primary-button';
-import ButtonSm from '@/components/ui/button-sm/button-sm';
-import { theme } from '@/utils/theme.styled';
-import Input from '@/components/ui/input/input';
 import Comment from '@/components/comments/comments';
-import { useGetCommentsQuery } from '@/redux/features/apiSlice';
 
 interface FoodPageProps {
   food: IFood;

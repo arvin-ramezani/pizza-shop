@@ -1,22 +1,11 @@
-import React, {
-  FC,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { FC, useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion, PanInfo, Variants } from 'framer-motion';
-import { toast } from 'react-toastify';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
 
 import { ICartItem as CartItemProps } from '@/utils/types/cart/cart.interface';
 import { theme } from '@/utils/theme.styled';
 import ButtonSm from '../ui/button-sm/button-sm';
-import CloseIcon from '../ui/close-icon/close-icon';
-import { useAppDispatch } from '@/redux/hooks';
-import { addToCart, removeFromCart } from '@/redux/features/cartSlice';
 import ConfirmModal from '../ui/confirm-modal/confirm-modal';
 import EditCartitem from '../edit-cartitem/edit-cartitem';
 import {
@@ -69,9 +58,6 @@ const CartItem: FC<CartItemProps> = ({
     setQuantity,
     onCancelQuantity,
   } = useAddToCart({ name, price, image, quantity: initialQuantity });
-  // const [priceToShow, setPriceToShow] = useState(
-  //   priceToText(price * initialQuantity)
-  // );
 
   const onRemoveCartItemHandler = () => {
     setShowConfirmModal(true);
@@ -81,7 +67,6 @@ const CartItem: FC<CartItemProps> = ({
     if (showEditQuantity) {
       onCancelQuantity();
       setShowEditQuantity(false);
-      // setPriceToShow(priceToText(price, initialQuantity));
       return;
     }
 
@@ -92,7 +77,7 @@ const CartItem: FC<CartItemProps> = ({
   const onDragHandler: (
     event: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo
-  ) => void = () => {
+  ) => void = (_, info) => {
     setShowConfirmModal(true);
   };
 
@@ -101,7 +86,6 @@ const CartItem: FC<CartItemProps> = ({
     info: PanInfo
   ) => void = (e, info) => {
     if (info.offset.x < 0) {
-      console.log('drag left');
       return e.preventDefault();
     }
   };
