@@ -9,8 +9,6 @@ import ActiveLink from '../ui/active-link/active-link';
 const ProfileNav = () => {
   const { data: userData } = useSession();
 
-  console.log(userData?.user);
-
   return (
     <StyledNav>
       <ul>
