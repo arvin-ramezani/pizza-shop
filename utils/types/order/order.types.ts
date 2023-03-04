@@ -48,6 +48,8 @@ export interface IOrdersApiRes {
   paidAt?: Date;
   deliveredAt?: Date;
   user: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IFoodOrder {

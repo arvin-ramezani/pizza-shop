@@ -27,6 +27,10 @@ export interface OrderDoc extends mongoose.Document {
       coordinates: [number, number];
     };
   };
+
+  created_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const orderSchema = new mongoose.Schema(
@@ -64,13 +68,14 @@ const orderSchema = new mongoose.Schema(
     deliveredAt: { type: Date },
   },
   {
+    timestamps: true,
     toJSON: {
       transform(doc, ret) {
         ret.id = doc._id;
         delete ret._id;
+        delete ret.__V;
       },
       versionKey: false,
-      timeStamp: true,
     },
   }
 );
@@ -79,6 +84,13 @@ const orderSchema = new mongoose.Schema(
 mongoose.set('strictQuery', true);
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
+  // const createdAt = new Date(0);
+  // console.log(createdAt, 'createdAt');
+  // return new Order({
+  //   ...attrs,
+  //   created_at: new Date(0),
+  // });
+
   return new Order(attrs);
 };
 

@@ -290,7 +290,10 @@ const FoodItem: FC<IFood> = ({
                 text="مشاهده نظرات"
                 color={theme.colors.blue}
               />
-              <p style={{ marginRight: '.3rem' }}>{commentsLength || 0}</p>
+              <p style={{ marginRight: '.3rem' }}>
+                {commentsLength || 0}
+                <span>نظر</span>
+              </p>
               <LikeWrapper as={motion.div}>
                 {isAlreadyLike ? (
                   <IconButton

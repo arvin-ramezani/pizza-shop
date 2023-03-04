@@ -1,4 +1,5 @@
-import React, { FC, Fragment, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import {
   AnimatePresence,
   motion,
@@ -31,21 +32,19 @@ import {
   useEditCommentMutation,
   useGetCommentsQuery,
 } from '@/redux/features/apiSlice';
-import { useRouter } from 'next/router';
 import commentSechema from '@/utils/yup-schema/comment.schema';
 import {
   CommentFieldValues,
   IComment,
 } from '@/utils/types/comments/comment.interfaces';
 import moment from 'moment';
-import Image from 'next/image';
-import { MdDelete } from 'react-icons/md';
 import IconButton from '../ui/icon-button/icon-button';
 import { BsFillXCircleFill } from 'react-icons/bs';
 import { AiFillEdit } from 'react-icons/ai';
 import ConfirmModal from '../ui/confirm-modal/confirm-modal';
 import CloseIcon from '../ui/close-icon/close-icon';
 import { IFood } from '@/utils/types/foods/food.interface';
+import LoadingSpinner from '../ui/loading-spinner/loading-spinner';
 
 const commentsBlockVariants: Variants = {
   initial: { opacity: 0, x: -50, transition: { duration: 0 } },
@@ -97,7 +96,7 @@ const Comments: FC<CommentsProps> = ({ modalMode, closeModal, foodSlug }) => {
   const router = useRouter();
   const { slug } = router.query;
   const { status, data: currentUser } = useSession();
-  const { data: comments } = useGetCommentsQuery(
+  const { data: comments, isLoading: isGetting } = useGetCommentsQuery(
     modalMode ? foodSlug : (slug as string)
   );
   const { ref, inView } = useInView();
@@ -152,13 +151,11 @@ const Comments: FC<CommentsProps> = ({ modalMode, closeModal, foodSlug }) => {
     setCommentToEdit(comment);
   };
 
-  if (!comments) return <></>;
-
-  console.log(slug, 'slug');
-
   return (
     <>
       <StyledComment>
+        {modalMode && isGetting && <LoadingSpinner />}
+
         {modalMode && (
           <IconButton
             onClick={closeModal}
@@ -171,7 +168,9 @@ const Comments: FC<CommentsProps> = ({ modalMode, closeModal, foodSlug }) => {
           نظرات
           <span style={{ marginRight: '.5rem', fontSize: '.8rem' }}>
             {`(${
-              comments.length <= 10 ? `${comments.length} نظر` : '+10 نظر'
+              comments && comments?.length <= 10
+                ? `${comments?.length} نظر`
+                : '+10 نظر'
             })`}
           </span>
         </h4>
@@ -182,7 +181,6 @@ const Comments: FC<CommentsProps> = ({ modalMode, closeModal, foodSlug }) => {
           animate={inView ? 'animation' : 'initial'}
           exit="initial"
           ref={ref}
-          // transition={{ delay: 1.5 }}
           custom={isDeleting}
         >
           <CommentListWrapper>
@@ -193,10 +191,10 @@ const Comments: FC<CommentsProps> = ({ modalMode, closeModal, foodSlug }) => {
               animate={inView ? 'animation' : 'initial'}
             >
               <AnimatePresence>
-                {comments.length <= 0 ? (
+                {comments && comments?.length <= 0 ? (
                   <h5>اولین نفری باشید که نظر ثبت می کند !</h5>
                 ) : (
-                  comments?.map((comment) => (
+                  comments?.map((comment, index) => (
                     <Fragment key={comment.id}>
                       <ConfirmModal
                         show={showDeleteCommentConfirmModal}
@@ -210,6 +208,7 @@ const Comments: FC<CommentsProps> = ({ modalMode, closeModal, foodSlug }) => {
                       <CommentBlock
                         as={motion.div}
                         variants={commentItemVariants}
+                        transition={{ delay: index * 0.25 }}
                       >
                         <UserInfo>
                           <img

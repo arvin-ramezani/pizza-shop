@@ -26,6 +26,15 @@ export async function usersOrdersGetHandler(
     await dbConnect();
 
     const userId = req.query.userId;
+    const page = req.query.page || 1;
+    const itemsPerPage = 6;
+    const skipItems = (+page - 1) * itemsPerPage;
+    // Query Params
+    const query = {
+      user: userId,
+    };
+
+    console.log(req.query.page, page, 'page');
     const isValidUserId = mongoose.isValidObjectId(userId);
 
     if (!isValidUserId) {
@@ -38,9 +47,23 @@ export async function usersOrdersGetHandler(
       return;
     }
 
-    const orders = await Order.find({ user: userId }).populate('placeId');
+    const count = await Order.countDocuments(query);
 
-    res.status(200).json(orders);
+    const orders = await Order.find(query)
+      .limit(itemsPerPage)
+      .skip(skipItems)
+      .populate('placeId')
+      .sort({ _id: -1 });
+
+    const pageCount = Math.ceil(count / itemsPerPage);
+
+    res.status(200).json({
+      pagination: {
+        count,
+        pageCount,
+      },
+      orders,
+    });
     return;
   } catch (error) {
     res.status(500).json({ message: 'Somethin went wrong !' });
@@ -103,6 +126,8 @@ export async function usersOrdersPostHandler(
         isDelivered,
         isPaid,
       });
+
+      await order.save();
     } else if (typeof placeId === 'string') {
       order = Order.build({
         user: session.sub!,
@@ -116,11 +141,12 @@ export async function usersOrdersPostHandler(
         isDelivered,
         isPaid,
       });
+      order.createdAt = new Date(0);
+
+      await order.save();
     }
 
     if (!order) return; // Just for TypeScript;
-
-    await order.save();
 
     return res.status(201).json({ id: order.id });
   } catch (error) {

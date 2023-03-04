@@ -177,10 +177,6 @@ const Places: FC<CartPlacesProps> = ({ selectable, onAddPlace }) => {
     onAddPlace && onAddPlace(placeList[0].id);
   }, [placeList]);
 
-  if (status === 'unauthenticated') {
-    return <></>;
-  }
-
   if (isLoading) {
     return <span>بارگذاری...</span>;
   }

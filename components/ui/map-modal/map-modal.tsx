@@ -53,13 +53,9 @@ const MapModal = ({
 }: MapModalProps) => {
   const [mounted, setMounted] = useState(false);
   const [coordinates, setCoordinates] = useState({
-    // lng: initialCoordinates?.lng,
-    // lat: initialCoordinates?.lat,
     lng: initialCoordinates?.lng || 52.65785405322845,
     lat: initialCoordinates?.lat || 36.71204604981793,
   });
-
-  console.log(initialCoordinates, 'initial');
 
   useEffect(() => {
     if (!initialCoordinates || !initialCoordinates.lat) return;

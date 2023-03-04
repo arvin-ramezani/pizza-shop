@@ -11,6 +11,8 @@ export const StyledPlaceListContainer = styled(motion.div)`
   align-items: flex-start;
   gap: 0.8rem;
   margin-bottom: 2rem;
+  padding: 1rem 0;
+  min-height: 100px;
 `;
 
 export const StyledPlace = styled(motion.div)<{

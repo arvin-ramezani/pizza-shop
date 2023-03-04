@@ -6,6 +6,7 @@ import { Comment } from '@/models/Comment';
 import { User } from '@/models/User';
 import { Food, FoodDoc } from '@/models/Food';
 import { Types } from 'mongoose';
+import { friesList, saladList } from '@/DUMMY_DATA/foods';
 
 export async function foodsCommentsGetHandler(
   req: NextApiRequest,
@@ -69,12 +70,9 @@ export async function foodsCommentsPostHandler(
 
     await commentFood.save();
 
-    console.log(commentFood);
-
     res.status(201).json(newComment);
     return;
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Somethin went wrong !' });
   }
 }
@@ -113,7 +111,6 @@ export async function foodsCommentsDeleteHandler(
     }
 
     const ress = await commentToDelete.delete();
-    // console.log(ress);
 
     if (foodComment.commentsLength! > 0) {
       foodComment.commentsLength = --foodComment.commentsLength!;
@@ -156,8 +153,6 @@ export async function foodsCommentsPatchHandler(
 
     commentToEdit.text = req.body.text;
     await commentToEdit.save();
-
-    console.log(commentToEdit, req.body);
 
     res.status(200).json(commentToEdit);
     return;

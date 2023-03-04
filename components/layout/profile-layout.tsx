@@ -52,6 +52,10 @@ export const StyledProfilePageLayout = styled.div`
     flex-direction: row;
     max-width: 90%;
     margin: 0 auto;
+
+    & > nav {
+      z-index: 0;
+    }
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {

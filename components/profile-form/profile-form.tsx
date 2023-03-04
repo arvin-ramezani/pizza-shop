@@ -92,9 +92,8 @@ const ProfileForm = () => {
   };
 
   const submitHandler: SubmitHandler<IFormInputs> = async (formStates) => {
-    // console.log(formStates, imageRef.current);
-    console.log(formStates, selectedImage, 'submit');
     const formData = new FormData();
+
     formData.append('firstName', formStates.firstName);
     formData.append('lastName', formStates.lastName);
     formData.append('email', formStates.email);
@@ -166,7 +165,7 @@ const ProfileForm = () => {
   }, [selectedImage]);
 
   if (isLoading) {
-    return <p>loading...</p>;
+    return <p>بارگذاری...</p>;
   }
 
   console.log(selectedImage, 'image');

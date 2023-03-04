@@ -87,6 +87,12 @@ export const CommentsContainer = styled.div`
   gap: 0.3rem;
   font-size: 1rem;
   margin-top: 1rem;
+
+  & p > span {
+    margin-right: 0.2rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
 `;
 
 export const LikeWrapper = styled.div`

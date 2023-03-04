@@ -3,6 +3,10 @@ import styled from 'styled-components';
 
 export const StyledComment = styled(motion.div)`
   position: relative;
+
+  & > h4 {
+    padding-right: 1rem;
+  }
 `;
 
 export const StyledCommentContainer = styled(motion.div)`

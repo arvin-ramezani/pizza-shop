@@ -18,7 +18,17 @@ import {
   StyledTextBox,
 } from '@/styles/components/input.styled';
 import { CommentFieldValues } from '@/utils/types/comments/comment.interfaces';
-import { AnimatePresence, motion, useAnimation, Variants } from 'framer-motion';
+import {
+  AnimatePresence,
+  motion,
+  useAnimation,
+  useAnimationControls,
+  Variants,
+} from 'framer-motion';
+
+const triggerAnimateVariants: Variants = {
+  animation: { x: [30, -20, 10, -5, 5, 0], transition: { duration: 0.5 } },
+};
 
 interface InputProps {
   label?: string;
@@ -36,6 +46,7 @@ interface InputProps {
   textbox?: boolean;
   errorTextMargin?: Property.Margin<string | number> | undefined;
   height?: Property.Height<string | number> | undefined;
+  defaultValue?: string;
 }
 
 enum BooleanEnum {
@@ -59,9 +70,12 @@ const Input: FC<InputProps> = ({
   value,
   errorTextMargin,
   height,
+  defaultValue,
 }) => {
   const placeNameRef = useRef<HTMLInputElement>();
   const placeAddressRef = useRef<HTMLTextAreaElement>();
+
+  const inputAnimationController = useAnimationControls();
 
   return (
     <StyledTextBox
@@ -76,18 +90,22 @@ const Input: FC<InputProps> = ({
       </StyledLabel>
       {textarea ? (
         <StyledTextarea
+          as={motion.textarea}
+          // variants={triggerAnimateVariants}
+          animate={inputAnimationController}
           ref={placeAddressRef as MutableRefObject<HTMLTextAreaElement>}
           aria-label={name}
           aria-invalid={errorMessage ? 'true' : 'false'}
           rows={4}
           disabled={disabled}
           placeholder={placeholder}
-          invalid={invalid}
+          invalid={invalid ? BooleanEnum.TRUE : BooleanEnum.FALSE}
           {...(register && {
             ...register(name, {
               required: required || false,
             }),
           })}
+          defaultValue={defaultValue}
         />
       ) : (
         <StyledInput
@@ -98,12 +116,13 @@ const Input: FC<InputProps> = ({
           aria-invalid={errorMessage ? 'true' : 'false'}
           type={type}
           placeholder={placeholder}
-          invalid={invalid}
+          invalid={invalid ? BooleanEnum.TRUE : BooleanEnum.FALSE}
           {...(register && {
             ...register(name, {
               required: required || false,
             }),
           })}
+          defaultValue={defaultValue}
         />
       )}
       <AnimatePresence>

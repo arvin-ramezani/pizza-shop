@@ -2,6 +2,8 @@ import Image from 'next/image';
 import React, { CSSProperties, FC, Fragment, useState } from 'react';
 
 import {
+  OrderFoodItemScrollbarContainer,
+  OrderFoodMoreBtn,
   OrderFoodName,
   OrderFoodPrice,
   OrderFoodQuantity,
@@ -9,6 +11,7 @@ import {
   OrderFoodsItem,
   OrderItemHeader,
   OrderItemPlaceAddress,
+  ProfileOrderItemDate,
   ProfileOrderItemPlaceName,
   StyledMapBtnTxt,
   StyledOrderItem,
@@ -16,7 +19,7 @@ import {
   TotalPriceBlock,
   TotalPriceText,
   TotalQuantity,
-} from '@/styles/components/profile-order-item';
+} from '@/styles/components/profile-order-item.styled';
 import CloseIcon from '../ui/close-icon/close-icon';
 import IconButton from '../ui/icon-button/icon-button';
 import { IOrdersApiRes } from '@/utils/types/order/order.types';
@@ -24,8 +27,13 @@ import MapModal from '../ui/map-modal/map-modal';
 import { ICoordinates } from '@/utils/types/map/map.types';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import priceToText from '@/utils/common/priceTextSeperator';
+import moment from 'moment';
+import { BiMinus, BiPlus } from 'react-icons/bi';
+import { theme } from '@/utils/theme.styled';
 
-interface ProfileOrderItemProps extends IOrdersApiRes {}
+interface ProfileOrderItemProps extends IOrdersApiRes {
+  index: number;
+}
 
 const userOrdersItemVariants: Variants = {
   initial: { opacity: 0, x: -100 },
@@ -40,15 +48,36 @@ const userOrdersItemPlaceNameVariants: Variants = {
   },
 };
 
+const orderFoodContainerVariants: Variants = {
+  animation: (showMoreBtn) => ({
+    height: showMoreBtn ? '100%' : '55px',
+  }),
+};
+
+const orderFoodMoreBtnVariants: Variants = {
+  animation: (showMore) => ({
+    height: showMore ? '100%' : '55px',
+  }),
+  hover: {
+    scale: 1.1,
+  },
+  tap: {
+    scale: 0.9,
+  },
+};
+
 const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
   foods,
   placeId: orderPlace,
   place,
   totalPrice,
+  index,
+  createdAt,
 }) => {
   const [showMapModal, setShowMapModal] = useState(false);
   const [coordinatesToShow, setCoordinatesToShow] = useState<ICoordinates>();
   const [showAddress, setShowAddress] = useState(false);
+  const [showFoodMoreBtn, setShowFoodMoreBtn] = useState(false);
 
   const mapButtonStyles = {
     outline: 'none',
@@ -76,18 +105,12 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
         initialCoordinates={coordinatesToShow}
       />
 
-      <StyledOrderItem as={motion.div} variants={userOrdersItemVariants}>
-        <OrderItemHeader
-          as={motion.div}
-          whileHover={{
-            cursor: 'pointer',
-            backgroundColor: 'rgb(255,122,0)',
-            background:
-              'linear-gradient(270deg, rgba(255,122,0,1) 0%, rgba(242,187,0,1) 49%, rgba(228,255,0,1) 100%)',
-            transition: { duration: 0.5 },
-          }}
-          transition={{ duration: 0.5 }}
-        >
+      <StyledOrderItem
+        as={motion.div}
+        variants={userOrdersItemVariants}
+        transition={{ delay: index / 5 }}
+      >
+        <OrderItemHeader as={motion.div}>
           <ProfileOrderItemPlaceName
             variants={userOrdersItemPlaceNameVariants}
             initial="initial"
@@ -96,6 +119,7 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
           >
             {orderPlace?.name || place?.placeName}
           </ProfileOrderItemPlaceName>
+
           <AnimatePresence>
             {showAddress && (
               <Fragment key="OrderPlaceAddress">
@@ -121,6 +145,7 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
               </Fragment>
             )}
           </AnimatePresence>
+
           <IconButton
             onClick={() => {
               setCoordinatesToShow({
@@ -146,37 +171,66 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
             />
           </IconButton>
         </OrderItemHeader>
+        <ProfileOrderItemDate>
+          {createdAt &&
+            moment()
+              .subtract(
+                Date.now() - Date.parse(createdAt as string),
+                'millisecond'
+              )
+              .calendar()}
+        </ProfileOrderItemDate>
         <OrderFoodsBlock>
-          {foods.map((food) => (
-            <OrderFoodsItem key={food._id}>
-              <OrderFoodName>{food.foodName}</OrderFoodName>
-              <OrderFoodQuantity>{food.quantity} عدد</OrderFoodQuantity>
-              <OrderFoodPrice>
-                {priceToText(+food.foodPrice, food.quantity)}
+          <OrderFoodItemScrollbarContainer
+            as={motion.div}
+            variants={orderFoodContainerVariants}
+            animate="animation"
+            custom={showFoodMoreBtn}
+          >
+            {foods.map((food) => (
+              <OrderFoodsItem key={food._id}>
+                <OrderFoodName>{food.foodName}</OrderFoodName>
+                <OrderFoodQuantity>{food.quantity} عدد</OrderFoodQuantity>
+                <OrderFoodPrice>
+                  {priceToText(+food.foodPrice, food.quantity)}
 
-                <Image
-                  src="/images/price.svg"
-                  alt="price"
-                  width={24}
-                  height={24}
-                />
-              </OrderFoodPrice>
-            </OrderFoodsItem>
-          ))}
-          <TotalPriceBlock>
-            <TotalPrice>جمع</TotalPrice>
-            <TotalQuantity>{foods.length} عدد</TotalQuantity>
-            <TotalPriceText>
-              {priceToText(totalPrice)}
-              <Image
-                src="/images/price.svg"
-                alt="price"
-                width={24}
-                height={24}
-              />
-            </TotalPriceText>
-          </TotalPriceBlock>
+                  <Image
+                    src="/images/price.svg"
+                    alt="price"
+                    width={24}
+                    height={24}
+                  />
+                </OrderFoodPrice>
+              </OrderFoodsItem>
+            ))}
+          </OrderFoodItemScrollbarContainer>
+          {foods.length > 2 && (
+            <OrderFoodMoreBtn
+              variants={orderFoodMoreBtnVariants}
+              whileHover="hover"
+              whileTap="tap"
+              onClick={() => {
+                setShowFoodMoreBtn((prev) => !prev);
+              }}
+            >
+              {showFoodMoreBtn ? (
+                <BiMinus color={theme.colors.blue} />
+              ) : (
+                <BiPlus color={theme.colors.blue} />
+              )}
+
+              {showFoodMoreBtn ? 'کمتر' : 'بیشتر'}
+            </OrderFoodMoreBtn>
+          )}
         </OrderFoodsBlock>
+        <TotalPriceBlock>
+          <TotalPrice>جمع</TotalPrice>
+          <TotalQuantity>{foods.length} عدد</TotalQuantity>
+          <TotalPriceText>
+            {priceToText(totalPrice)}
+            <Image src="/images/price.svg" alt="price" width={24} height={24} />
+          </TotalPriceText>
+        </TotalPriceBlock>
       </StyledOrderItem>
     </>
   );

@@ -164,16 +164,10 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
           formData,
           placeList,
         };
-        // console.log(signupReqBody, 'lkjl');
         const { data: createdUser } = await axios.post(
           'http://localhost:3000/api/auth/signup',
-          // signupReqBody
+
           formData
-          // placeList
-          // { headers: { 'Content-Type': 'multipart/form-data' } }
-          // {
-          //   // ...signupReqBody,
-          // }
         );
 
         authResult = await signIn('credentials', {
@@ -189,13 +183,13 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
         });
       }
 
-      if (!authResult?.error) {
-        dispatch(setLoader(100));
-        onClose();
-        return;
-      }
+      // if (!authResult?.error) {
+      //   // dispatch(setLoader(100));
+      //   onClose();
+      //   return;
+      // }
 
-      if (authResult.error) {
+      if (authResult?.error) {
         toast(<p>{authResult.error}</p>, {
           type: 'error',
           position: 'top-center',
@@ -203,8 +197,13 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
           style: { direction: 'ltr' },
         });
       }
+
       console.log(authResult, 'auth result');
+      dispatch(setLoader(100));
+      onClose();
+      return;
     } catch (err) {
+      dispatch(setLoader(100));
       console.log('error', err);
     }
   };
@@ -264,7 +263,6 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
             <>
               <ProfileImageWrapper>
                 <Image
-                  // src="/images/profile-images/default.png"
                   src={
                     selectedImgPreviewUrl ||
                     '/images/profile-images/default.png'
@@ -370,6 +368,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
                 register={register}
                 invalid={!!errors.email}
                 errorMessage={errors.email?.message}
+                defaultValue="user@test.com"
               />
 
               <Input
@@ -380,6 +379,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
                 register={register}
                 invalid={!!errors.password}
                 errorMessage={errors.password?.message}
+                defaultValue="123456"
               />
             </AuthInputWrapper>
           )}

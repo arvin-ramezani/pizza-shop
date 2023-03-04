@@ -213,8 +213,14 @@ export const ordersApi = createApi({
   tagTypes: ['UserOrder'],
   endpoints: (build) => {
     return {
-      getOrders: build.query<IOrdersApiRes[], string>({
-        query: (userId) => `users/${userId}/orders`,
+      getOrders: build.query<
+        {
+          pagination: { count: number; pageCount: number };
+          orders: IOrdersApiRes[];
+        },
+        { userId: string; page: number }
+      >({
+        query: ({ userId, page }) => `users/${userId}/orders?page=${page}`,
         providesTags: ['UserOrder'],
       }),
 

@@ -47,6 +47,8 @@ const FoodImagesCarousel: FC<FoodImagesCarouselProps> = ({ images, name }) => {
   const [position, setPosition] = useState(0);
   const slideAnimController = useAnimationControls();
 
+  console.log(images, 'slugimages');
+
   // const swipeHandlers = useSwipeable({
   //   onSwiped: ({ dir }) => onSwipedHandler(dir),
   //   // ...config,

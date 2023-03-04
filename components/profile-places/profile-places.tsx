@@ -1,14 +1,20 @@
 import { useGetUserPlacesQuery } from '@/redux/features/apiSlice';
+import { useSession } from 'next-auth/react';
 import React from 'react';
 import styled from 'styled-components';
 import Places from '../places/places';
 
 const ProfilePlaces = () => {
-  // const {data: places} = useGetUserPlacesQuery()
+  const { status } = useSession();
+
+  if (status !== 'authenticated') {
+    return <></>;
+  }
 
   return (
     <StyledProfilePlaces>
       <h3>لیست مکان ها</h3>
+
       <Places key={'profilePlaces'} />
     </StyledProfilePlaces>
   );

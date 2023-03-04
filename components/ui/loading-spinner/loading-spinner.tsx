@@ -3,12 +3,19 @@ import { motion, Variants } from 'framer-motion';
 import styled from 'styled-components';
 
 const LoadingSpinnerVariants: Variants = {
-  initial: { scale: 0, opacity: 0, rotate: 0 },
+  initial: {
+    rotate: 0,
+    position: 'fixed',
+    right: '50%',
+    top: '50%',
+    width: '32px',
+    height: '32px',
+    x: '50%',
+  },
   animation: {
-    scale: 1,
-    opacity: 1,
-    rotate: -360,
-    transition: { repeat: Infinity, duration: 0.6, ease: 'linear' },
+    rotate: 360,
+    // transform: 'rotate(360)',
+    transition: { repeat: Infinity, duration: 1, ease: 'linear' },
   },
 };
 
