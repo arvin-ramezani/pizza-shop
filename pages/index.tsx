@@ -1,25 +1,11 @@
 import AboutusSection from '@/components/aboutus-section/aboutus-section';
 import { Food } from '@/models/Food';
-import { useGetFoodsQuery, useGetMeQuery } from '@/redux/features/apiSlice';
-import {
-  foodsSelector,
-  setCategory,
-  setFoods,
-} from '@/redux/features/foodsSlice';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useAppDispatch } from '@/redux/hooks';
+
 import dbConnect from '@/utils/db/dbConnect';
-import { Category } from '@/utils/types/categories/category.enum';
-import { GetServerSideProps } from 'next';
-import { Session } from 'next-auth';
-import { getSession, useSession } from 'next-auth/react';
-
 import Head from 'next/head';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import FoodSection from '../components/foods/food-section/food-section';
-import FoodList from '../components/foods/food-section/food-section';
 import HeroSection from '../components/hero-section/hero-section';
-
 import { CATEGORIES } from '../DUMMY_DATA/foods';
 import { ICategory } from '../utils/types/categories/category.interface';
 import { IFood } from '../utils/types/foods/food.interface';
@@ -30,13 +16,6 @@ export interface HomePageProps {
 }
 
 export default function HomePage({ foods, categories }: HomePageProps) {
-  const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   if (!data) return;
-
-  // }, [data]);
-
   return (
     <>
       <div>
@@ -65,7 +44,5 @@ export async function getStaticProps() {
 
   return {
     props: { foods, categories },
-    // paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
-    // fallback: false, // can also be true or 'blocking'
   };
 }

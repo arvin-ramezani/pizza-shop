@@ -181,7 +181,7 @@ const FoodItem: FC<IFood> = ({
     setIsAlreadyLike(
       !!likes?.find((email) => email === currentUser?.user?.email)
     );
-  }, [likes]);
+  }, [likes, currentUser]);
 
   return (
     <AnimatePresence>
