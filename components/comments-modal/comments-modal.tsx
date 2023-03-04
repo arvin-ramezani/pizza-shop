@@ -23,7 +23,7 @@ const commentModalVariants: Variants = {
 
 const CommentsModal: FC<CommentModalProps> = ({ show, onClose, foodSlug }) => {
   const [mounted, setMounted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -47,7 +47,7 @@ const CommentsModal: FC<CommentModalProps> = ({ show, onClose, foodSlug }) => {
 
   const onLoading = (loading: boolean) => {
     console.log(loading);
-    setLoading(loading);
+    // setLoading(loading);
   };
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const CommentsModal: FC<CommentModalProps> = ({ show, onClose, foodSlug }) => {
         >
           <StyledCommentsWrapper onClick={(e) => e.stopPropagation()}>
             <Comments
-              onLoading={onLoading}
+              // onLoading={onLoading}
               modalMode
               closeModal={onClose}
               foodSlug={foodSlug}

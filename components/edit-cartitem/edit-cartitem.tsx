@@ -9,7 +9,7 @@ import {
 } from 'framer-motion';
 import IconButton from '../ui/icon-button/icon-button';
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from 'react-icons/io';
-import { CartItem } from '@/utils/types/cart/cart.interface';
+import { ICartItem } from '@/utils/types/cart/cart.interface';
 import {
   Container,
   EditBtnsWrapper,
@@ -22,8 +22,8 @@ interface EditCartitemProps {
   removeQuantity: React.MouseEventHandler<HTMLDivElement>;
   quantityAnimController: AnimationControls;
   toggleHandler: () => void;
-  currentQuantity: CartItem['quantity'];
-  initialQuantity: CartItem['quantity'];
+  currentQuantity: ICartItem['quantity'];
+  initialQuantity: ICartItem['quantity'];
   onEdit: Function;
 }
 
