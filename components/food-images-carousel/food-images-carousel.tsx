@@ -62,7 +62,6 @@ const FoodImagesCarousel: FC<FoodImagesCarouselProps> = ({ images, name }) => {
     event: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo
   ) => void = (e, info) => {
-    console.log(info, 'info');
     if (!info.offset.x) return;
 
     if (info.offset.x > 1) {
