@@ -1,8 +1,7 @@
 import AboutusSection from '@/components/aboutus-section/aboutus-section';
-import { Food } from '@/models/Food';
-import { useAppDispatch } from '@/redux/hooks';
 
 import dbConnect from '@/utils/db/dbConnect';
+import { Food } from '@/models/Food';
 import Head from 'next/head';
 import FoodSection from '../components/foods/food-section/food-section';
 import HeroSection from '../components/hero-section/hero-section';
