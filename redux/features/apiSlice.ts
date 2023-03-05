@@ -17,6 +17,11 @@ const baseUrl =
     ? 'http://localhost:3000/api'
     : `${process.env.NEXT_PUBLIC_PRODUCTION_DOMAIN}/api`;
 
+console.log(baseUrl, 'baseUrl');
+console.log(process.env.NODE_ENV, 'baseUrl');
+console.log(process.env.NEXT_PUBLIC_PRODUCTION_DOMAIN, 'baseUrl');
+console.log(typeof process.env.NEXT_PUBLIC_PRODUCTION_DOMAIN, 'baseUrl');
+
 export const foodsApi = createApi({
   reducerPath: 'foodsApi',
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
