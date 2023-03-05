@@ -22,10 +22,6 @@ const FoodSection: FC<IFoodSection> = ({ foods, categories }) => {
   const salads = useAppSelector(foodsSaladsSelector);
   const dispatch = useAppDispatch();
 
-  if (typeof window !== 'undefined') {
-    console.log(window && window.location.host, 'hostname');
-  }
-
   useEffect(() => {
     if (activeCategory === Category.ALL && data) {
       dispatch(setFoods(data));

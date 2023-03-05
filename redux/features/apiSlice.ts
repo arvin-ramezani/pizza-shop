@@ -15,7 +15,7 @@ import transformImageUrl from '@/utils/common/transform-image-url';
 const baseUrl =
   process.env.NODE_ENV !== 'production'
     ? 'http://localhost:3000/api'
-    : `${process.env.PRODUCTION_DOMAIN}/api`;
+    : `${process.env.NEXT_PUBLIC_PRODUCTION_DOMAIN}/api`;
 
 export const foodsApi = createApi({
   reducerPath: 'foodsApi',
