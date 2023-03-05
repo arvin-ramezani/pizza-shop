@@ -24,8 +24,8 @@ console.log(typeof process.env.NEXT_PUBLIC_PRODUCTION_DOMAIN, 'baseUrl');
 
 export const foodsApi = createApi({
   reducerPath: 'foodsApi',
-  // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
-  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  // baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   tagTypes: ['Foods'],
   endpoints: (build) => {
     return {
