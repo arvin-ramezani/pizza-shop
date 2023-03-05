@@ -15,7 +15,7 @@ import transformImageUrl from '@/utils/common/transform-image-url';
 const baseUrl =
   process.env.NODE_ENV !== 'production'
     ? 'http://localhost:3000/api'
-    : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api`;
+    : `${process.env.PRODUCTION_DOMAIN}/api`;
 
 export const foodsApi = createApi({
   reducerPath: 'foodsApi',
@@ -45,7 +45,7 @@ export const foodsApi = createApi({
 
 export const likesApi = createApi({
   reducerPath: 'likesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   tagTypes: ['Likes'],
   endpoints: (build) => {
     return {
@@ -68,7 +68,7 @@ export const likesApi = createApi({
 
 export const commentsApi = createApi({
   reducerPath: 'commentsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   tagTypes: ['Comment'],
   endpoints: (build) => {
     return {
@@ -130,7 +130,7 @@ export const commentsApi = createApi({
 
 export const userPlacesApi = createApi({
   reducerPath: 'userPlacesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   tagTypes: ['UserPlaces'],
   endpoints: (build) => {
     return {
@@ -178,7 +178,7 @@ export const userPlacesApi = createApi({
 
 export const meApi = createApi({
   reducerPath: 'meApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   tagTypes: ['me'],
   endpoints: (build) => {
     return {
@@ -215,7 +215,7 @@ export const meApi = createApi({
 
 export const ordersApi = createApi({
   reducerPath: 'ordersApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   tagTypes: ['UserOrder'],
   endpoints: (build) => {
     return {

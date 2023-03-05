@@ -26,7 +26,8 @@
     "**/*.tsx",
     "jest.setup.js",
     "jest.config.js",
-    "global.d.ts"
+    "global.d.ts",
+    "env.d.ts"
   ],
   "exclude": ["node_modules"]
 }
