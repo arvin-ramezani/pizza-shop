@@ -12,20 +12,16 @@ import {
 import { IOrdersApiReq, IOrdersApiRes } from '@/utils/types/order/order.types';
 import transformImageUrl from '@/utils/common/transform-image-url';
 
-const baseUrl =
-  process.env.NODE_ENV !== 'production'
-    ? 'http://localhost:3000/api'
-    : `${process.env.NEXT_PUBLIC_PRODUCTION_DOMAIN}/api`;
+// const baseUrl =
+//   process.env.NODE_ENV !== 'production'
+//     ? 'http://localhost:3000/api'
+//     : `${process.env.NEXT_PUBLIC_PRODUCTION_DOMAIN}/api`;
 
-console.log(baseUrl, 'baseUrl');
-console.log(process.env.NODE_ENV, 'baseUrl');
-console.log(process.env.NEXT_PUBLIC_PRODUCTION_DOMAIN, 'baseUrl');
-console.log(typeof process.env.NEXT_PUBLIC_PRODUCTION_DOMAIN, 'baseUrl');
+const baseUrl = '/api';
 
 export const foodsApi = createApi({
   reducerPath: 'foodsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
-  // baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   tagTypes: ['Foods'],
   endpoints: (build) => {
     return {
