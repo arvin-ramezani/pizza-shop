@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     background: url('/images/hero-section.jpg') no-repeat left;
     background-size: cover;
+    background-color: #303030;
   }
 `;
 
