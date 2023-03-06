@@ -165,7 +165,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
           placeList,
         };
         const { data: createdUser } = await axios.post(
-          'http://localhost:3000/api/auth/signup',
+          '/api/auth/signup',
 
           formData
         );
