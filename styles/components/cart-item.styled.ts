@@ -42,6 +42,10 @@ export const PriceContainer = styled.div`
   display: flex;
   align-items: center;
   margin-right: auto;
+
+  & > p {
+    margin-left: 0.2rem;
+  }
 `;
 
 export const QuantityPrice = styled.div``;

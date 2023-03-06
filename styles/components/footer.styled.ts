@@ -46,12 +46,13 @@ export const FooterSocialMediaBlock = styled.div`
   padding: 1rem 2rem;
   border-radius: 1rem;
 
-  background: ${({ theme }) => theme.backgroundColors.white};
+  /* background: ${({ theme }) => theme.backgroundColors.white}; */
 
   & > span {
     cursor: pointer;
     display: flex;
-    color: ${({ theme }) => theme.colors.blue};
+    color: ${({ theme }) => theme.colors.white};
+    /* color: ${({ theme }) => theme.colors.blue}; */
   }
 `;
 

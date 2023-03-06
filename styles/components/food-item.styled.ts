@@ -28,7 +28,7 @@ export const FoodContent = styled(motion.div)`
   border-radius: 20px;
   padding: 0.1rem 0.8rem 0.5rem;
   height: 340px;
-  box-shadow: -1px 2px 4px 1px #ff7a008c;
+  box-shadow: -1px 2px 4px 1px ${({ theme }) => theme.colors.darkWhite};
 `;
 
 export const FoodHeader = styled(motion.h3)`
@@ -38,6 +38,7 @@ export const FoodHeader = styled(motion.h3)`
 export const IntegredientText = styled.p`
   font-size: 0.8rem;
   height: 42px;
+  line-height: 1.2;
 `;
 
 export const StyledDetailsLink = styled(Link)`
@@ -51,6 +52,7 @@ export const QuantityTitle = styled.span`
   margin-right: 1.5rem;
   margin-top: 1.5rem;
   display: block;
+  font-size: 0.8rem;
 `;
 
 export const QuantityCounter = styled.div`
@@ -71,7 +73,9 @@ export const PriceContainer = styled.div`
   position: relative;
 `;
 
-export const StyledPrice = styled.p``;
+export const StyledPrice = styled.p`
+  margin-left: 0.4rem;
+`;
 
 export const StyledTotalPrice = styled.p`
   position: absolute;

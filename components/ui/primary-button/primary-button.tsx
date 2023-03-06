@@ -96,6 +96,7 @@ const Button = styled(motion.button)<{ fullwidth: BooleanEnum }>`
 
   &:disabled {
     opacity: 0.5;
+    color: #7c7c7c;
   }
 `;
 

@@ -17,8 +17,6 @@ import { useInView } from 'react-intersection-observer';
 import { useSession } from 'next-auth/react';
 
 import { IoMdRemoveCircleOutline, IoMdAddCircleOutline } from 'react-icons/io';
-import { FcLike } from 'react-icons/fc';
-import router from 'next/router';
 import {
   CommentsContainer,
   Container,
@@ -260,12 +258,13 @@ const FoodItem: FC<IFood> = ({
               </IconButton>
               <PriceContainer>
                 <StyledPrice>{priceToText(price)}</StyledPrice>
-                <Image
+                {/* <Image
                   src={'/images/price.svg'}
                   alt="تومان"
                   width={32}
                   height={38}
-                />
+                /> */}
+                تومان
                 {quantity > 1 && (
                   <StyledTotalPrice
                     as={motion.p}
@@ -273,12 +272,13 @@ const FoodItem: FC<IFood> = ({
                     animate={foodItemTotalPriceAnimController}
                   >
                     {priceToText(price, quantity)}
-                    <Image
+                    {/* <Image
                       src={'/images/price.svg'}
                       alt="تومان"
                       width={32}
                       height={38}
-                    />
+                    /> */}
+                    تومان
                   </StyledTotalPrice>
                 )}
               </PriceContainer>
@@ -302,7 +302,7 @@ const FoodItem: FC<IFood> = ({
                     tapEffect
                     style={{ outline: 'none' }}
                   >
-                    <BsHeartFill size="1.6rem" color={theme.colors.primary} />
+                    <BsHeartFill size="1.2rem" color={theme.colors.primary} />
                   </IconButton>
                 ) : (
                   <IconButton
@@ -311,7 +311,7 @@ const FoodItem: FC<IFood> = ({
                     tapEffect
                     onClick={addLikeHandler}
                   >
-                    <BsHeart size="1.6rem" color={theme.colors.primary} />
+                    <BsHeart size="1.2rem" color={theme.colors.primary} />
                   </IconButton>
                 )}
 

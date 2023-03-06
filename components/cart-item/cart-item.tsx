@@ -125,12 +125,13 @@ const CartItem: FC<CartItemProps> = ({
           <h4>{name}</h4>
           <PriceContainer>
             <p>{priceToText(price)}</p>
-            <Image
+            {/* <Image
               src={'/images/price.svg'}
               alt="تومان"
               width={22}
               height={26}
-            />
+            /> */}
+            تومان
           </PriceContainer>
         </ItemName>
         <QuantityPrice>
