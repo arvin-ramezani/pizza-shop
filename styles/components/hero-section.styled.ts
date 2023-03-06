@@ -3,13 +3,12 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   height: 90vh;
 
-  background: url('/images/hero-section-vertical.jpg') no-repeat top;
+  background: url('/images/hero-section-vertical.svg') no-repeat top;
   background-size: cover;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    background: url('/images/hero-section.jpg') no-repeat left;
+    background: url('/images/hero-section.svg') no-repeat left;
     background-size: cover;
-    background-color: #303030;
   }
 `;
 
