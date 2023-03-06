@@ -143,13 +143,13 @@ const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image, likes }) => {
         </IconButton>
         <PriceContainer>
           <StyledPrice>{`${price}.000`}</StyledPrice>
-          <Image src={'/images/price.svg'} alt="تومان" width={32} height={38} />
+          تومان
         </PriceContainer>
       </QuantityCounter>
       <StyledButtonWrapper as={motion.div}>
         {isAlreadyLike ? (
           <IconButton onClick={addLikeHandler} tapEffect>
-            <BsHeartFill size="1.6rem" color={theme.colors.primary} />
+            <BsHeartFill size="1.4rem" color={theme.colors.primary} />
           </IconButton>
         ) : (
           <IconButton
@@ -157,7 +157,7 @@ const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image, likes }) => {
             tapEffect
             onClick={addLikeHandler}
           >
-            <BsHeart size="1.6rem" color={theme.colors.primary} />
+            <BsHeart size="1.4rem" color={theme.colors.primary} />
           </IconButton>
         )}
 

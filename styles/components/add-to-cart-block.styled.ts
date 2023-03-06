@@ -27,7 +27,9 @@ export const PriceContainer = styled.div`
   margin-right: auto;
 `;
 
-export const StyledPrice = styled.p``;
+export const StyledPrice = styled.p`
+  margin-left: 0.3rem;
+`;
 
 export const StyledButtonWrapper = styled(motion.div)`
   margin: 1.2rem 0 0.5rem;
