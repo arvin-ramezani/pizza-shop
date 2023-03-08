@@ -51,7 +51,7 @@ async function signupHandler(req: SignupApiRequest, res: NextApiResponse) {
 
     const isPlaceListValid = await placeSchema.isValid(parsedPlaceList);
     if (!isPlaceListValid) {
-      return res.status(422).json({ message: 'Invalid addresses inputs' });
+      return res.status(422).json({ message: 'Invalid places inputs' });
     }
 
     await dbConnect();
@@ -109,71 +109,3 @@ export const config = {
     bodyParser: false,
   },
 };
-
-// export default async function handler(
-//   req: SignupReqBody,
-//   res: NextApiResponse
-// ) {
-//   if (req.method !== 'POST') {
-//     return;
-//   }
-
-//   try {
-//     await dbConnect();
-
-//     const { placeList, ...rest } = req.body;
-
-//     const isValid = await signupSchema.isValid(rest);
-//     if (!isValid) {
-//       return res.status(422).json({ message: 'Invalid inputs' });
-//     }
-
-//     const { firstName, lastName, email, phone, password } = req.body;
-
-//     const existUser = await User.findOne({ email });
-//     if (existUser) {
-//       return res.status(400).json({ message: 'User already exist' });
-//     }
-
-//     const isPlaceListValid = await placeSchema.isValid(placeList);
-//     if (!isPlaceListValid) {
-//       return res.status(422).json({ message: 'Invalid addresses inputs' });
-//     }
-
-//     const createdUser = User.build({
-//       firstName,
-//       lastName,
-//       email,
-//       phone,
-//       password,
-//     });
-//     await createdUser.save();
-
-//     const createdPlaces = placeList.map((place) => {
-//       let placeToCreate = {
-//         user: createdUser._id,
-//         name: place.placeName,
-//         address: place.placeAddress,
-//       };
-
-//       if (place.placeLocation?.lng && place.placeLocation?.lat) {
-//         return Place.build({
-//           ...placeToCreate,
-//           location: {
-//             type: 'Point',
-//             coordinates: [place.placeLocation.lng, place.placeLocation.lat],
-//           },
-//         });
-//       }
-
-//       return Place.build(placeToCreate);
-//     });
-
-//     await Place.insertMany(createdPlaces);
-
-//     res.status(201).json({ email: createdUser.email, id: createdUser.id });
-//   } catch (err) {
-//     res.status(400).json({ errors: err });
-//     console.log(err);
-//   }
-// }

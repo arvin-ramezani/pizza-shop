@@ -114,3 +114,11 @@ export const ButtonsContainer = styled.div`
     margin: 0 auto;
   }
 `;
+
+export const IssueContainer = styled(motion.div)``;
+
+export const IssueBtnContainer = styled(motion.div)`
+  direction: ltr;
+  display: flex;
+  gap: 1rem;
+`;

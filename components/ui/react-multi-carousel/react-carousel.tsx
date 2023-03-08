@@ -20,14 +20,17 @@ import { BsRecordCircle, BsRecordCircleFill } from 'react-icons/bs';
 
 interface CustomRightArrowProps extends ArrowProps {
   previous?: () => void;
+  // slideLength: number;
 }
 
 interface CustomLeftArrowProps extends ArrowProps {
   next?: () => void;
+  // slideLength: number;
 }
 
 interface CarouselButtonGroupProps extends ButtonGroupProps {
   className?: string;
+  slideLength: number;
 }
 
 const responsive = {
@@ -67,6 +70,7 @@ const responsive = {
 interface ReactCarouselProps {
   foods: IFood[];
   title: string;
+  slideLength: number;
 }
 
 const carouselVariants: Variants = {
@@ -88,7 +92,11 @@ const foodItemVariants: Variants = {
   },
 };
 
-const ReactCarousel: FC<ReactCarouselProps> = ({ foods, title }) => {
+const ReactCarousel: FC<ReactCarouselProps> = ({
+  foods,
+  title,
+  slideLength,
+}) => {
   const { ref, inView } = useInView({ threshold: 0.2 });
 
   const animation = useAnimationControls();
@@ -117,7 +125,7 @@ const ReactCarousel: FC<ReactCarouselProps> = ({ foods, title }) => {
         draggable={true}
         showDots={true}
         responsive={responsive}
-        ssr={true} // means to render carousel on server-side.
+        ssr={true}
         infinite={true}
         //   autoPlay={true}
         //   autoPlaySpeed={2000}
@@ -130,7 +138,7 @@ const ReactCarousel: FC<ReactCarouselProps> = ({ foods, title }) => {
         rtl
         arrows={false}
         renderButtonGroupOutside={true}
-        customButtonGroup={<CarouselButtonGroup />}
+        customButtonGroup={<CarouselButtonGroup slideLength={slideLength} />}
         customDot={<CustomDot />}
       >
         {foods.map((food, index) => (
@@ -170,7 +178,7 @@ const CustomLeftArrow = ({ next }: CustomLeftArrowProps) => {
       boxShadow
       style={{ outline: 'none' }}
     >
-      <AiFillLeftCircle color={theme.colors.blue} size={'2rem'} />
+      <AiFillLeftCircle color={theme.colors.dark} size={'2rem'} />
     </IconButton>
   );
 };
@@ -184,14 +192,24 @@ const CustomRightArrow = ({ previous }: CustomRightArrowProps) => {
       boxShadow
       style={{ outline: 'none' }}
     >
-      <AiFillRightCircle color={theme.colors.blue} size={'2rem'} />
+      <AiFillRightCircle color={theme.colors.dark} size={'2rem'} />
     </IconButton>
   );
 };
 
-const CarouselButtonGroup = ({ next, previous }: CarouselButtonGroupProps) => {
+const CarouselButtonGroup = ({
+  next,
+  previous,
+  slideLength,
+}: CarouselButtonGroupProps) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+    <div
+      style={{
+        display: slideLength >= 6 ? 'flex' : 'none',
+        alignItems: 'center',
+        gap: '1rem',
+      }}
+    >
       <CustomRightArrow previous={previous} />
       <CustomLeftArrow next={next} />
     </div>
@@ -208,9 +226,9 @@ const CustomDot = ({ onClick, ...rest }: DotProps) => {
       tapEffect
     >
       {active ? (
-        <BsRecordCircleFill color={theme.colors.blue} size=".55rem" />
+        <FaCircle color={theme.colors.dark} size=".4rem" />
       ) : (
-        <BsRecordCircle color={theme.colors.blue} size=".55rem" />
+        <FiCircle color={theme.colors.dark} size=".4rem" />
       )}
     </StyledIconBtn>
   );
@@ -221,8 +239,8 @@ const StyledIconBtn = styled(IconButton)`
     margin-top: 0.5rem;
 
     & svg {
-      width: 16px;
-      height: 16px;
+      width: 6px;
+      height: 6px;
     }
   }
 
@@ -230,8 +248,8 @@ const StyledIconBtn = styled(IconButton)`
     margin-top: 0.5rem;
 
     & svg {
-      width: 20px;
-      height: 20px;
+      width: 14px;
+      height: 14px;
     }
   }
 `;

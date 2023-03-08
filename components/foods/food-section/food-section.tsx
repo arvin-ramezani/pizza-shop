@@ -35,9 +35,18 @@ const FoodSection: FC<IFoodSection> = ({ foods, categories }) => {
       <ReactCarousel
         foods={data ? (storeFoods.length < 0 ? foods : storeFoods) : foods}
         title="انواع فست فود"
+        slideLength={storeFoods.length}
       />
-      <ReactCarousel foods={fries} title="انواع سیب زمینی سرخ شده" />
-      <ReactCarousel foods={salads} title="انواع سالاد" />
+      <ReactCarousel
+        slideLength={fries.length}
+        foods={fries}
+        title="انواع سیب زمینی سرخ شده"
+      />
+      <ReactCarousel
+        foods={salads}
+        title="انواع سالاد"
+        slideLength={salads.length}
+      />
     </StyledFoodSection>
   );
 };

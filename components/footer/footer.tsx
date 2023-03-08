@@ -44,11 +44,7 @@ const Footer = () => {
           </FooterSocialMediaBlock>
         </FooterTextBlock>
         <FooterImage>
-          <FooterStyledImage
-            src="/images/fast-food-footer.jpg"
-            alt="Fast Food"
-            fill
-          />
+          <FooterStyledImage src="/images/footer.svg" alt="Fast Food" fill />
           {/* <img src="/images/fast-food-footer.jpg" alt="Fast Food" /> */}
         </FooterImage>
       </StyledFooter>

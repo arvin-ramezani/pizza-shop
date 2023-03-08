@@ -2,17 +2,19 @@ import styled from 'styled-components';
 import Image from 'next/image';
 
 export const StyledFooterWrapper = styled.footer`
+  background: rgb(60, 12, 10);
   background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.93) 11.2%,
-    rgb(63 61 61 / 68%)
+    90deg,
+    rgba(60, 12, 10, 1) 0%,
+    rgba(60, 12, 10, 1) 0%,
+    rgba(22, 8, 8, 1) 100%
   );
 
   color: ${({ theme }) => theme.colors.white};
 `;
 
 export const StyledFooter = styled.div`
-  padding: 1rem 2rem;
+  padding: 1.6rem 1.2rem 0;
   width: 100%;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
@@ -43,7 +45,7 @@ export const FooterSocialMediaBlock = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 1rem 2rem;
+  padding: 1rem 1.4rem;
   border-radius: 1rem;
 
   /* background: ${({ theme }) => theme.backgroundColors.white}; */
@@ -59,17 +61,18 @@ export const FooterSocialMediaBlock = styled.div`
 export const FooterImage = styled.div`
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 50vh;
   /* margin: 1rem auto 0; */
-  margin: 3rem 0;
+  /* margin: 3rem 0; */
   border-radius: 1rem;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    height: 350px;
+    height: 65vh;
     width: 60%;
   }
 `;
 
 export const FooterStyledImage = styled(Image)`
   border-radius: 1rem;
+  /* margin: 0 !important; */
 `;

@@ -1,4 +1,11 @@
-import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FC,
+  MouseEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { motion, Variants } from 'framer-motion';
@@ -20,6 +27,8 @@ import {
 import {
   AuthInputWrapper,
   ButtonsContainer,
+  IssueBtnContainer,
+  IssueContainer,
   ModalHeader,
   ProfileImageWrapper,
   StyledCloseButton,
@@ -46,6 +55,23 @@ const authModalVariants: Variants = {
     x: '0',
     opacity: 1,
     scale: 1,
+  },
+};
+
+const issueContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.2, when: 'beforeChildren' },
+  },
+};
+
+const issueChildrenVariants: Variants = {
+  hidden: { opacity: 0, x: 50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5 },
   },
 };
 
@@ -94,6 +120,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
     placeAddress: string | undefined;
   }>();
   const [placeList, setPlaceList] = useState<IPlace[]>([]);
+  const [showSignupIssue, setShowSignupIssue] = useState(false);
 
   const { progress } = useAppSelector(loadingBarSelector);
   const dispatch = useAppDispatch();
@@ -164,6 +191,15 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
           formData,
           placeList,
         };
+
+        // if (process.env.NODE_ENV === 'production') {
+        //   setShowSignupIssue(true);
+        //   return;
+        // }
+
+        setShowSignupIssue(true);
+        return;
+
         const { data: createdUser } = await axios.post(
           '/api/auth/signup',
 
@@ -243,156 +279,203 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
         exit="exit"
         onClick={(e) => e.stopPropagation()}
       >
-        <ModalHeader>
-          <StyledCloseButton>
-            <CloseIcon size={'1.6rem'} onClick={onClose} />
-          </StyledCloseButton>
-          <h3>{titleContent}</h3>
-          <OutlineButton
-            onClick={() => setIsSingup((prev) => !prev)}
-            text={isSingup ? 'یا وارد شوید' : 'یا ثبت نام کنید'}
-            style={{
-              display: 'inline',
-              marginRight: '.4rem',
-            }}
-            small
-          />
-        </ModalHeader>
-        <StyledForm onSubmit={handleSubmit(onFormSubmit)}>
-          {isSingup ? (
-            <>
-              <ProfileImageWrapper>
-                <Image
-                  src={
-                    selectedImgPreviewUrl ||
-                    '/images/profile-images/default.png'
-                  }
-                  width="100"
-                  height="100"
-                  alt="Profile Image"
-                  onClick={filePickerHandler}
-                />
-                <input
-                  name="image"
-                  id="image"
-                  type="file"
-                  accept=".jpg,.png,.jpeg,.webgp"
-                  onChange={pickedFileHandler}
-                  ref={filePickerRef}
-                />
-              </ProfileImageWrapper>
-              <AuthInputWrapper>
-                <Input
-                  label="نام"
-                  type="text"
-                  name="firstName"
-                  required
-                  register={register}
-                  invalid={!!errors.firstName}
-                  errorMessage={errors.firstName?.message}
-                />
-
-                <Input
-                  label="نام خانوادگی"
-                  type="text"
-                  name="lastName"
-                  register={register}
-                  invalid={!!errors.lastName}
-                  errorMessage={errors.lastName?.message}
-                />
-              </AuthInputWrapper>
-
-              <AuthInputWrapper>
-                <Input
-                  label="ایمیل"
-                  type="text"
-                  placeholder="arvin@gmail.test.com"
-                  name="email"
-                  register={register}
-                  invalid={!!errors.email}
-                  errorMessage={errors.email?.message}
-                />
-
-                <Input
-                  label="شماره همراه"
-                  type="phone"
-                  placeholder="09123456789"
-                  name="phone"
-                  register={register}
-                  invalid={!!errors.phone}
-                  errorMessage={errors.phone?.message}
-                />
-              </AuthInputWrapper>
-
-              <AuthInputWrapper>
-                <Input
-                  // label="رمز عبور"
-                  label="رمز عبور"
-                  type="password"
-                  placeholder="رمز عبور"
-                  name="password"
-                  register={register}
-                  invalid={!!errors.password}
-                  errorMessage={errors.password?.message}
-                />
-
-                <Input
-                  label="تکرار رمز عبور"
-                  type="password"
-                  placeholder="تکرار رمز عبور"
-                  name="confirmPassword"
-                  register={register}
-                  invalid={!!errors.confirmPassword}
-                  errorMessage={errors.confirmPassword?.message}
-                />
-              </AuthInputWrapper>
-
-              <hr />
-              <AddPlace
-                coordinates={coordinates}
-                setCoordinates={setCoordinates}
-                placeList={placeList}
-                onAddPlace={addPlaceHandler}
-                onDeletePlace={onDeletePlace}
-                inputErrors={placeInputsErrors}
-                register={placeRegister}
+        {showSignupIssue ? (
+          <IssueContainer
+            as={motion.div}
+            variants={issueContainerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.p variants={issueChildrenVariants}>
+              متاسفانه به دلیل مشکل آپلود فایل در vercel و netlify عملیات ثبت
+              نام امکان پذیر نمیباشد.
+              <br />
+              در حالت لوکال مشکلی وجود ندارد و میتوانید کامل تست کنید.
+              <a href="https://github.com/arvin-ramezani/pizza-shop">
+                https://github.com/arvin-ramezani/pizza-shop
+              </a>
+            </motion.p>
+            <br />
+            <motion.p variants={issueChildrenVariants}>
+              لطفا برای تست نرم افزار با یوزر و پسوورد تستی که پیش فرض در اینپوت
+              فرم ورود در نظر گرفته شده وارد شوید!
+            </motion.p>
+            <IssueBtnContainer variants={issueChildrenVariants}>
+              <p>
+                Email: user@test.com
+                <br />
+                Password: 123456
+              </p>
+              <PrimaryButton
+                onClick={() => {
+                  setShowSignupIssue(false);
+                  setIsSingup(false);
+                }}
+                text="متوجه شدم"
               />
-            </>
-          ) : (
-            <AuthInputWrapper>
-              <Input
-                label="ایمیل"
-                type="text"
-                placeholder="arvin@gmail.test.com"
-                name="email"
-                register={register}
-                invalid={!!errors.email}
-                errorMessage={errors.email?.message}
-                defaultValue="user@test.com"
+            </IssueBtnContainer>
+            <motion.a
+              variants={issueChildrenVariants}
+              href="https://vercel.com/guides/how-to-upload-and-store-files-with-vercel"
+              style={{ display: 'flex', direction: 'ltr' }}
+            >
+              https://vercel.com/guides/how-to-upload-and-store-files-with-vercel
+            </motion.a>
+          </IssueContainer>
+        ) : (
+          <>
+            <ModalHeader>
+              <StyledCloseButton>
+                <CloseIcon size={'1.6rem'} onClick={onClose} />
+              </StyledCloseButton>
+              <h3>{titleContent}</h3>
+              <OutlineButton
+                onClick={() => setIsSingup((prev) => !prev)}
+                text={isSingup ? 'یا وارد شوید' : 'یا ثبت نام کنید'}
+                style={{
+                  display: 'inline',
+                  marginRight: '.4rem',
+                }}
+                small
               />
+            </ModalHeader>
+            <StyledForm onSubmit={handleSubmit(onFormSubmit)}>
+              {isSingup ? (
+                <>
+                  <ProfileImageWrapper>
+                    <Image
+                      src={
+                        selectedImgPreviewUrl ||
+                        '/images/profile-images/default.png'
+                      }
+                      width="100"
+                      height="100"
+                      alt="Profile Image"
+                      onClick={filePickerHandler}
+                    />
+                    <input
+                      name="image"
+                      id="image"
+                      type="file"
+                      accept=".jpg,.png,.jpeg,.webgp"
+                      onChange={pickedFileHandler}
+                      ref={filePickerRef}
+                    />
+                  </ProfileImageWrapper>
+                  <AuthInputWrapper>
+                    <Input
+                      label="نام"
+                      type="text"
+                      name="firstName"
+                      required
+                      register={register}
+                      invalid={!!errors.firstName}
+                      errorMessage={errors.firstName?.message}
+                    />
 
-              <Input
-                label="رمز عبور"
-                type="password"
-                placeholder="رمز عبور"
-                name="password"
-                register={register}
-                invalid={!!errors.password}
-                errorMessage={errors.password?.message}
-                defaultValue="123456"
-              />
-            </AuthInputWrapper>
-          )}
+                    <Input
+                      label="نام خانوادگی"
+                      type="text"
+                      name="lastName"
+                      register={register}
+                      invalid={!!errors.lastName}
+                      errorMessage={errors.lastName?.message}
+                    />
+                  </AuthInputWrapper>
 
-          <ButtonsContainer>
-            <PrimaryButton
-              disabled={Object.keys(errors).length > 0}
-              type="submit"
-              text={isSingup ? 'ثبت نام' : 'ورود'}
-            />
-            <SecondaryButton text={'لغو'} onClick={onClose} />
-          </ButtonsContainer>
-        </StyledForm>
+                  <AuthInputWrapper>
+                    <Input
+                      label="ایمیل"
+                      type="text"
+                      placeholder="arvin@gmail.test.com"
+                      name="email"
+                      register={register}
+                      invalid={!!errors.email}
+                      errorMessage={errors.email?.message}
+                    />
+
+                    <Input
+                      label="شماره همراه"
+                      type="phone"
+                      placeholder="09123456789"
+                      name="phone"
+                      register={register}
+                      invalid={!!errors.phone}
+                      errorMessage={errors.phone?.message}
+                    />
+                  </AuthInputWrapper>
+
+                  <AuthInputWrapper>
+                    <Input
+                      // label="رمز عبور"
+                      label="رمز عبور"
+                      type="password"
+                      placeholder="رمز عبور"
+                      name="password"
+                      register={register}
+                      invalid={!!errors.password}
+                      errorMessage={errors.password?.message}
+                    />
+
+                    <Input
+                      label="تکرار رمز عبور"
+                      type="password"
+                      placeholder="تکرار رمز عبور"
+                      name="confirmPassword"
+                      register={register}
+                      invalid={!!errors.confirmPassword}
+                      errorMessage={errors.confirmPassword?.message}
+                    />
+                  </AuthInputWrapper>
+
+                  <hr />
+                  <AddPlace
+                    coordinates={coordinates}
+                    setCoordinates={setCoordinates}
+                    placeList={placeList}
+                    onAddPlace={addPlaceHandler}
+                    onDeletePlace={onDeletePlace}
+                    inputErrors={placeInputsErrors}
+                    register={placeRegister}
+                  />
+                </>
+              ) : (
+                <AuthInputWrapper>
+                  <Input
+                    label="ایمیل"
+                    type="text"
+                    placeholder="arvin@gmail.test.com"
+                    name="email"
+                    register={register}
+                    invalid={!!errors.email}
+                    errorMessage={errors.email?.message}
+                    defaultValue="user@test.com"
+                  />
+
+                  <Input
+                    label="رمز عبور"
+                    type="password"
+                    placeholder="رمز عبور"
+                    name="password"
+                    register={register}
+                    invalid={!!errors.password}
+                    errorMessage={errors.password?.message}
+                    defaultValue="123456"
+                  />
+                </AuthInputWrapper>
+              )}
+
+              <ButtonsContainer>
+                <PrimaryButton
+                  disabled={Object.keys(errors).length > 0}
+                  type="submit"
+                  text={isSingup ? 'ثبت نام' : 'ورود'}
+                />
+                <SecondaryButton text={'لغو'} onClick={onClose} />
+              </ButtonsContainer>
+            </StyledForm>
+          </>
+        )}
       </StyledModal>
     </Wrapper>
   );

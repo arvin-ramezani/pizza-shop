@@ -12,7 +12,7 @@ import { z } from 'zod';
 
 export const signupSchema = yup.object().shape({
   firstName: yup.string().required(),
-  lastName: yup.string(),
+  lastName: yup.string().optional(),
   email: yup.string().email().required(),
   phone: yup.string().required(),
   password: yup.string().min(4).max(20).required(),
