@@ -60,7 +60,7 @@ export async function usersPatchHandler(
 ) {
   try {
     if (process.env.NODE_ENV !== 'production') {
-      await runMulterMiddleware(req, res, upload.single('image'));
+      // await runMulterMiddleware(req, res, upload.single('image'));
 
       const secret = process.env.JWT_SECRET;
       const session = await getToken({ req, secret });
@@ -101,51 +101,51 @@ export async function usersPatchHandler(
       return;
     }
 
-    const secret = process.env.JWT_SECRET;
-    const session = await getToken({ req, secret });
-    if (!session) {
-      res.status(401).json({ message: 'You are not authenticated' });
-      return;
-    }
+    // const secret = process.env.JWT_SECRET;
+    // const session = await getToken({ req, secret });
+    // if (!session) {
+    //   res.status(401).json({ message: 'You are not authenticated' });
+    //   return;
+    // }
 
-    await dbConnect();
-    const user = await User.findById(session?.sub);
+    // await dbConnect();
+    // const user = await User.findById(session?.sub);
 
-    if (!user) {
-      res.status(404).json({ message: 'User not found' });
-      return;
-    }
+    // if (!user) {
+    //   res.status(404).json({ message: 'User not found' });
+    //   return;
+    // }
 
-    const form = formidable({ multiples: true });
+    // const form = formidable({ multiples: true });
 
-    const formData = new Promise<{
-      fields: formidable.Fields;
-      files: formidable.Files;
-    }>((resolve, reject) => {
-      form.parse(req, async (err, fields, files) => {
-        if (err) {
-          reject('error');
-        }
-        resolve({ fields, files });
-      });
-    });
+    // const formData = new Promise<{
+    //   fields: formidable.Fields;
+    //   files: formidable.Files;
+    // }>((resolve, reject) => {
+    //   form.parse(req, async (err, fields, files) => {
+    //     if (err) {
+    //       reject('error');
+    //     }
+    //     resolve({ fields, files });
+    //   });
+    // });
 
-    const { fields, files } = await formData;
-    console.log(files, '/auth/me | PATCH | (files)');
+    // const { fields, files } = await formData;
+    // console.log(files, '/auth/me | PATCH | (files)');
 
-    const isValid = await patchBodySchema.isValid(fields);
-    if (!isValid) {
-      return res.status(422).json({ message: 'Invalid inputs' });
-    }
+    // const isValid = await patchBodySchema.isValid(fields);
+    // if (!isValid) {
+    //   return res.status(422).json({ message: 'Invalid inputs' });
+    // }
 
-    user.firstName = fields.firstName as string;
-    user.lastName = fields.lastName as string;
-    user.email = fields.email as string;
-    user.phone = fields.phone as string;
+    // user.firstName = fields.firstName as string;
+    // user.lastName = fields.lastName as string;
+    // user.email = fields.email as string;
+    // user.phone = fields.phone as string;
 
-    await user.save();
-    res.status(200).json(user);
-    return;
+    // await user.save();
+    // res.status(200).json(user);
+    // return;
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Somethin went wrong !' });
