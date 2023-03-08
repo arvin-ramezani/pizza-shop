@@ -21,10 +21,10 @@ const usersRoutes = nextConnect<NextApiRequest, NextApiResponse>({
 usersRoutes.get(usersGetHandler);
 usersRoutes.patch(usersPatchHandler);
 
-export const config = {
-  api: {
-    bodyParser: process.env.NODE_ENV === 'production' ? true : false,
-  },
-};
+// export const config = {
+//   api: {
+//     bodyParser: process.env.NODE_ENV === 'production' ? true : false,
+//   },
+// };
 
 export default usersRoutes;
