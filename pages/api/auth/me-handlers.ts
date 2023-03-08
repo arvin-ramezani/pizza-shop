@@ -49,6 +49,7 @@ export async function usersGetHandler(
     res.status(200).json({ user, userPlaces: transformedUserPlaces });
     return;
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Somethin went wrong !' });
   }
 }
@@ -146,6 +147,7 @@ export async function usersPatchHandler(
     res.status(200).json(user);
     return;
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Somethin went wrong !' });
   }
 }
