@@ -1,7 +1,17 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI;
+// const MONGODB_URI = `${encodeURIComponent(process.env.MONGODB_URI)}`;
 // const MONGODB_URI = process.env.LOCAL_MONGODB_URI;
+
+// const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD;
+// const MONGODB_USERNAME = process.env.MONGODB_USERNAME;
+
+// const MONGODB_URI = `mongodb+srv://${MONGODB_USERNAME}:${encodeURIComponent(
+//   MONGODB_PASSWORD
+// )}@cluster0.hdgxplo.mongodb.net/?retryWrites=true&w=majority`;
+
+const MONGODB_URI = process.env.MONGODB_URI;
+console.log(MONGODB_URI, 'MONGO.....');
 
 if (!MONGODB_URI) {
   throw new Error(

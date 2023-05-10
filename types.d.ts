@@ -6,3 +6,5 @@ declare module '*module.css' {
 }
 
 declare module 'react-neshan-map-leaflet';
+
+declare module 'next/font/local';
