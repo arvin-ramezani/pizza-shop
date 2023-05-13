@@ -445,7 +445,7 @@ export const saladList: IFood[] = [
 export const CATEGORIES: ICategory[] = [
   {
     name: CategoryEnum.ALL,
-    image: '/images/category/category-all.webp',
+    image: '/images/category/category-all.svg',
     title: 'همه',
   },
   {

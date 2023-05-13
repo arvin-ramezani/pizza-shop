@@ -20,7 +20,7 @@ import {
   Integredients,
   TitleBlock,
 } from '@/styles/pages/[slug].styled';
-import Comment from '@/components/comments/comments';
+import Comments from '@/components/comments/comments';
 
 interface FoodPageProps {
   food: IFood;
@@ -88,7 +88,7 @@ const Food: NextPage<FoodPageProps> = ({ food }) => {
             <motion.p variants={foodItemVariants}>{food.details}</motion.p>
           </Details>
 
-          <Comment foodSlug={food.slug} />
+          <Comments foodSlug={food.slug} />
         </FoodContent>
       </Container>
     </FoodContainer>

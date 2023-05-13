@@ -10,7 +10,7 @@ export const Wrapper = styled.header`
   box-shadow: 0px 1px 8px 1px #000c;
   position: sticky;
   z-index: 2;
-  height: 70px;
+  height: 120px;
   margin: -70px auto 0;
   top: 0;
   left: 0;
@@ -20,12 +20,13 @@ export const Wrapper = styled.header`
   align-items: center;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    height: 100px;
+    /* height: 100px; */
     margin: -100px auto 0;
   }
 `;
 
 export const Container = styled.div`
+  position: relative;
   margin: 0 auto;
   padding: 0.5rem 1rem;
   flex: 1;
@@ -60,8 +61,18 @@ export const AuthButtonContainer = styled(motion.div)`
   flex: 1;
   gap: 0.6rem;
 
+  #headerBackBtn {
+    position: absolute;
+    top: -20px;
+  }
+
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     gap: 1rem;
+
+    #headerBackBtn {
+      position: absolute;
+      top: -12px;
+    }
   }
 `;
 

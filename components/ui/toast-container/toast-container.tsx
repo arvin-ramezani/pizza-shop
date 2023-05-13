@@ -22,18 +22,6 @@ const ToastContainer = () => {
   );
 };
 
-const Container = styled(DefaultToastContainer)`
-  & .Toastify__toast-body {
-    align-items: flex-start;
-  }
-
-  & .Toastify__toast-icon {
-    margin-top: 0.4rem;
-  }
-
-  & .Toastify__toast-body > div:last-child {
-    font-family: 'Vazir';
-  }
-`;
+const Container = styled(DefaultToastContainer)``;
 
 export default ToastContainer;

@@ -138,9 +138,7 @@ const MapModal = ({
             </CoordinatesText>
             <MapBox
               onClick={onMarker}
-              mapboxAccessToken={
-                'pk.eyJ1IjoiYXJ2aW4tcmFtZXphbmkiLCJhIjoiY2w3cmF3MnFlMDVoODN3b3Zjc2EycWZqcCJ9.a3zLLJhRZQsqXofvlhjOVw'
-              }
+              mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
               initialViewState={{
                 longitude: initialCoordinates?.lng || 52.65785405322845,
                 latitude: initialCoordinates?.lat || 36.71204604981793,

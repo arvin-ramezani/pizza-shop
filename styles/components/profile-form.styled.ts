@@ -10,7 +10,9 @@ export const StyledForm = styled.form`
   }
 
   & h2 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    font-size: 1.6rem;
   }
 
   & input:disabled {

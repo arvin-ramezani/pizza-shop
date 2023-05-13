@@ -316,6 +316,11 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
             </FormBodyInputsWrapper>
             {/* {!coordinates && ( */}
             <div onClick={runEditButtonAnimation}>
+              {/* <p>
+                متاسفانه به دلیل مشکلات اینترنت مجبور شدم نقشه را غیر فعال کنم
+                !!!
+              </p> */}
+
               <Map
                 style={{
                   width: '100%',

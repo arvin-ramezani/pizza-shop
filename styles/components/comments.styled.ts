@@ -2,10 +2,13 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 export const StyledComment = styled(motion.div)`
-  position: relative;
+  /* position: relative; */
+  margin-top: 3rem;
 
   & > h4 {
     padding-right: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
   }
 `;
 
@@ -58,13 +61,14 @@ export const StyledCommentList = styled(motion.div)`
 export const CommentBlock = styled(motion.div)`
   margin-top: 0.5rem;
   padding: 0.5rem 0.8rem;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: 0.8rem;
   width: 100%;
 
   & > h5 {
     margin: 0 0 1rem;
     font-size: 1rem;
+    font-weight: 700;
     line-height: 1;
   }
   & > p {

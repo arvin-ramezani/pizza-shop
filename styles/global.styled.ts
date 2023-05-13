@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import { NextFont } from 'next/dist/compiled/@next/font';
+import { theme } from '@/utils/theme.styled';
 
 export const GlobalStyle = createGlobalStyle<{
   localVazirFont: NextFont;
@@ -65,9 +66,33 @@ table {
   font-family: ${({ localVazirFont }) => localVazirFont.style.fontFamily};
 }
 
-& input , textarea {
+* input , textarea {
   font-family: ${({ localVazirFont }) =>
     localVazirFont.style.fontFamily} !important;
 
 }
+
+body {
+	background-color: ${theme.backgroundColors.white} ;
+}
+
+p {
+	line-height: 140%;
+}
+
+.Toastify__toast-body {
+    align-items: flex-start;
+  }
+
+.Toastify__toast-icon {
+	margin-top: 0.4rem;
+}
+
+.Toastify__toast-body > div:last-child {
+	font-family: ${({ localVazirFont }) =>
+    localVazirFont.style.fontFamily} !important;
+	
+	line-height: 140%;
+}
+
   `;

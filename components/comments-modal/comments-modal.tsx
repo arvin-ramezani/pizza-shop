@@ -105,6 +105,7 @@ export const StyledCommentsWrapper = styled(motion.div)`
   padding: 0 0.5rem;
   border-radius: 0.5rem;
   width: 90%;
+  position: relative;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     width: 70%;

@@ -26,9 +26,9 @@ export const TextContainer = styled.div`
   bottom: 10%;
   right: 50%;
   transform: translateX(50%);
-  padding: 1rem 2rem;
+  padding: 1rem;
   border-radius: 2rem;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   min-width: 250px;
   height: 222px;
   display: flex;
@@ -41,8 +41,9 @@ export const TextContainer = styled.div`
   }
 `;
 
-export const StyledHeader = styled.h2`
-  font-size: 2rem;
+export const StyledHeading = styled.h1`
+  font-size: 2.6rem;
+  font-weight: 700;
   margin: 0;
 `;
 

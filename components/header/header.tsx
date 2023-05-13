@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TfiShoppingCart } from 'react-icons/tfi';
-import { IoArrowBackCircleOutline } from 'react-icons/io5';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 import { useSession, signOut } from 'next-auth/react';
 
 import {
@@ -188,11 +188,12 @@ const Header = ({}) => {
           )}
           <AuthButtonContainer as={motion.div}>
             {status === 'authenticated' && router.pathname !== '/' && (
-              <IconButton tapEffect onClick={backRouterHandler}>
-                <IoArrowBackCircleOutline
-                  size="2rem"
-                  color={theme.colors.blue}
-                />
+              <IconButton
+                tapEffect
+                onClick={backRouterHandler}
+                id={'headerBackBtn'}
+              >
+                <IoMdArrowRoundBack size="1.6rem" color={theme.colors.blue} />
               </IconButton>
             )}
 

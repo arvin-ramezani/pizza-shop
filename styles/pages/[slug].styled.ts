@@ -24,13 +24,12 @@ export const TitleBlock = styled(motion.div)`
 `;
 
 export const FoodName = styled(motion.h1)`
-  margin: 0 auto;
+  margin: 0 auto 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
 `;
 
 export const Integredients = styled(motion.p)`
-  font-size: 1.2rem;
-  font-weight: bold;
-
   margin-bottom: 0.5rem;
 `;
 
@@ -41,7 +40,8 @@ export const Details = styled(motion.div)`
 
 export const DetailsTitle = styled(motion.h4)`
   margin: 1rem 0 0.5rem;
-  font-size: 1.2rem; ;
+  font-size: 1.2rem;
+  font-weight: bold;
 `;
 
 export const FoodContent = styled.div``;

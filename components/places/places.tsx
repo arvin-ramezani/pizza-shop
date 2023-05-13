@@ -55,26 +55,7 @@ const placeVariants: Variants = {
       },
     };
   },
-
-  // activeAnimation: (isSelected) => ({
-  //   background: isSelected ? theme.colors.primary : theme.colors.darkWhite,
-  //   color: isSelected ? theme.colors.white : '#000',
-
-  //   transition: {
-  //     delay: 0.2,
-  //   },
-  // }),
 };
-
-// const placeMoreVariants: Variants = {
-//   tap: {
-//     width: ' 100vw',
-//     height: '100vh',
-//     position: 'fixed',
-//     right: 0,
-//     top: 0,
-//   },
-// };
 
 interface CartPlacesProps {
   selectable?: boolean;
@@ -85,7 +66,6 @@ const Places: FC<CartPlacesProps> = ({ selectable, onAddPlace }) => {
   const { status } = useSession();
   const {
     data,
-    // : placeList
 
     isLoading,
     isSuccess,
@@ -118,7 +98,6 @@ const Places: FC<CartPlacesProps> = ({ selectable, onAddPlace }) => {
   const onDeleteTemporaryPlaceHandler = (
     placeName: IPlaceApiResponse['placeName']
   ) => {
-    // setPlaceList((prevList) => prevList && [place, ...prevList]);
     temporaryPlaces = temporaryPlaces.filter(
       (tempPlace) => tempPlace.placeName !== placeName
     );

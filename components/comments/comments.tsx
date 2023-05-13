@@ -22,7 +22,7 @@ import {
   StyledCommentList,
   StyledMomentBlock,
   UserInfo,
-} from '@/styles/components/comment.styled';
+} from '@/styles/components/comments.styled';
 import ButtonSm from '../ui/button-sm/button-sm';
 import { theme } from '@/utils/theme.styled';
 import Input from '../ui/input/input';
@@ -159,7 +159,7 @@ const Comments: FC<CommentsProps> = ({ modalMode, closeModal, foodSlug }) => {
         {modalMode && (
           <IconButton
             onClick={closeModal}
-            style={{ position: 'absolute', left: 0 }}
+            style={{ position: 'absolute', left: '.5rem', top: '.5rem' }}
           >
             <CloseIcon size="1.4rem" />
           </IconButton>

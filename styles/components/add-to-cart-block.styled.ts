@@ -5,7 +5,7 @@ export const Container = styled(motion.div)``;
 
 export const QuantityTitle = styled.span`
   color: ${({ theme }) => theme.colors.primary};
-  margin: 0.5 1.5rem;
+  margin: 0.5rem 1.5rem;
   margin-right: 1.5rem;
   margin-top: 0.8rem;
   display: block;

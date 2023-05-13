@@ -38,13 +38,13 @@ const ProfileNav = () => {
 };
 
 export const StyledNav = styled.nav`
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.backgroundColors.white};
   height: 70px;
   position: fixed;
   bottom: 0;
   right: 0;
   width: 100%;
-  box-shadow: 0px -1px 4px 1px #f5f5f5;
+  box-shadow: 0px -1px 4px 1px ${({ theme }) => theme.backgroundColors.white};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     flex-direction: column;

@@ -31,7 +31,7 @@ const ProfilePageLayout: FC<LayoutProps> = ({ children }) => {
 export const StyledProfilePageLayout = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  padding-top: 70px;
+  padding-top: 110px;
   min-height: 100vh;
   margin-bottom: 4rem;
   overflow: hidden !important;
@@ -45,7 +45,7 @@ export const StyledProfilePageLayout = styled.div`
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    padding-top: 100px;
+    padding-top: 150px;
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {

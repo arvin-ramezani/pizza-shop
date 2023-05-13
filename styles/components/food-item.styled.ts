@@ -29,16 +29,22 @@ export const FoodContent = styled(motion.div)`
   padding: 0.1rem 0.8rem 0.5rem;
   height: 340px;
   box-shadow: -1px 2px 4px 1px ${({ theme }) => theme.colors.darkWhite};
+  display: flex;
+  flex-direction: column;
 `;
 
 export const FoodHeader = styled(motion.h3)`
-  margin-top: 50px;
+  /* margin-top: 50px;
+  margin-bottom: 1rem; */
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 3.2rem 0 1rem;
 `;
 
 export const IntegredientText = styled.p`
   font-size: 0.8rem;
   height: 42px;
-  line-height: 1.2;
+  line-height: 140%;
 `;
 
 export const StyledDetailsLink = styled(Link)`
@@ -48,7 +54,7 @@ export const StyledDetailsLink = styled(Link)`
 
 export const QuantityTitle = styled.span`
   color: ${({ theme }) => theme.colors.primary};
-  margin: 0.5 1.5rem;
+  margin: 0.5rem 1.5rem;
   margin-right: 1.5rem;
   margin-top: 1.5rem;
   display: block;
@@ -79,7 +85,7 @@ export const StyledPrice = styled.p`
 
 export const StyledTotalPrice = styled.p`
   position: absolute;
-  bottom: 100%;
+  bottom: 130%;
   display: flex;
   align-items: center;
   color: ${({ theme }) => theme.colors.primary};
@@ -110,6 +116,6 @@ export const LikeWrapper = styled.div`
 `;
 
 export const StyledButtonWrapper = styled(motion.div)`
-  margin: 1.2rem 0 0.5rem;
+  margin: auto 0 0.5rem;
   width: 100%;
 `;

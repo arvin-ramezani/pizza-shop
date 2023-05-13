@@ -25,6 +25,7 @@ interface IconButtonProps {
   tapEffect?: boolean;
   toastBtn?: boolean;
   boxShadow?: boolean;
+  id?: string;
 }
 
 enum BooleanEnum {
@@ -50,6 +51,7 @@ const IconButton: FC<IconButtonProps> = ({
   toastBtn,
   boxShadow,
   wrapperStyles,
+  id,
 }) => {
   const onClickHandler: IconButtonHandler = (e: IconButtonEvent) => {
     !toastBtn && e.stopPropagation();
@@ -59,7 +61,11 @@ const IconButton: FC<IconButtonProps> = ({
   };
 
   return (
-    <StyledIconButton onClick={onClickHandler} style={wrapperStyles}>
+    <StyledIconButton
+      onClick={onClickHandler}
+      style={wrapperStyles}
+      id={id && id}
+    >
       <StyledButton
         className={className}
         as={motion.button}

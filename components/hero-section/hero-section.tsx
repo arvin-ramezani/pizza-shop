@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 import {
   Container,
-  StyledHeader,
+  StyledHeading,
   StyledUserName,
   TextContainer,
   Wrapper,
@@ -52,7 +52,7 @@ const HeroSection = () => {
       <Wrapper>
         <Container>
           <TextContainer>
-            <StyledHeader>خوش آمدید</StyledHeader>
+            <StyledHeading>خوش آمدید</StyledHeading>
 
             {status === 'authenticated' && (
               <StyledUserName>{userName} عزیز</StyledUserName>

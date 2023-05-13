@@ -76,7 +76,6 @@ interface ReactCarouselProps {
 const carouselVariants: Variants = {
   initialTitle: { opacity: 0, x: -300 },
   titleAnimation: {
-    // position: 'absolute',
     opacity: 1,
     x: 0,
     transition: { type: 'spring', stiffness: 400, damping: 10, delay: 0.5 },
@@ -111,6 +110,7 @@ const ReactCarousel: FC<ReactCarouselProps> = ({
       titleAnimation.start(carouselVariants.initialTitle);
     }
   }, [inView, animation]);
+
   return (
     <StyledCarousel ref={ref} animate={animation}>
       <motion.h2
@@ -151,9 +151,15 @@ const ReactCarousel: FC<ReactCarouselProps> = ({
 
 export const StyledCarousel = styled(motion.div)`
   margin-top: 2rem;
+  padding: 2rem 0;
+  border-radius: 0.5rem;
+  background: #fff;
 
   & > h2 {
-    margin: 0;
+    margin: 0.5rem;
+    padding-right: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
   }
 `;
 
@@ -208,6 +214,7 @@ const CarouselButtonGroup = ({
         display: slideLength >= 6 ? 'flex' : 'none',
         alignItems: 'center',
         gap: '1rem',
+        paddingRight: '1rem',
       }}
     >
       <CustomRightArrow previous={previous} />

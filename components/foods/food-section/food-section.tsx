@@ -52,7 +52,7 @@ const FoodSection: FC<IFoodSection> = ({ foods, categories }) => {
 };
 
 const StyledFoodSection = styled.section`
-  padding: 1rem 1rem;
+  /* padding: 1rem 1rem; */
   max-width: 100%;
   margin: 0 auto;
   overflow: hidden;
