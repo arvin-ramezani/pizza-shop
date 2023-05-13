@@ -1,4 +1,4 @@
-import { motion, motionValue } from 'framer-motion';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { Property } from '@/node_modules/csstype/index';
 import { BooleanEnum } from '@/utils/types/common/common.types';
@@ -41,6 +41,7 @@ export const StyledTextarea = styled(motion.textarea)<{
   padding: 0.6rem;
   resize: none;
   width: 100%;
+
   border: ${({ invalid }) =>
     invalid === BooleanEnum.TRUE ? '2px solid red' : '1px solid black'};
 

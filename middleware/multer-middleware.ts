@@ -9,18 +9,6 @@ const MIME_TYPE_MAP: any = {
   'image/webp': 'webp',
 };
 
-interface SignupApiRequest extends NextApiRequest {
-  body: {
-    firstName: string;
-    lastName?: string;
-    email: string;
-    phone: string;
-    password: string;
-    placeList: string;
-  };
-  file?: Express.Multer.File;
-}
-
 export const upload = multer({
   storage: multer.diskStorage({
     destination: './public/images/profile-images',

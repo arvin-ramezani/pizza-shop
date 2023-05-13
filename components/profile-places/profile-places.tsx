@@ -1,8 +1,9 @@
-import { useGetUserPlacesQuery } from '@/redux/features/apiSlice';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 import styled from 'styled-components';
+
 import Places from '../places/places';
+import { StyledProfilePlaces } from './profile-places.variants';
 
 const ProfilePlaces = () => {
   const { status } = useSession();
@@ -19,19 +20,5 @@ const ProfilePlaces = () => {
     </StyledProfilePlaces>
   );
 };
-
-export const StyledProfilePlaces = styled.div`
-  width: 80%;
-  margin: 3rem auto 0;
-
-  & h3 {
-    font-size: 1.6rem;
-    font-weight: 700;
-  }
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    width: 70%;
-  }
-`;
 
 export default ProfilePlaces;

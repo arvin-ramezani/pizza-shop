@@ -1,4 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { toast } from 'react-toastify';
+import { useAnimationControls } from 'framer-motion';
+import { useState } from 'react';
 
 import {
   addToCart as addToCartReducer,
@@ -6,9 +9,7 @@ import {
   removeFromCart as removeFromCartReducer,
 } from '@/redux/features/cartSlice';
 import { ICartItem } from '@/utils/types/cart/cart.interface';
-import { toast } from 'react-toastify';
-import { FC, MouseEvent, useEffect, useMemo, useState } from 'react';
-import { useAnimationControls, Variants } from 'framer-motion';
+import { foodItemVariants } from './use-add-to-cart.variants';
 
 interface UseAddToCartProps {
   name: ICartItem['name'];
@@ -16,19 +17,6 @@ interface UseAddToCartProps {
   image: ICartItem['image'];
   quantity?: ICartItem['quantity'];
 }
-
-const foodItemVariants: Variants = {
-  initial: { opacity: 0, x: -50 },
-  animation: {
-    x: 0,
-    opacity: 1,
-  },
-  quantityCounterText: {
-    scale: [0, 1.4, 1],
-    opacity: [0, 1],
-    transition: { duration: 0.3 },
-  },
-};
 
 const useAddToCart = ({
   name,

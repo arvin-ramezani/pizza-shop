@@ -1,6 +1,7 @@
 import { motion, MotionStyle, Variants } from 'framer-motion';
 import React, { FC, MouseEventHandler, ReactNode } from 'react';
 import styled from 'styled-components';
+import { outlineBtnVariants } from './outline-button.variants';
 
 interface OutlineButtonProps {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
@@ -18,26 +19,6 @@ enum BooleanEnum {
   TRUE = 'true',
   FALSE = 'false',
 }
-
-const outlineBtnVariants: Variants = {
-  initial: { y: -30, opacity: 0, scale: 0.6 },
-  animation: {
-    y: 0,
-    opacity: 1,
-    scale: 1,
-    cursor: 'pointer',
-    transition: { duration: 0.4 },
-  },
-  // exit: { x: -50, opacity: 0, scale: 1 },
-  disabled: {
-    opacity: 0.8,
-    x: 0,
-    transition: { duration: 0.4 },
-    cursor: 'no-drop',
-  },
-  hover: { scale: 1.1 },
-  tap: { scale: 0.6 },
-};
 
 const OutlineButton: FC<OutlineButtonProps> = ({
   onClick,

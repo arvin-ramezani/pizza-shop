@@ -1,8 +1,8 @@
-import { foodsSelector } from '@/redux/features/foodsSlice';
 import { useAppSelector } from '@/redux/hooks';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
+import { foodsSelector } from '@/redux/features/foodsSlice';
 import { ICategoryList } from 'utils/types/categories/category.interface';
 import CategoryItem from './category-item';
 
@@ -29,11 +29,6 @@ const Container = styled.div`
   gap: 0.3rem;
   z-index: 1;
   position: relative;
-  /* 
-  & > div:first-child > img {
-    width: 150px !important;
-    height: 150px;
-  } */
 
   &::-webkit-scrollbar {
     height: 4px;

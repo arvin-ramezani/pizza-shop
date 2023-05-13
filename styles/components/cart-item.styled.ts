@@ -1,7 +1,8 @@
-import IconButton from '@/components/ui/icon-button/icon-button';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import styled from 'styled-components';
+import Image from 'next/image';
+
+import IconButton from '@/components/ui/icon-button/icon-button';
 
 export const StyledCartItem = styled(motion.div)`
   position: relative;
@@ -21,7 +22,6 @@ export const CartItemContainer = styled(motion.div)`
 `;
 
 export const StyledIconButton = styled(IconButton)`
-  /* background-color: #b8deff; */
   position: absolute;
   top: 0.5rem;
   left: 0.5rem;

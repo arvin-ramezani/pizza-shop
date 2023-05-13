@@ -2,22 +2,7 @@ import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import styled from 'styled-components';
 
-const LoadingSpinnerVariants: Variants = {
-  initial: {
-    rotate: 0,
-    position: 'fixed',
-    right: '50%',
-    top: '50%',
-    width: '32px',
-    height: '32px',
-    x: '50%',
-  },
-  animation: {
-    rotate: 360,
-    // transform: 'rotate(360)',
-    transition: { repeat: Infinity, duration: 1, ease: 'linear' },
-  },
-};
+import { LoadingSpinnerVariants } from './loading-spinner.variants';
 
 const LoadingSpinner = () => {
   return (

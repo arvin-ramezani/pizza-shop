@@ -25,7 +25,6 @@ export const StyledMapModal = styled(motion.div)`
 export const CoordinatesText = styled(motion.div)`
   direction: ltr;
   font-size: 0.8rem;
-  /* font-weight: bold; */
 
   & span {
     display: block;

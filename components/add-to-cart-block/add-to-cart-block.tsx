@@ -1,15 +1,15 @@
-import Image from 'next/image';
 import { motion, Variants } from 'framer-motion';
 import React, { FC, useEffect, useState } from 'react';
 import { IoMdAddCircleOutline, IoMdRemoveCircleOutline } from 'react-icons/io';
 import { useSession } from 'next-auth/react';
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
 
 import IconButton from '@/components/ui/icon-button/icon-button';
 import OutlineButton from '@/components/ui/outline-button/outline-button';
 import PrimaryButton from '@/components/ui/primary-button/primary-button';
 import { IFood } from '@/utils/types/foods/food.interface';
 import ConfirmModal from '../ui/confirm-modal/confirm-modal';
-import useAddToCart from '@/hooks/useAddToCart';
+import useAddToCart from '@/hooks/use-add-to-cart/use-add-to-cart';
 import {
   Container,
   PriceContainer,
@@ -19,35 +19,9 @@ import {
   StyledButtonWrapper,
   StyledPrice,
 } from '@/styles/components/add-to-cart-block.styled';
-import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { theme } from '@/utils/theme.styled';
-import { RiHeart3Line } from 'react-icons/ri';
 import { useAddLikeMutation } from '@/redux/features/apiSlice';
-
-// const foodContentVariants: Variants = {
-//   initial: { opacity: 0, x: -50 },
-//   animation: {
-//     opacity: 1,
-//     x: 0,
-//     transition: {
-//       when: 'beforeChildren',
-//       staggerChildren: 0.3,
-//     },
-//   },
-// };
-
-const foodItemVariants: Variants = {
-  initial: { opacity: 0, x: -50 },
-  animation: {
-    x: 0,
-    opacity: 1,
-  },
-  quantityCounterText: {
-    scale: [0, 1.4, 1],
-    opacity: [0, 1],
-    transition: { duration: 0.3 },
-  },
-};
+import { foodItemVariants } from './add-to-cart-block.variants';
 
 interface AddToCartProps {
   name: IFood['name'];
@@ -93,7 +67,6 @@ const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image, likes }) => {
         userEmail: currentUser?.user?.email!,
         foodName: name,
       });
-      console.log(res);
     } catch (error) {
       console.log(error, 'like error');
     }

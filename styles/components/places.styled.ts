@@ -18,10 +18,11 @@ export const StyledPlaceListContainer = styled(motion.div)`
 export const StyledPlace = styled(motion.div)<{
   selectable?: 'true' | 'false';
 }>`
-  background: ${({ theme }) => theme.colors.darkWhite};
   border-radius: 0.3rem;
-  cursor: ${({ selectable }) => (selectable ? 'cursor' : 'default')};
   position: relative;
+
+  background: ${({ theme }) => theme.colors.darkWhite};
+  cursor: ${({ selectable }) => (selectable ? 'cursor' : 'default')};
 `;
 
 export const AnimateStyledPlace = styled(motion.div)`
@@ -34,12 +35,6 @@ export const StyledActivePlace = styled(motion.div)`
   position: absolute;
   top: -10px;
   right: -6px;
-  /* width: 100%;
-  height: 100%;
-  border-radius: 0.3rem;
-  border: 3px solid ${({ theme }) => theme.colors.primary};
-  box-sizing: border-box;
-  box-shadow: ${({ theme }) => `0px 0px 4px 2px ${theme.colors.primary}`}; */
 `;
 
 export const StyledDeactivePlace = styled(motion.div)`

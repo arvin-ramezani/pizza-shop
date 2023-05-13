@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-import { Category } from '@/utils/types/categories/category.enum';
-import slugify from '@/utils/slugify/slugify';
+
 import { UserDoc } from './User';
 
 export interface CommentAttrs {

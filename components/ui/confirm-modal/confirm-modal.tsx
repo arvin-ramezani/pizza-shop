@@ -2,7 +2,6 @@ import { AnimatePresence, Variants } from 'framer-motion';
 import React, { FC, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
-import Backdrop from '../backdrop/backdrop';
 import ButtonSm from '../button-sm/button-sm';
 import { theme } from '@/utils/theme.styled';
 import {
@@ -11,6 +10,7 @@ import {
   ModalBody,
   StyledConfirmModal,
 } from '@/styles/components/confirm-modal.styled';
+import { modalBodyVariants, modalVariants } from './confirm-modal.variants';
 
 interface confirmModalProps {
   modalBody?: React.ReactNode;
@@ -19,28 +19,6 @@ interface confirmModalProps {
   onCancel: Function;
   buttonText?: string;
 }
-
-const modalVariants: Variants = {
-  hidden: {
-    y: -150,
-    opacity: 0,
-  },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { when: 'beforeChildren' },
-  },
-};
-
-const modalBodyVariants: Variants = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.05 },
-  },
-};
 
 const ConfirmModal: FC<confirmModalProps> = ({
   modalBody,
@@ -96,8 +74,6 @@ const ConfirmModal: FC<confirmModalProps> = ({
           key="confirm-modal"
           onClick={onCancelClickHandler}
         >
-          {/* <Backdrop onClick={onCancelClickHandler} /> */}
-
           <Modal
             layout
             variants={modalVariants}

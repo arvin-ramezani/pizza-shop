@@ -1,6 +1,6 @@
-import { IFoodOrder, OrderAttrs } from '@/utils/types/order/order.types';
-import { IPlace } from '@/utils/types/place/place.types';
 import mongoose from 'mongoose';
+
+import { IFoodOrder, OrderAttrs } from '@/utils/types/order/order.types';
 
 // Order collection properties and methods.
 // Order model interface
@@ -84,13 +84,6 @@ const orderSchema = new mongoose.Schema(
 mongoose.set('strictQuery', true);
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
-  // const createdAt = new Date(0);
-  // console.log(createdAt, 'createdAt');
-  // return new Order({
-  //   ...attrs,
-  //   created_at: new Date(0),
-  // });
-
   return new Order(attrs);
 };
 

@@ -1,15 +1,11 @@
-import AuthModal from '@/components/auth-modal/auth-modal';
-import { toggleModal } from '@/redux/features/authSlice';
 import { RootState } from '@/redux/store';
 import { AnimatePresence } from 'framer-motion';
-import React, {
-  MouseEvent,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+
 import Backdrop from '../backdrop/backdrop';
+import AuthModal from '@/components/auth-modal/auth-modal';
+import { toggleModal } from '@/redux/features/authSlice';
 
 const AnimateAuthModal = () => {
   const { showModal } = useSelector(({ auth }: RootState) => auth);

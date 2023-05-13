@@ -22,15 +22,8 @@ export const loadingBarSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
-export const {
-  // startLoading,
-  // completeLoading,
-  setLoader,
-} = loadingBarSlice.actions;
+export const { setLoader } = loadingBarSlice.actions;
 
 export const loadingBarSelector = (state: RootState) => state.loadingBar;
-// export const cartSelector = (state: RootState) => state.;
-// export const cartLengthSelector = (state: RootState) => state.cart.cartLength;
 
 export default loadingBarSlice.reducer;

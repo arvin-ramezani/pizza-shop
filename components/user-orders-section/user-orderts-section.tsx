@@ -1,5 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 import {
   StyledLoadingImage,
@@ -10,40 +12,16 @@ import {
   UserOrdersPaginationSelectBox,
   UserOrdersPaginationText,
 } from '@/styles/pages/user-orders.styled';
-import { IOrdersApiRes } from '@/utils/types/order/order.types';
-import ProfileOrderItem from '../profile-order-item/profile-order-item';
 import ButtonSm from '../ui/button-sm/button-sm';
 import { theme } from '@/utils/theme.styled';
-import { useRouter } from 'next/router';
 import { useGetOrdersQuery } from '@/redux/features/apiSlice';
-import { useSession } from 'next-auth/react';
 import UserOrdersList from '../user-orders-list/user-orders-list';
+import {
+  loadingImageVariants,
+  userOrdersVariants,
+} from './user-order-section.variants';
 
-interface IUserOrdersListProps {
-  // userOrders: IOrdersApiRes[] | undefined;
-}
-
-const loadingImageVariants: Variants = {
-  initial: {
-    rotate: 0,
-    x: '50%',
-  },
-  animation: {
-    rotate: -360,
-    x: '50%',
-    transition: { repeat: Infinity, duration: 0.6, ease: 'linear' },
-  },
-};
-
-const userOrdersVariants: Variants = {
-  initial: { opacity: 0 },
-  animation: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2, when: 'beforeChildren' },
-  },
-};
-
-const UserOrdersSection: FC<IUserOrdersListProps> = () => {
+const UserOrdersSection: FC = () => {
   const { status } = useSession();
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
@@ -89,8 +67,6 @@ const UserOrdersSection: FC<IUserOrdersListProps> = () => {
   if (userOrders.orders.length < 1) {
     return <motion.h3>سفارشی برای شما ثبت نشده است !</motion.h3>;
   }
-
-  console.log(isLoading, 'orderrrrssss', isFetching);
 
   return (
     <>

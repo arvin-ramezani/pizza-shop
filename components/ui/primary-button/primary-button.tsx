@@ -1,7 +1,7 @@
-import React, { FC, MouseEvent, MouseEventHandler, useState } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import { motion, MotionStyle, Variants } from 'framer-motion';
-import { theme } from '@/utils/theme.styled';
+import { motion, MotionStyle } from 'framer-motion';
+
 import { primaryBtnVariants } from './primary-button-variants';
 
 interface PrimaryButtonProps {

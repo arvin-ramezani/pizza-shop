@@ -31,6 +31,7 @@ export const store = configureStore({
     cart: cartReducer,
     foods: foodsReducer,
     loadingBar: loadingBarReducer,
+
     [foodsApi.reducerPath]: foodsApi.reducer,
     [commentsApi.reducerPath]: commentsApi.reducer,
     [likesApi.reducerPath]: likesApi.reducer,
@@ -51,9 +52,5 @@ export const store = configureStore({
     ),
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
-
-// export const useAppDispatch: () => AppDispatch = useDispatch

@@ -15,3 +15,13 @@ export const buttonSmVariants: Variants = {
   animation: { opacity: 1, scale: 1 },
   initial: { opacity: 0, scale: 0 },
 };
+
+export const loadingImageVariants: Variants = {
+  initial: {
+    rotate: 0,
+  },
+  animation: {
+    rotate: -360,
+    transition: { repeat: Infinity, duration: 0.6, ease: 'linear' },
+  },
+};

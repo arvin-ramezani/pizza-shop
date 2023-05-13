@@ -51,7 +51,6 @@ export const FormBody = styled(motion.div)`
   overflow-x: hidden;
   height: 75%;
   padding: 1rem;
-  /* width: 100%; */
 
   &::-webkit-scrollbar {
     width: 8px;

@@ -1,15 +1,13 @@
-import React, {
-  FC,
-  ForwardedRef,
-  MutableRefObject,
-  RefObject,
-  useEffect,
-  useRef,
-} from 'react';
-import { UseFormRegister, FieldValues } from 'react-hook-form';
+import React, { FC, ForwardedRef, MutableRefObject, useRef } from 'react';
+import { UseFormRegister } from 'react-hook-form';
 import { Property } from '@/node_modules/csstype/index';
+import {
+  AnimatePresence,
+  motion,
+  useAnimationControls,
+  Variants,
+} from 'framer-motion';
 
-import { IFormInputs } from '../../../utils/types/auth.types';
 import {
   ErrorText,
   StyledInput,
@@ -17,18 +15,7 @@ import {
   StyledTextarea,
   StyledTextBox,
 } from '@/styles/components/input.styled';
-import { CommentFieldValues } from '@/utils/types/comments/comment.interfaces';
-import {
-  AnimatePresence,
-  motion,
-  useAnimation,
-  useAnimationControls,
-  Variants,
-} from 'framer-motion';
-
-const triggerAnimateVariants: Variants = {
-  animation: { x: [30, -20, 10, -5, 5, 0], transition: { duration: 0.5 } },
-};
+import { errorTextVariants } from './input.variants';
 
 interface InputProps {
   label?: string;
@@ -66,8 +53,6 @@ const Input: FC<InputProps> = ({
   invalid,
   disabled,
   errorMessage,
-  textbox,
-  value,
   errorTextMargin,
   height,
   defaultValue,
@@ -88,10 +73,10 @@ const Input: FC<InputProps> = ({
       >
         {label} {required && '*'}
       </StyledLabel>
+
       {textarea ? (
         <StyledTextarea
           as={motion.textarea}
-          // variants={triggerAnimateVariants}
           animate={inputAnimationController}
           ref={placeAddressRef as MutableRefObject<HTMLTextAreaElement>}
           aria-label={name}
@@ -125,6 +110,7 @@ const Input: FC<InputProps> = ({
           defaultValue={defaultValue}
         />
       )}
+
       <AnimatePresence>
         {errorMessage && (
           <ErrorText
@@ -141,19 +127,6 @@ const Input: FC<InputProps> = ({
       </AnimatePresence>
     </StyledTextBox>
   );
-};
-
-const errorTextVariants: Variants = {
-  initial: { x: -100, opacity: 0 },
-  animation: {
-    x: 0,
-    opacity: 1,
-    transition: { type: 'spring', stiffness: 400, damping: 15 },
-  },
-  exit: {
-    opacity: 0,
-    scale: 0,
-  },
 };
 
 export default Input;

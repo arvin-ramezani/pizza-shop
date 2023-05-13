@@ -1,5 +1,6 @@
-import { IOrdersApiRes } from '@/utils/types/order/order.types';
 import React, { FC } from 'react';
+
+import { IOrdersApiRes } from '@/utils/types/order/order.types';
 import ProfileOrderItem from '../profile-order-item/profile-order-item';
 
 interface UserOrdersListProps {

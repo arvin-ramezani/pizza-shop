@@ -32,8 +32,6 @@ export const StyledModal = styled.div`
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    /* width: 700px; */
-
     & button {
       align-self: flex-end;
     }

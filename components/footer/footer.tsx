@@ -1,6 +1,7 @@
-import Image from 'next/image';
 import React from 'react';
 import { motion } from 'framer-motion';
+import { BsInstagram, BsLinkedin, BsTelegram, BsTwitter } from 'react-icons/bs';
+import { useRouter } from 'next/router';
 
 import {
   FooterContactUsBlock,
@@ -11,18 +12,14 @@ import {
   StyledFooter,
   StyledFooterWrapper,
 } from '@/styles/components/footer.styled';
-import { BsInstagram, BsLinkedin, BsTelegram, BsTwitter } from 'react-icons/bs';
 import { theme } from '@/utils/theme.styled';
-import { useRouter } from 'next/router';
 
 const Footer = () => {
   const router = useRouter();
 
-  console.log(router.asPath, router.pathname, 'router');
-
   return (
     <StyledFooterWrapper
-      marginbottom={router.pathname === '/profile' ? '6rem' : '0'}
+      marginbottom={router.pathname.includes('profile') ? '6rem' : '0'}
     >
       <StyledFooter>
         <FooterTextBlock>
@@ -51,13 +48,11 @@ const Footer = () => {
           </FooterSocialMediaBlock>
         </FooterTextBlock>
         <FooterImage>
-          {/* <FooterStyledImage src="/images/footer.svg" alt="Fast Food" fill /> */}
           <FooterStyledImage
             src="/images/footer-image.svg"
             alt="Fast Food"
             fill
           />
-          {/* <img src="/images/fast-food-footer.jpg" alt="Fast Food" /> */}
         </FooterImage>
       </StyledFooter>
     </StyledFooterWrapper>

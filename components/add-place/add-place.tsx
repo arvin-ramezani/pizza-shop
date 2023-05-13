@@ -4,15 +4,10 @@ import {
   useAnimationControls,
   Variants,
 } from 'framer-motion';
-import React, {
-  createRef,
-  Dispatch,
-  FC,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { Dispatch, FC, useEffect, useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
+import { MdOutlineFileDownloadDone } from 'react-icons/md';
+import { RiMapPinAddFill } from 'react-icons/ri';
 
 import {
   AddLocationWrapper,
@@ -21,25 +16,14 @@ import {
 } from '@/styles/components/add-place.styled';
 import { ICoordinates } from '@/utils/types/map/map.types';
 import MapModal from '../ui/map-modal/map-modal';
-import { MdOutlineFileDownloadDone } from 'react-icons/md';
 import OutlineButton from '../ui/outline-button/outline-button';
-import { RiMapPinAddFill } from 'react-icons/ri';
 import Input from '../ui/input/input';
 import { AuthInputWrapper } from '@/styles/components/auth-modal.styled';
 import { theme } from '@/utils/theme.styled';
 import { IPlaceInputs, IPlace } from '@/utils/types/place/place.types';
 import PrimaryButton from '../ui/primary-button/primary-button';
 import PlaceList from '../place-list/place-list';
-
-const addCoordinatesVariant: Variants = {
-  hidden: { y: -20, opacity: 0, scale: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    scale: 1,
-    transition: { type: 'spring', stiffness: 400, damping: 10, delay: 0.4 },
-  },
-};
+import { addCoordinatesVariant } from './add-place.variants';
 
 interface AddPlaceProps {
   placeList: IPlace[];

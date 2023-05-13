@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-import { IFoodSection } from '../../../utils/types/foods/food.interface';
+import { IFoodSection } from '../../utils/types/foods/food.interface';
 import FoodItem from './food-item';
 
 const FoodList = ({ foodList }: { foodList: IFoodSection['foods'] }) => {

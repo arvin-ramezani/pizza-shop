@@ -1,7 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { useAppDispatch } from '@/redux/hooks';
+import { motion, useAnimationControls, Variants } from 'framer-motion';
 import { MdDelete } from 'react-icons/md';
 
 import Input from '../ui/input/input';
@@ -15,13 +16,11 @@ import {
 import { useEditUserMutation, useGetMeQuery } from '@/redux/features/apiSlice';
 import PrimaryButton from '../ui/primary-button/primary-button';
 import { theme } from '@/utils/theme.styled';
-import Image from 'next/image';
-import { useAppDispatch } from '@/redux/hooks';
 import { setLoader } from '@/redux/features/loadingBarSlice';
-import { toast } from 'react-toastify';
 import { IGetMeApiResponse } from '@/utils/types/user/user.types';
-import { motion, useAnimationControls, Variants } from 'framer-motion';
 import IconButton from '../ui/icon-button/icon-button';
+import { meSchema } from '@/utils/yup-schema/me.schema';
+import { editButtonVariant } from './profile-form.variants';
 
 export interface IFormInputs {
   firstName: string;
@@ -29,27 +28,6 @@ export interface IFormInputs {
   email: string;
   phone: string;
 }
-
-export const meSchema = yup.object().shape({
-  firstName: yup.string().required('نام نمیتواند خالی باشد'),
-  lastName: yup.string(),
-  email: yup
-    .string()
-    .email('ایمیل معتبر نیست')
-    .required('ایمیل نمیتواند خالی باشد'),
-  phone: yup.string().optional(),
-});
-
-const editButtonVariant: Variants = {
-  animation: (editMode) => {
-    return editMode
-      ? {}
-      : {
-          x: [-50, 50, -30, 30, -10, 10, 0],
-          transition: { duration: 0.6 },
-        };
-  },
-};
 
 const ProfileForm = () => {
   const { data: userData, isLoading, error } = useGetMeQuery();
@@ -65,17 +43,18 @@ const ProfileForm = () => {
     resolver: yupResolver(meSchema),
   });
   const [editMode, setEditMode] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<
-    File | undefined | 'DELETE'
-  >(undefined);
-  const [selectedImgPreviewUrl, setSelectedImgPreviewUrl] = useState<
-    string | undefined
-  >(userData?.user.image);
-  const [userImagePath, setUserImagePath] = useState<string>();
   const [editUserMutation] = useEditUserMutation();
   const filePickerRef = useRef<HTMLInputElement>(null);
   const editButtonAnimController = useAnimationControls();
   const dispatch = useAppDispatch();
+
+  const [selectedImage, setSelectedImage] = useState<
+    File | undefined | 'DELETE'
+  >(undefined);
+
+  const [selectedImgPreviewUrl, setSelectedImgPreviewUrl] = useState<
+    string | undefined
+  >(userData?.user.image);
 
   const filePickerHandler = () => {
     if (!editMode) return;
@@ -84,7 +63,6 @@ const ProfileForm = () => {
   };
 
   const pickedFileHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target.files);
     if (e.target.files && e.target.files.length === 1) {
       setSelectedImage(e.target.files[0]);
       console.log(e.target.files[0], 'selected');
@@ -98,16 +76,17 @@ const ProfileForm = () => {
     formData.append('lastName', formStates.lastName);
     formData.append('email', formStates.email);
     formData.append('phone', formStates.phone);
+
     selectedImage && formData.append('image', selectedImage);
 
     dispatch(setLoader(80));
-    const res = await editUserMutation(formData);
+
+    await editUserMutation(formData);
 
     dispatch(setLoader(100));
     setSelectedImage(undefined);
     setSelectedImgPreviewUrl(userData?.user.image);
     setEditMode(false);
-    console.log(res, 'edit user');
   };
 
   const onCancelEdit = () => {
@@ -154,7 +133,6 @@ const ProfileForm = () => {
   }, [userData]);
 
   useEffect(() => {
-    console.log(selectedImage, 'asdf');
     if (!selectedImage || selectedImage === 'DELETE') return;
 
     const fileReader = new FileReader();
@@ -168,8 +146,6 @@ const ProfileForm = () => {
     return <p>بارگذاری...</p>;
   }
 
-  console.log(selectedImage, 'image');
-
   return (
     <StyledForm
       onClick={editButtonAnimController.start.bind(
@@ -181,12 +157,7 @@ const ProfileForm = () => {
       <h2>اطلاعات فردی</h2>
       <ProfileImageWrapper>
         <img
-          src={
-            selectedImgPreviewUrl || '/images/profile-images/default.png'
-            // selectedImgPreviewUrl || userImagePath
-            // userData?.user.image ||
-            // '/images/profile-images/default.png'
-          }
+          src={selectedImgPreviewUrl || '/images/profile-images/default.png'}
           alt="Profile Image"
           onClick={filePickerHandler}
         />

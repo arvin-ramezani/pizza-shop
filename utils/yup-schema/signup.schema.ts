@@ -19,9 +19,4 @@ export default yup.object().shape({
     .string()
     .oneOf([yup.ref('password'), null], 'پسوورد تایید اشتباه است')
     .required('پسوورد نمیتواند خالی باشد'),
-
-  // address: yup.string().required('آدرس نمیتواند خالی بماند'),
-  // placeName: yup.string().required('نام مکان نمیتواند خالی باشد'),
-
-  // placeAddress: yup.string().required('آدرس نمیتواند خالی باشد'),
 });

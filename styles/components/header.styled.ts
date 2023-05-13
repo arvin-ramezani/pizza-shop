@@ -20,7 +20,6 @@ export const Wrapper = styled.header`
   align-items: center;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    /* height: 100px; */
     margin: -100px auto 0;
   }
 `;
@@ -110,19 +109,10 @@ export const CartLengthWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* padding: 0.9rem 0.5rem; */
   font-weight: 600;
   font-size: 1rem;
-  /* padding: 3px 1px 0; */
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    /* padding: 0.3rem 0.5rem;
-  width: auto;
-  height: auto; */
-  }
 `;
 
 export const CartLengthNumber = styled(motion.span)`
-  /* display: block; */
   position: static;
 `;

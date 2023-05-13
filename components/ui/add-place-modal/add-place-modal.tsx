@@ -1,25 +1,20 @@
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+import LoadingBar, { LoadingBarRef } from 'react-top-loading-bar';
 import React, {
   CSSProperties,
   Dispatch,
   FC,
-  ForwardRefExoticComponent,
   MouseEventHandler,
-  Ref,
   SetStateAction,
   useEffect,
   useRef,
   useState,
 } from 'react';
 import ReactDOM from 'react-dom';
-import {
-  motion,
-  AnimatePresence,
-  Variants,
-  useAnimationControls,
-} from 'framer-motion';
+import { motion, useAnimationControls } from 'framer-motion';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ImSpinner } from 'react-icons/im';
 
 import {
   AddPlaceModalBackdrop,
@@ -28,14 +23,13 @@ import {
   FormBodyInputsWrapper,
   FormFooter,
   StyledEditBtnWrapper,
-  StyledSpinner,
 } from '@/styles/components/add-place-modal.styled';
 import Input from '../input/input';
 import Map from '../map/map';
 import PrimaryButton from '../primary-button/primary-button';
 import { theme } from '@/utils/theme.styled';
 import CloseIcon from '../close-icon/close-icon';
-import useWindowDimensions from '@/hooks/use-window-dimensions';
+import useWindowDimensions from '@/hooks/use-window-dimensions/use-window-dimensions';
 import {
   IPlaceInputs,
   IPlace,
@@ -49,11 +43,13 @@ import {
   useDeleteUserPlacesMutation,
   useEditUserPlacesMutation,
 } from '@/redux/features/apiSlice';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
 import SecondaryButton from '../secondary-button/secondary-button';
-import LoadingBar, { IProps, LoadingBarRef } from 'react-top-loading-bar';
 import ConfirmModal from '../confirm-modal/confirm-modal';
+import {
+  editButtonVariants,
+  modalBackdropVariants,
+  modalFormVariants,
+} from './add-place-modal.variants';
 
 interface AddPlaceModalProps {
   toggleModal: Dispatch<SetStateAction<boolean>>;
@@ -63,47 +59,6 @@ interface AddPlaceModalProps {
   initialPlace?: IPlaceApiResponse;
   editMode?: boolean;
 }
-
-const modalBackdropVariants: Variants = {
-  hidden: {
-    height: '0',
-    transition: {
-      when: 'afterChildren',
-    },
-  },
-  visible: {
-    height: '100%',
-
-    transition: {
-      when: 'beforeChildren',
-    },
-  },
-};
-
-const modalFormVariants: Variants = {
-  hidden: { opacity: 0 },
-  // visible: { opacity: 1 },
-  visible: (isEditing) => ({
-    opacity: isEditing ? 0.4 : 1,
-  }),
-};
-
-const spinnerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-  spinnerInitial: { rotate: 0 },
-  // visible: { opacity: 1 },
-  spinnerAnimation: {
-    // opacity: 1,
-    rotate: 360,
-
-    transition: { repeat: Infinity, duration: 0.5 },
-  },
-};
-
-const editButtonVariants: Variants = {
-  animation: { x: [-10, 10, -5, 4, -2, 1, 0], transition: { duration: 0.3 } },
-};
 
 const AddPlaceModal: FC<AddPlaceModalProps> = ({
   toggleModal,
@@ -134,14 +89,20 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
   const [coordinates, setCoordinates] = useState<ICoordinates | undefined>(
     initialPlace?.placeLocation
   );
+
   const [savePlaceToDb, setSavePlaceToDb] = useState<boolean>(false);
+
   const [showDeletePlaceConfirmModal, setShowDeletePlaceConfirmModal] =
     useState(false);
+
   const [addUserPlaces, { isLoading: isSending, isSuccess }] =
     useAddUserPlacesMutation();
+
   const [editUserPlace, { isLoading: isEditing }] = useEditUserPlacesMutation();
+
   const [deleteUserPlace, { isLoading: isDeleting }] =
     useDeleteUserPlacesMutation();
+
   const [submitEditBtn, setSubmitEditBtn] = useState(false);
   const loadingBarRef = useRef<LoadingBarRef>(null);
   const editButtonAnimController = useAnimationControls();
@@ -270,9 +231,6 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
         <AddPlaceModalForm
           as={motion.form}
           variants={modalFormVariants}
-          // custom={{ isEditing, isSending }}
-          // custom={isEditing}
-          // style={isEditing || isSending ? { opacity: 0.4 } : { opacity: 1 }}
           onClick={(e) => e.stopPropagation()}
           onSubmit={placeHandleSubmit(addPlaceHandler)}
         >
@@ -285,7 +243,6 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
               height={4}
               containerStyle={{ position: 'absolute' }}
               shadow={false}
-              // shadowStyle={{ right: '0px' }}
             />
             <FormBodyInputsWrapper onClick={runEditButtonAnimation}>
               <Input
@@ -295,7 +252,6 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
                 register={placeRegister}
                 invalid={!!errors.placeName}
                 errorMessage={errors.placeName?.message}
-                // disabled={isSending || editMode}
                 disabled={
                   isSending || isEditing || (editMode && !submitEditBtn)
                 }
@@ -308,19 +264,13 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
                 register={placeRegister}
                 invalid={!!errors.placeAddress}
                 errorMessage={errors.placeAddress?.message}
-                // disabled={isSending || editMode}
                 disabled={
                   isSending || isEditing || (editMode && !submitEditBtn)
                 }
               />
             </FormBodyInputsWrapper>
-            {/* {!coordinates && ( */}
-            <div onClick={runEditButtonAnimation}>
-              {/* <p>
-                متاسفانه به دلیل مشکلات اینترنت مجبور شدم نقشه را غیر فعال کنم
-                !!!
-              </p> */}
 
+            <div onClick={runEditButtonAnimation}>
               <Map
                 style={{
                   width: '100%',
@@ -332,12 +282,10 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
                 initialCoordinates={coordinates}
                 onAddCoordinates={setCoordinates}
                 stableMarker={editMode && !submitEditBtn}
-
-                // onClick={runEditButtonAnimation}
               />
             </div>
-            {/* )} */}
           </FormBody>
+
           <FormFooter>
             {editMode ? (
               <>

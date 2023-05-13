@@ -1,22 +1,15 @@
 import Image from 'next/image';
-import React, {
-  FC,
-  MouseEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { FC, MouseEventHandler, useEffect, useState } from 'react';
 import {
   AnimatePresence,
   motion,
   useAnimationControls,
   Variants,
-  useInView as useFramerInView,
 } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useSession } from 'next-auth/react';
-
 import { IoMdRemoveCircleOutline, IoMdAddCircleOutline } from 'react-icons/io';
+
 import {
   CommentsContainer,
   Container,
@@ -36,42 +29,24 @@ import {
   StyledTotalPrice,
 } from '@/styles/components/food-item.styled';
 import { IFood } from '@/utils/types/foods/food.interface';
-import ButtonSm from '../../ui/button-sm/button-sm';
+import ButtonSm from '../ui/button-sm/button-sm';
 import { theme } from '@/utils/theme.styled';
-import PrimaryButton from '../../ui/primary-button/primary-button';
+import PrimaryButton from '../ui/primary-button/primary-button';
 import IconButton from '@/components/ui/icon-button/icon-button';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import OutlineButton from '@/components/ui/outline-button/outline-button';
 import ConfirmModal from '@/components/ui/confirm-modal/confirm-modal';
 import { setLoader } from '@/redux/features/loadingBarSlice';
-import useAddToCart from '@/hooks/useAddToCart';
+import useAddToCart from '@/hooks/use-add-to-cart/use-add-to-cart';
 import { foodsSelector, likeFood } from '@/redux/features/foodsSlice';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { useAddLikeMutation } from '@/redux/features/apiSlice';
 import CommentsModal from '@/components/comments-modal/comments-modal';
 import priceToText from '@/utils/common/priceTextSeperator';
-
-const foodItemVariants: Variants = {
-  initial: { opacity: 0 },
-  animation: {
-    opacity: 1,
-    transition: { duration: 0.6 },
-  },
-  exit: { x: 50, scale: 0.95 },
-  quantityCounterText: {
-    scale: [0, 1.4, 1],
-    opacity: [0, 1],
-    transition: { duration: 0.3 },
-  },
-  hoverItem: {
-    boxShadow: 'inset -1px 2px 4px 1px #ff7a008c',
-  },
-};
-
-const foodItemTotalPriceVariants: Variants = {
-  initial: { opacity: 0.5, scale: 0.4 },
-  animation: { opacity: 1, scale: [0.5, 1.2, 1] },
-};
+import {
+  foodItemTotalPriceVariants,
+  foodItemVariants,
+} from './food-item.variants';
 
 const FoodItem: FC<IFood> = ({
   name,
@@ -94,7 +69,7 @@ const FoodItem: FC<IFood> = ({
     removeQuantity,
   } = useAddToCart({ name, price, image: coverImage });
 
-  const { activeCategory, foods } = useAppSelector(foodsSelector);
+  const { foods } = useAppSelector(foodsSelector);
   const [isAlreadyLike, setIsAlreadyLike] = useState(
     !!likes?.find((email) => email === currentUser?.user?.email)
   );
@@ -258,12 +233,6 @@ const FoodItem: FC<IFood> = ({
               </IconButton>
               <PriceContainer>
                 <StyledPrice>{priceToText(price)}</StyledPrice>
-                {/* <Image
-                  src={'/images/price.svg'}
-                  alt="تومان"
-                  width={32}
-                  height={38}
-                /> */}
                 تومان
                 {quantity > 1 && (
                   <StyledTotalPrice
@@ -272,12 +241,6 @@ const FoodItem: FC<IFood> = ({
                     animate={foodItemTotalPriceAnimController}
                   >
                     {priceToText(price, quantity)}
-                    {/* <Image
-                      src={'/images/price.svg'}
-                      alt="تومان"
-                      width={32}
-                      height={38}
-                    /> */}
                     تومان
                   </StyledTotalPrice>
                 )}

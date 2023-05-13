@@ -1,4 +1,3 @@
-import CloseIcon from '@/components/ui/close-icon/close-icon';
 import { motion } from 'framer-motion';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import styled from 'styled-components';
@@ -10,7 +9,6 @@ export const StyledPlaceList = styled(motion.div)`
 export const StyledPlace = styled(motion.div)`
   display: inline-flex;
   background: ${({ theme }) => theme.colors.darkWhite};
-  /* padding: 0.2rem 0.7rem; */
   border-radius: 0.3rem;
   cursor: pointer;
   position: relative;

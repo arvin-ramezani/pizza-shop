@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import LoadingBar from 'react-top-loading-bar';
 
 import { theme } from '@/utils/theme.styled';
-import useLoadingBar from '@/hooks/useLoadingBar';
+import useLoadingBar from '@/hooks/use-loading-bar/use-loading-bar';
 
 interface CustomLoadingBarProps {
   progress: number;

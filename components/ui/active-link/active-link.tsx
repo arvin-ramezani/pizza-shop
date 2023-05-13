@@ -1,18 +1,18 @@
 import { useRouter } from 'next/router';
 import Link, { LinkProps } from 'next/link';
-import React, { PropsWithChildren, useState, useEffect } from 'react';
+import React, { PropsWithChildren, useState, useEffect, FC } from 'react';
 
 type ActiveLinkProps = LinkProps & {
   className?: string;
   activeClassName: string;
 };
 
-const ActiveLink = ({
+const ActiveLink: FC<PropsWithChildren<ActiveLinkProps>> = ({
   children,
   activeClassName,
   className,
   ...props
-}: PropsWithChildren<ActiveLinkProps>) => {
+}) => {
   const { asPath, isReady } = useRouter();
   const [computedClassName, setComputedClassName] = useState(className);
 

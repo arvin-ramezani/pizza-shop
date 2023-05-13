@@ -46,17 +46,7 @@ import { validatePlaceInputs } from '@/utils/validation/add-place.validation';
 import { toast } from 'react-toastify';
 import AddPlace from '../add-place/add-place';
 import Image from 'next/image';
-
-const authModalVariants: Variants = {
-  initial: { y: '100vh', x: '0', opacity: 0, scale: 0.5 },
-  exit: { y: '-100vh', x: '0', opacity: 0, scale: 0.5 },
-  animation: {
-    y: '0%',
-    x: '0',
-    opacity: 1,
-    scale: 1,
-  },
-};
+import { authModalVariants } from './auth-modal.variants';
 
 const issueContainerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -108,7 +98,6 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
   const pickedFileHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length === 1) {
       setSelectedImage(e.target.files[0]);
-      // console.log(e.target.files[0], 'selected');
     }
   };
 
@@ -192,11 +181,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
           placeList,
         };
 
-        // if (process.env.NODE_ENV === 'production') {
-        //   setShowSignupIssue(true);
-        //   return;
-        // }
-
+        // Vercel doesn't allow to upload images and files on the server
         setShowSignupIssue(true);
         return;
 
@@ -219,12 +204,6 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
         });
       }
 
-      // if (!authResult?.error) {
-      //   // dispatch(setLoader(100));
-      //   onClose();
-      //   return;
-      // }
-
       if (authResult?.error) {
         toast(<p>{authResult.error}</p>, {
           type: 'error',
@@ -234,7 +213,6 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
         });
       }
 
-      console.log(authResult, 'auth result');
       dispatch(setLoader(100));
       onClose();
       return;

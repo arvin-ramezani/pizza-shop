@@ -1,11 +1,10 @@
 import styled from 'styled-components';
-import React, { FC, Suspense, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import {
   foodsFriesSelector,
   foodsSaladsSelector,
   foodsSelector,
-  mainFoodsSelector,
   setFoods,
 } from '@/redux/features/foodsSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';

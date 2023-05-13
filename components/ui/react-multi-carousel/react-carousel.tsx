@@ -1,22 +1,35 @@
-import { FC, JSXElementConstructor, ReactElement, useEffect } from 'react';
-import Carousel from 'react-multi-carousel';
+import { FC, useEffect } from 'react';
 import {
   ButtonGroupProps,
   ArrowProps,
   DotProps,
 } from 'react-multi-carousel/lib/types';
-
-import { IFood } from '@/utils/types/foods/food.interface';
-import FoodItem from '@/components/foods/food-section/food-item';
-import IconButton from '../icon-button/icon-button';
 import { AiFillLeftCircle, AiFillRightCircle } from 'react-icons/ai';
-import { theme } from '@/utils/theme.styled';
+import { useAnimationControls, motion, Variants } from 'framer-motion';
 import styled from 'styled-components';
 import { FaCircle } from 'react-icons/fa';
 import { FiCircle } from 'react-icons/fi';
 import { useInView } from 'react-intersection-observer';
-import { useAnimationControls, motion, Variants } from 'framer-motion';
-import { BsRecordCircle, BsRecordCircleFill } from 'react-icons/bs';
+
+import { IFood } from '@/utils/types/foods/food.interface';
+import FoodItem from '@/components/food-section/food-item';
+import IconButton from '../icon-button/icon-button';
+import { theme } from '@/utils/theme.styled';
+import {
+  carouselVariants,
+  foodItemVariants,
+} from './react-multi-carousel.variants';
+import {
+  StyledIconBtn,
+  StyledReactCarousel,
+  StyledCarousel,
+} from '@/styles/components/react-multi-carousel.styled';
+
+interface ReactCarouselProps {
+  foods: IFood[];
+  title: string;
+  slideLength: number;
+}
 
 interface CustomRightArrowProps extends ArrowProps {
   previous?: () => void;
@@ -42,52 +55,28 @@ const responsive = {
   desktopMd: {
     breakpoint: { max: 1600, min: 1350 },
     items: 5,
-    slidesToSlide: 1, // optional, default to 1.
+    slidesToSlide: 1,
   },
   desktopSm: {
     breakpoint: { max: 1350, min: 1084 },
     items: 4,
-    slidesToSlide: 1, // optional, default to 1.
+    slidesToSlide: 1,
   },
   tabletBg: {
     breakpoint: { max: 1084, min: 820 },
     items: 3,
-    slidesToSlide: 1, // optional, default to 1.
+    slidesToSlide: 1,
   },
 
   tabletSm: {
     breakpoint: { max: 820, min: 576 },
     items: 2,
-    slidesToSlide: 1, // optional, default to 1.
+    slidesToSlide: 1,
   },
   mobile: {
     breakpoint: { max: 576, min: 0 },
     items: 1,
-    slidesToSlide: 1, // optional, default to 1.
-  },
-};
-
-interface ReactCarouselProps {
-  foods: IFood[];
-  title: string;
-  slideLength: number;
-}
-
-const carouselVariants: Variants = {
-  initialTitle: { opacity: 0, x: -300 },
-  titleAnimation: {
-    opacity: 1,
-    x: 0,
-    transition: { type: 'spring', stiffness: 400, damping: 10, delay: 0.5 },
-  },
-};
-
-const foodItemVariants: Variants = {
-  initial: { opacity: 0, x: -40 },
-  animation: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.6, delay: 0.6 },
+    slidesToSlide: 1,
   },
 };
 
@@ -148,32 +137,6 @@ const ReactCarousel: FC<ReactCarouselProps> = ({
     </StyledCarousel>
   );
 };
-
-export const StyledCarousel = styled(motion.div)`
-  margin-top: 2rem;
-  padding: 2rem 0;
-  border-radius: 0.5rem;
-  background: #fff;
-
-  & > h2 {
-    margin: 0.5rem;
-    padding-right: 1rem;
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-`;
-
-export const StyledReactCarousel = styled(Carousel)`
-  padding-bottom: 1.5rem;
-
-  & ul:first-child {
-    align-items: center !important;
-  }
-
-  & ul:first-child > li {
-    cursor: grab;
-  }
-`;
 
 const CustomLeftArrow = ({ next }: CustomLeftArrowProps) => {
   return (
@@ -240,25 +203,5 @@ const CustomDot = ({ onClick, ...rest }: DotProps) => {
     </StyledIconBtn>
   );
 };
-
-const StyledIconBtn = styled(IconButton)`
-  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    margin-top: 0.5rem;
-
-    & svg {
-      width: 6px;
-      height: 6px;
-    }
-  }
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    margin-top: 0.5rem;
-
-    & svg {
-      width: 14px;
-      height: 14px;
-    }
-  }
-`;
 
 export default ReactCarousel;

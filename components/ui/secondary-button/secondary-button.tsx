@@ -1,6 +1,7 @@
 import React, { FC, MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+
 import { secondaryBtnVariants } from './secondary-button-variants';
 
 interface SecondaryButtonProps {
@@ -56,6 +57,7 @@ const Button = styled(motion.button)<{ fullwidth: FULLWIDTH }>`
 
   box-shadow: ${({ theme }) => `-1px 0px 3px 1px ${theme.colors.secondary}`};
   background-color: ${({ theme }) => theme.colors.secondary};
+
   width: ${({ fullwidth }) =>
     fullwidth === FULLWIDTH.TRUE ? '95%' : 'fit-content'};
 

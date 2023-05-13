@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import Image from 'next/image';
 import { AnimatePresence, motion, PanInfo, Variants } from 'framer-motion';
 import { MdDelete } from 'react-icons/md';
 
@@ -20,25 +19,9 @@ import {
   StyledIconButton,
   StyledImage,
 } from '@/styles/components/cart-item.styled';
-import useAddToCart from '@/hooks/useAddToCart';
+import useAddToCart from '@/hooks/use-add-to-cart/use-add-to-cart';
 import priceToText from '@/utils/common/priceTextSeperator';
-
-const cartItemVariants: Variants = {
-  hidden: {
-    x: -100,
-    opacity: 0,
-    rotate: -20,
-  },
-  visible: {
-    x: 0,
-    opacity: 1,
-    rotate: 0,
-  },
-  exit: {
-    x: 100,
-    opacity: 0,
-  },
-};
+import { cartItemVariants } from './cart-item.variants';
 
 const CartItem: FC<CartItemProps> = ({
   image,
@@ -90,12 +73,6 @@ const CartItem: FC<CartItemProps> = ({
     }
   };
 
-  // useLayoutEffect(() => {
-  //   console.log(priceToText(price, initialQuantity), 'before', initialQuantity);
-  //   setPriceToShow(() => priceToText(price, quantity));
-  //   console.log(priceToShow, 'price after', initialQuantity);
-  // }, [initialQuantity]);
-
   let confirmModalBodyContent = (
     <p>
       <strong>{name}</strong>،<strong> {initialQuantity} عدد</strong>، از سبد
@@ -107,7 +84,6 @@ const CartItem: FC<CartItemProps> = ({
   return (
     <StyledCartItem
       drag="x"
-      // dragElastic={1}
       dragConstraints={{ left: 0, right: 0 }}
       onDragEnd={onDragHandler}
       onDragStart={onDragStart}
@@ -125,12 +101,6 @@ const CartItem: FC<CartItemProps> = ({
           <h4>{name}</h4>
           <PriceContainer>
             <p>{priceToText(price)}</p>
-            {/* <Image
-              src={'/images/price.svg'}
-              alt="تومان"
-              width={22}
-              height={26}
-            /> */}
             تومان
           </PriceContainer>
         </ItemName>
@@ -144,7 +114,6 @@ const CartItem: FC<CartItemProps> = ({
           onClick={onRemoveCartItemHandler}
           tapEffect
         >
-          {/* <CloseIcon size={'1.6rem'} /> */}
           <MdDelete color={theme.colors.dark} size={'1.6rem'} />
         </StyledIconButton>
         <ButtonSm
@@ -154,6 +123,7 @@ const CartItem: FC<CartItemProps> = ({
           style={{ zIndex: 1 }}
         />
       </CartItemContainer>
+
       <AnimatePresence>
         {showEditQuantity && (
           <EditCartitem

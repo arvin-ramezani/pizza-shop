@@ -1,4 +1,5 @@
 import { Session } from 'next-auth/core/types';
+
 export interface AuthModalProps {
   onClose: () => void;
   show: boolean;

@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 export const StyledComment = styled(motion.div)`
-  /* position: relative; */
   margin-top: 3rem;
 
   & > h4 {
@@ -35,7 +34,6 @@ export const StyledCommentContainer = styled(motion.div)`
 
 export const CommentListWrapper = styled.div`
   overflow-y: auto;
-  /* height: 280px; */
   direction: ltr;
   margin-right: -0.7rem;
   flex: 1;
@@ -74,10 +72,6 @@ export const CommentBlock = styled(motion.div)`
   & > p {
     font-size: 0.8rem;
   }
-
-  /* @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 60%;
-  } */
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     width: 100%;

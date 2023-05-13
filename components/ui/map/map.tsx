@@ -1,9 +1,8 @@
-import { theme } from '@/utils/theme.styled';
-import { ICoordinates } from '@/utils/types/map/map.types';
-import { motion } from 'framer-motion';
-import React, { CSSProperties, FC, useEffect, useMemo, useState } from 'react';
+import React, { CSSProperties, FC, useEffect, useState } from 'react';
 import MapBox, { Marker } from 'react-map-gl';
-import styled from 'styled-components';
+
+import { ICoordinates } from '@/utils/types/map/map.types';
+import { StyledMap, StyledMapSidebar } from '@/styles/components/map.styled';
 
 interface MapProps {
   stableMarker?: boolean;
@@ -34,8 +33,6 @@ const Map: FC<MapProps> = ({
     };
 
     setCoordinates(newCoordinates);
-
-    // onAddCoordinates && onAddCoordinates(newCoordinates);
   };
 
   if (!coordinates?.lng) {
@@ -70,10 +67,8 @@ const Map: FC<MapProps> = ({
               }
         }
         mapStyle="mapbox://styles/mapbox/streets-v9"
-        // zoom={zoom || 15}
         children={
           <Marker
-            // style={!initialCoordinates?.lng ? { opacity: 0.4 } : { opacity: 1 }}
             longitude={coordinates?.lng}
             latitude={coordinates?.lat}
             color="red"
@@ -83,28 +78,5 @@ const Map: FC<MapProps> = ({
     </StyledMap>
   );
 };
-
-const StyledMap = styled.div`
-  position: relative;
-`;
-
-const StyledMapSidebar = styled(motion.span)`
-  padding: 0.5rem 1rem;
-  background-color: #0000005e;
-  border-radius: 0.4rem;
-  color: #fff;
-  font-size: 0.5rem;
-  z-index: 1;
-  letter-spacing: 1px;
-  position: absolute;
-  top: 0.5rem;
-  left: 0.2rem;
-  max-width: 90%;
-  direction: ltr;
-
-  @media (min-width: ${theme.breakpoints.md}) {
-    font-size: 0.8rem;
-  }
-`;
 
 export default Map;

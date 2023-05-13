@@ -1,9 +1,9 @@
 import { motion, useAnimationControls, Variants } from 'framer-motion';
 import Image from 'next/image';
 import React, { FC, useEffect, useState } from 'react';
+import { useAppDispatch } from '@/redux/hooks';
 
 import { clearCart } from '@/redux/features/cartSlice';
-import { useAppDispatch } from '@/redux/hooks';
 import {
   CartDetailsContainer,
   ClearCartBtnWrapper,
@@ -18,6 +18,7 @@ import ButtonSm from '../ui/button-sm/button-sm';
 import ConfirmModal from '../ui/confirm-modal/confirm-modal';
 import PrimaryButton from '../ui/primary-button/primary-button';
 import Places from '../places/places';
+import { cartDetailsVariants } from './cart-details.variants';
 
 interface CartDetailsProps {
   totalPrice: number;
@@ -25,25 +26,6 @@ interface CartDetailsProps {
   onAddOrder: () => void;
   addOrderPlace?: (placeId: string) => void;
 }
-
-const cartDetailsVariants: Variants = {
-  containerInitial: { opacity: 0, x: -50 },
-  containerAnimation: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      when: 'beforeChildren',
-      duration: 0.6,
-      delay: 0.6,
-    },
-  },
-  detailsTextInitial: { scale: 0 },
-  detailsTextAnimation: {
-    scale: [0, 1.4, 1],
-    opacity: [0, 0.5, 1],
-    transition: { type: 'spring' },
-  },
-};
 
 const CartDetails: FC<CartDetailsProps> = ({
   totalQuantity,

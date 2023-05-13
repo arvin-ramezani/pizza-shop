@@ -26,7 +26,6 @@ export const StyledSlider = styled(Slider)`
     position: absolute;
     bottom: 0;
     top: 105%;
-    /* margin-top: 2rem; */
     width: auto;
   }
 

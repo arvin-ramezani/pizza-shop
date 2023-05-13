@@ -1,22 +1,10 @@
 import { motion, Variants } from 'framer-motion';
-import React, {
-  FC,
-  ReactNode,
-  CSSProperties,
-  MouseEventHandler,
-  MouseEvent,
-} from 'react';
+import React, { FC, ReactNode, CSSProperties, MouseEventHandler } from 'react';
 import styled from 'styled-components';
-
-type IconButtonHandler = MouseEventHandler<HTMLDivElement | HTMLButtonElement>;
-type IconButtonEvent = MouseEvent<
-  HTMLDivElement | HTMLButtonElement,
-  globalThis.MouseEvent
->;
 
 interface IconButtonProps {
   children?: ReactNode;
-  onClick?: IconButtonHandler;
+  onClick?: MouseEventHandler<HTMLDivElement>;
   ariaLabel?: string;
   className?: string;
   disabled?: boolean;
@@ -53,7 +41,7 @@ const IconButton: FC<IconButtonProps> = ({
   wrapperStyles,
   id,
 }) => {
-  const onClickHandler: IconButtonHandler = (e: IconButtonEvent) => {
+  const onClickHandler: MouseEventHandler<HTMLDivElement> = (e) => {
     !toastBtn && e.stopPropagation();
     if (disabled) return;
 
@@ -106,8 +94,7 @@ const StyledButton = styled(motion.button)<{ boxshadow?: BooleanEnum }>`
   line-height: 0;
 
   & svg {
-    /* filter: drop-shadow(2px 4px 6px black); */
-    filter: ${({ theme, boxshadow }) =>
+    filter: ${({ boxshadow }) =>
       boxshadow === BooleanEnum.TRUE
         ? 'drop-shadow( 0px 0px 2px #ffffff)'
         : 'none'};

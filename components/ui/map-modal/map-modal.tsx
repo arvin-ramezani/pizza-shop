@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import MapBox, { Marker } from 'react-map-gl';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { toast } from 'react-toastify';
+
 import {
   CoordinatesText,
   MapModalButtonsContainer,
@@ -10,31 +12,7 @@ import {
 } from '@/styles/components/map-modal.styled';
 import PrimaryButton from '../primary-button/primary-button';
 import SecondaryButton from '../secondary-button/secondary-button';
-import { toast } from 'react-toastify';
-
-const mapModalVariants: Variants = {
-  initialContainer: {
-    background: 'rgba(0,0,0,0)',
-  },
-  animationContainer: {
-    background: 'rgba(0,0,0,0.8)',
-  },
-  initialMapModal: {
-    top: '-100vh',
-    // scale: 0,
-    transition: { type: 'spring', stiffness: 200, damping: 30 },
-  },
-  animationMapModal: {
-    top: '0',
-    // scale: 1,
-
-    transition: {
-      type: 'spring',
-      stiffness: 400,
-      damping: 13,
-    },
-  },
-};
+import { mapModalVariants } from './map-modal.variants';
 
 interface MapModalProps {
   show: boolean;

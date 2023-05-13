@@ -1,5 +1,8 @@
 import Image from 'next/image';
 import React, { CSSProperties, FC, Fragment, useState } from 'react';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { BiMinus, BiPlus } from 'react-icons/bi';
+import moment from 'moment';
 
 import {
   OrderFoodItemScrollbarContainer,
@@ -25,46 +28,18 @@ import IconButton from '../ui/icon-button/icon-button';
 import { IOrdersApiRes } from '@/utils/types/order/order.types';
 import MapModal from '../ui/map-modal/map-modal';
 import { ICoordinates } from '@/utils/types/map/map.types';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
 import priceToText from '@/utils/common/priceTextSeperator';
-import moment from 'moment';
-import { BiMinus, BiPlus } from 'react-icons/bi';
 import { theme } from '@/utils/theme.styled';
+import {
+  orderFoodContainerVariants,
+  orderFoodMoreBtnVariants,
+  userOrdersItemPlaceNameVariants,
+  userOrdersItemVariants,
+} from './profile-order-item.variants';
 
 interface ProfileOrderItemProps extends IOrdersApiRes {
   index: number;
 }
-
-const userOrdersItemVariants: Variants = {
-  initial: { opacity: 0, x: -100 },
-  animation: { opacity: 1, x: 0 },
-};
-
-const userOrdersItemPlaceNameVariants: Variants = {
-  initial: { opacity: 0, scale: 0.4 },
-  animation: {
-    opacity: 1,
-    scale: 1,
-  },
-};
-
-const orderFoodContainerVariants: Variants = {
-  animation: (showMoreBtn) => ({
-    height: showMoreBtn ? '100%' : '55px',
-  }),
-};
-
-const orderFoodMoreBtnVariants: Variants = {
-  animation: (showMore) => ({
-    height: showMore ? '100%' : '55px',
-  }),
-  hover: {
-    scale: 1.1,
-  },
-  tap: {
-    scale: 0.9,
-  },
-};
 
 const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
   foods,
@@ -171,6 +146,7 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
             />
           </IconButton>
         </OrderItemHeader>
+
         <ProfileOrderItemDate>
           {createdAt &&
             moment()
@@ -180,6 +156,7 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
               )
               .calendar()}
         </ProfileOrderItemDate>
+
         <OrderFoodsBlock>
           <OrderFoodItemScrollbarContainer
             as={motion.div}
@@ -204,6 +181,7 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
               </OrderFoodsItem>
             ))}
           </OrderFoodItemScrollbarContainer>
+
           {foods.length > 2 && (
             <OrderFoodMoreBtn
               variants={orderFoodMoreBtnVariants}
@@ -226,8 +204,10 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
         <TotalPriceBlock>
           <TotalPrice>جمع</TotalPrice>
           <TotalQuantity>{foods.length} عدد</TotalQuantity>
+
           <TotalPriceText>
             {priceToText(totalPrice)}
+
             <Image src="/images/price.svg" alt="price" width={24} height={24} />
           </TotalPriceText>
         </TotalPriceBlock>

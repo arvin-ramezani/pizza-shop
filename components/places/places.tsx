@@ -6,8 +6,11 @@ import React, {
   useState,
 } from 'react';
 import { motion } from 'framer-motion';
-import { BsCheckCircleFill, BsCheckLg } from 'react-icons/bs';
+import { BsCheckCircleFill } from 'react-icons/bs';
 import { BiCircle } from 'react-icons/bi';
+import { AnimatePresence, Variants } from 'framer-motion';
+import { useSession } from 'next-auth/react';
+import { RiMapPinAddFill } from 'react-icons/ri';
 
 import {
   AnimateStyledPlace,
@@ -23,39 +26,10 @@ import { theme } from '@/utils/theme.styled';
 import { useGetUserPlacesQuery } from '@/redux/features/apiSlice';
 import { IPlace } from '@/utils/types/place/place.types';
 import { IPlaceApiResponse } from '@/utils/types/place/place.types';
-import { AnimatePresence, Variants } from 'framer-motion';
-import { useSession } from 'next-auth/react';
-import { RiMapPinAddFill } from 'react-icons/ri';
 import AddPlaceModal from '../ui/add-place-modal/add-place-modal';
 import OutlineButton from '../ui/outline-button/outline-button';
-
-const placeListVariants: Variants = {
-  initial: { opacity: 0 },
-  animation: {
-    opacity: 1,
-    transition: { when: 'beforeChildren', staggerChildren: 0.3, delay: 1 },
-  },
-};
-
-const placeVariants: Variants = {
-  initial: { x: -30, y: -30, opacity: 0, scale: 0.5 },
-  animation: (isSelected) => {
-    return {
-      x: 0,
-      y: 0,
-      opacity: 1,
-      scale: 1,
-
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 10,
-        when: 'beforeChildren',
-        staggerChildren: 0.3,
-      },
-    };
-  },
-};
+import { placeListVariants, placeVariants } from './places.variants';
+import PlaceItem from './place-item/place-item';
 
 interface CartPlacesProps {
   selectable?: boolean;
@@ -63,26 +37,27 @@ interface CartPlacesProps {
 }
 
 const Places: FC<CartPlacesProps> = ({ selectable, onAddPlace }) => {
-  const { status } = useSession();
+  const [showAddPlaceModal, setShowAddPlaceModal] = useState(false);
+  const [mapEditMode, setMapEditMode] = useState(false);
+
   const {
     data,
 
     isLoading,
-    isSuccess,
   } = useGetUserPlacesQuery();
+
   const [placeList, setPlaceList] = useState<IPlaceApiResponse[] | undefined>(
     data
   );
+
   let temporaryPlaces: IPlaceApiResponse[] = useMemo(() => [], []);
 
   const [currentSelectedPlace, setCurrentSelectedPlace] = useState<
     string | undefined
   >();
-  const [showAddPlaceModal, setShowAddPlaceModal] = useState(false);
   const [initialModalPlace, setInitialModalPlace] = useState<
     IPlaceApiResponse | undefined
   >();
-  const [mapEditMode, setMapEditMode] = useState(false);
 
   const onPlaceHandler = (name: string) => {
     setCurrentSelectedPlace(() => name);
@@ -134,8 +109,6 @@ const Places: FC<CartPlacesProps> = ({ selectable, onAddPlace }) => {
       setMapEditMode(false);
       setInitialModalPlace(undefined);
     }
-
-    // !showAddPlaceModal && setMapViewMode(false);
   }, [showAddPlaceModal]);
 
   useEffect(() => {
@@ -209,104 +182,6 @@ const Places: FC<CartPlacesProps> = ({ selectable, onAddPlace }) => {
       />
     </StyledPlaces>
   );
-};
-
-interface PlaceProps {
-  place: IPlaceApiResponse | IPlace;
-  currentSelectedPlace: string | undefined;
-  onPlaceHandler: (name: string) => void;
-  onMoreButton: Function;
-  selectable?: boolean;
-}
-
-function PlaceItem({
-  place: { placeName },
-  currentSelectedPlace,
-  onPlaceHandler,
-  onMoreButton,
-  selectable,
-}: PlaceProps) {
-  const [isSelected, setIsSelected] = useState(
-    currentSelectedPlace === placeName
-  );
-
-  const selectHandler = (name: string) => {
-    // if ()
-  };
-
-  useEffect(() => {
-    if (!currentSelectedPlace) return;
-    setIsSelected(currentSelectedPlace === placeName);
-  }, [currentSelectedPlace]);
-
-  return (
-    <StyledPlace
-      as={motion.div}
-      variants={placeVariants}
-      style={isSelected ? { zIndex: 1 } : { zIndex: 0 }}
-      selectable={selectable ? 'true' : 'false'}
-    >
-      <AnimateStyledPlace
-        variants={placeVariants}
-        animate="activeAnimation"
-        whileTap={'tap'}
-        style={
-          {
-            // background: isSelected ? theme.colors.primary : theme.colors.darkWhite,
-          }
-        }
-        // initial="initial"
-        // animate="animation"
-        custom={isSelected}
-        onClick={onPlaceHandler.bind(null, placeName)}
-        // layout
-        // layoutId="activePlace"
-      >
-        <span>{placeName}</span>
-
-        {/* {isSelected && <PlaceActiveStyle layout layoutId="activePlace" />} */}
-        {selectable && (
-          <AnimatePresence>
-            <StyledDeactivePlace
-              key="placeCircleIcon"
-              whileTap={{ scale: 0.6 }}
-            >
-              <BiCircle size="1.4rem" color={theme.colors.primary} />
-            </StyledDeactivePlace>
-            {isSelected && (
-              <StyledActivePlace
-                key="placeSelectedIcon"
-                layout
-                layoutId="activePlace"
-              >
-                <BsCheckCircleFill color={theme.colors.primary} size="1.4rem" />
-              </StyledActivePlace>
-            )}
-          </AnimatePresence>
-        )}
-      </AnimateStyledPlace>
-
-      <PLaceMoreWrapper
-        onClick={onMoreButton as MouseEventHandler<HTMLDivElement>}
-        variants={placeMoreVariants}
-        initial="initial"
-        animate="animate"
-        whileHover="hover"
-        transition={{ type: 'tween' }}
-      >
-        <PlaceMore variants={placeMoreVariants} whileTap="tap">
-          بیشتر
-        </PlaceMore>
-      </PLaceMoreWrapper>
-    </StyledPlace>
-  );
-}
-
-const placeMoreVariants: Variants = {
-  initial: { fontSize: '0.7rem' },
-  // animate: { fontSize: '0.7rem' },
-  hover: { fontSize: '0.9rem' },
-  tap: { scale: 0.2 },
 };
 
 export default Places;

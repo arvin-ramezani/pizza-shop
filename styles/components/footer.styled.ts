@@ -2,16 +2,6 @@ import styled from 'styled-components';
 import Image from 'next/image';
 
 export const StyledFooterWrapper = styled.footer<{ marginbottom?: string }>`
-  /* background: rgb(60, 12, 10); */
-  /* background: linear-gradient(
-    90deg,
-    rgba(60, 12, 10, 1) 0%,
-    rgba(60, 12, 10, 1) 0%,
-    rgba(22, 8, 8, 1) 100%
-  ); */
-
-  /* background: url('/images/fast-food-bg-pattern-2.svg'); */
-
   margin-bottom: ${({ marginbottom }) => (marginbottom ? marginbottom : 0)};
 
   color: ${({ theme }) => theme.colors.dark};
@@ -52,13 +42,10 @@ export const FooterSocialMediaBlock = styled.div`
   padding: 1rem 1.4rem;
   border-radius: 1rem;
 
-  /* background: ${({ theme }) => theme.backgroundColors.white}; */
-
   & > span {
     cursor: pointer;
     display: flex;
     color: ${({ theme }) => theme.colors.white};
-    /* color: ${({ theme }) => theme.colors.blue}; */
   }
 `;
 
@@ -66,8 +53,6 @@ export const FooterImage = styled.div`
   position: relative;
   width: 100%;
   height: 30vh;
-  /* margin: 1rem auto 0; */
-  /* margin: 3rem 0; */
   border-radius: 1rem;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
@@ -78,5 +63,4 @@ export const FooterImage = styled.div`
 
 export const FooterStyledImage = styled(Image)`
   border-radius: 1rem;
-  /* margin: 0 !important; */
 `;

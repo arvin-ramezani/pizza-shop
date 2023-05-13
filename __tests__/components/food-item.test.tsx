@@ -1,4 +1,4 @@
-import FoodItem from '@/components/foods/food-section/food-item';
+import FoodItem from '@/components/food-section/food-item';
 import { store } from '@/redux/store';
 import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 

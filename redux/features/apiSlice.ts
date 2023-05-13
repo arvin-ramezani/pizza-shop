@@ -12,16 +12,11 @@ import {
 import { IOrdersApiReq, IOrdersApiRes } from '@/utils/types/order/order.types';
 import transformImageUrl from '@/utils/common/transform-image-url';
 
-// const baseUrl =
-//   process.env.NODE_ENV !== 'production'
-//     ? 'http://localhost:3000/api'
-//     : `${process.env.NEXT_PUBLIC_PRODUCTION_DOMAIN}/api`;
-
-const baseUrl = '/api';
+const BASE_URL = '/api';
 
 export const foodsApi = createApi({
   reducerPath: 'foodsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   tagTypes: ['Foods'],
   endpoints: (build) => {
     return {
@@ -46,7 +41,7 @@ export const foodsApi = createApi({
 
 export const likesApi = createApi({
   reducerPath: 'likesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   tagTypes: ['Likes'],
   endpoints: (build) => {
     return {
@@ -69,7 +64,7 @@ export const likesApi = createApi({
 
 export const commentsApi = createApi({
   reducerPath: 'commentsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   tagTypes: ['Comment'],
   endpoints: (build) => {
     return {
@@ -131,7 +126,7 @@ export const commentsApi = createApi({
 
 export const userPlacesApi = createApi({
   reducerPath: 'userPlacesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   tagTypes: ['UserPlaces'],
   endpoints: (build) => {
     return {
@@ -179,7 +174,7 @@ export const userPlacesApi = createApi({
 
 export const meApi = createApi({
   reducerPath: 'meApi',
-  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   tagTypes: ['me'],
   endpoints: (build) => {
     return {
@@ -216,7 +211,7 @@ export const meApi = createApi({
 
 export const ordersApi = createApi({
   reducerPath: 'ordersApi',
-  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   tagTypes: ['UserOrder'],
   endpoints: (build) => {
     return {

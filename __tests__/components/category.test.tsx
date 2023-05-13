@@ -1,4 +1,4 @@
-import CategoryList from 'components/foods/category/category-list';
+import CategoryList from '@/components/category/category-list';
 import { CATEGORIES } from 'DUMMY_DATA/foods';
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';

@@ -1,13 +1,13 @@
-import AboutusSection from '@/components/aboutus-section/aboutus-section';
-
 import dbConnect from '@/utils/db/dbConnect';
 import { Food } from '@/models/Food';
 import Head from 'next/head';
-import FoodSection from '../components/foods/food-section/food-section';
+
+import FoodSection from '../components/food-section/food-section';
 import HeroSection from '../components/hero-section/hero-section';
 import { CATEGORIES } from '../DUMMY_DATA/foods';
 import { ICategory } from '../utils/types/categories/category.interface';
 import { IFood } from '../utils/types/foods/food.interface';
+import AboutusSection from '@/components/aboutus-section/aboutus-section';
 
 export interface HomePageProps {
   categories: ICategory[];

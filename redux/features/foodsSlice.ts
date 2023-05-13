@@ -47,15 +47,6 @@ export const foodsSlice = createSlice({
         .find((food) => food.name === action.payload.foodName)
         ?.likes.includes(action.payload.userEmail);
       if (isAlreadyLike) {
-        // console.log(
-        //   isAlreadyLike,
-        //   state.allFoods.map((food) =>
-        //     food.name === action.payload.foodName
-        //       ? food.likes.filter((email) => email !== action.payload.userEmail)
-        //       : food
-        //   )
-        // );
-
         state.foods = state.foods.map((food) =>
           food.name === action.payload.foodName
             ? {
@@ -90,20 +81,20 @@ export const foodsSlice = createSlice({
             : food
         );
       }
-
-      // state.allFoods.map(food => food.name === action.payload.foodName ? food.likes.push)
     },
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { setCategory, setFoods, likeFood } = foodsSlice.actions;
 
 export const foodsSelector = (state: RootState) => state.foods;
+
 export const foodsFriesSelector = (state: RootState) =>
   state.foods.allFoods.filter((food) => food.category === Category.FRIES);
+
 export const foodsSaladsSelector = (state: RootState) =>
   state.foods.allFoods.filter((food) => food.category === Category.SALAD);
+
 export const mainFoodsSelector = (state: RootState) =>
   state.foods.allFoods.filter(
     (food) =>

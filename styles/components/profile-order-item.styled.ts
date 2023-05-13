@@ -43,7 +43,7 @@ export const ProfileOrderItemPlaceName = styled(motion.h4)`
     width: 70%;
     height: 4px;
     right: 0;
-    bottom: 0;
+    bottom: 0.5rem;
     border-radius: 0.5rem;
     background-color: ${({ theme }) => theme.colors.blue};
   }
@@ -70,7 +70,6 @@ export const OrderItemPlaceAddress = styled(motion.div)`
 
 export const OrderFoodItemScrollbarContainer = styled(motion.div)`
   direction: ltr;
-  /* height: 55px; */
   overflow-y: scroll;
   padding-right: 0.4rem;
 

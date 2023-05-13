@@ -34,8 +34,6 @@ export const FoodContent = styled(motion.div)`
 `;
 
 export const FoodHeader = styled(motion.h3)`
-  /* margin-top: 50px;
-  margin-bottom: 1rem; */
   font-size: 1.2rem;
   font-weight: 700;
   margin: 3.2rem 0 1rem;

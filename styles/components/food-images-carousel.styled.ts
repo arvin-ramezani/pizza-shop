@@ -15,18 +15,15 @@ export const Container = styled(motion.div)`
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    /* width: 80vw; */
     margin: -10px auto 0;
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
-    /* width: 70vw; */
     margin: -10px auto 0;
   }
 `;
 
 export const SlidesContainer = styled(motion.div)`
-  /* display: flex; */
   background-color: #a2caff;
   position: relative;
 `;
@@ -51,10 +48,6 @@ export const Slide = styled(motion.div)`
   @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
     width: 60vw;
   }
-
-  /* @media (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
-    width: 50vw;
-  } */
 `;
 
 export const StyledImage = styled(motion.img)`

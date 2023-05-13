@@ -2,7 +2,7 @@ import { motion, MotionStyle, Variants } from 'framer-motion';
 import Image from 'next/image';
 import React, { FC, MouseEvent, MouseEventHandler } from 'react';
 import styled from 'styled-components';
-import { buttonSmVariants } from './button-sm-variants';
+import { buttonSmVariants, loadingImageVariants } from './button-sm-variants';
 
 interface PrimaryButtonProps {
   onClick?: MouseEventHandler<HTMLDivElement>;
@@ -14,16 +14,6 @@ interface PrimaryButtonProps {
   style?: MotionStyle;
   loading?: boolean;
 }
-
-const loadingImageVariants: Variants = {
-  initial: {
-    rotate: 0,
-  },
-  animation: {
-    rotate: -360,
-    transition: { repeat: Infinity, duration: 0.6, ease: 'linear' },
-  },
-};
 
 const ButtonSm: FC<PrimaryButtonProps> = ({
   onClick,
@@ -84,11 +74,6 @@ const Wrapper = styled(motion.div)`
   width: fit-content;
 `;
 
-enum BooleanEnum {
-  TRUE = 'true',
-  FALSE = 'false',
-}
-
 const Button = styled(motion.button)<{ textcolor?: string }>`
   min-width: 100px;
   border: none;
@@ -108,8 +93,10 @@ const Button = styled(motion.button)<{ textcolor?: string }>`
     color
       ? `-2px 1px 3px 1px ${color}`
       : `-2px 1px 3px 1px ${theme.colors.primary}`};
+
   background-color: ${({ theme, color }) =>
     color ? color : theme.colors.primary};
+
   color: ${({ theme, textcolor }) =>
     textcolor ? textcolor : theme.colors.white};
 `;

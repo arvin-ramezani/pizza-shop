@@ -10,6 +10,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSession } from 'next-auth/react';
 import { useInView } from 'react-intersection-observer';
+import moment from 'moment';
+import { BsFillXCircleFill } from 'react-icons/bs';
+import { AiFillEdit } from 'react-icons/ai';
 
 import {
   AddCommentForm,
@@ -37,39 +40,15 @@ import {
   CommentFieldValues,
   IComment,
 } from '@/utils/types/comments/comment.interfaces';
-import moment from 'moment';
 import IconButton from '../ui/icon-button/icon-button';
-import { BsFillXCircleFill } from 'react-icons/bs';
-import { AiFillEdit } from 'react-icons/ai';
 import ConfirmModal from '../ui/confirm-modal/confirm-modal';
 import CloseIcon from '../ui/close-icon/close-icon';
 import { IFood } from '@/utils/types/foods/food.interface';
 import LoadingSpinner from '../ui/loading-spinner/loading-spinner';
-
-const commentsBlockVariants: Variants = {
-  initial: { opacity: 0, x: -50, transition: { duration: 0 } },
-  animation: (isDeleting) => ({
-    opacity: isDeleting ? 0.4 : 1,
-    x: 0,
-
-    transition: {
-      when: 'beforeChildren',
-      staggerChildren: 0.1,
-      delay: 0.2,
-    },
-  }),
-};
-
-const commentItemVariants: Variants = {
-  initial: { opacity: 0, x: -100 },
-  animation: {
-    x: 0,
-    opacity: 1,
-  },
-  warning: {
-    x: [-30, 0, -20, 0, -10, 0],
-  },
-};
+import {
+  commentItemVariants,
+  commentsBlockVariants,
+} from './comments.variants';
 
 interface CommentsProps {
   modalMode?: boolean;
@@ -84,7 +63,6 @@ const Comments: FC<CommentsProps> = ({ modalMode, closeModal, foodSlug }) => {
   const {
     formState: { errors },
     reset,
-    watch,
     register,
     handleSubmit,
     setValue,

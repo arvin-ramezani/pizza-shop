@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { TfiShoppingCart } from 'react-icons/tfi';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { useSession, signOut } from 'next-auth/react';
-
 import {
   AnimatePresence,
   motion,
@@ -13,6 +12,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
 import LoadingBar from 'react-top-loading-bar';
+
 import OutlineButton from 'components/ui/outline-button/outline-button';
 import { theme } from 'utils/theme.styled';
 import AnimateAuthModal from '../ui/animate-auth-modal/animate-modal';
@@ -37,42 +37,26 @@ import {
   WrapperIconButton,
 } from '@/styles/components/header.styled';
 import { useGetMeQuery } from '@/redux/features/apiSlice';
+import { headerVariants } from './header.variants';
 
-const headerVariants: Variants = {
-  // hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: [0, 1],
-    y: [30, 0],
-    transition: { when: 'beforeChildren' },
-  },
-  cartLentghAnimate: {
-    y: [10, 0],
-    x: [10, 0],
-    scale: [0, 1],
-    transition: { duration: 0.3 },
-  },
-};
-
-const Header = ({}) => {
-  const { showModal } = useAppSelector(authSelector);
+const Header = () => {
   const { cartLength } = useAppSelector(cartSelector);
   const { progress } = useAppSelector(loadingBarSelector);
   const { status } = useSession();
-  const { data: user, refetch } = useGetMeQuery(undefined, {
-    skip: status !== 'authenticated',
-  });
-
-  // useState
-  const [userImagePath, setUserImagePath] = useState<string>(
-    user?.user.image || '/images/profile-images/default.png'
-  );
-
   const [showConfirmSignoutModal, setShowConfirmSignoutModal] = useState(false);
   const cartQuantityAnimController = useAnimationControls();
   const quantityWrapperAnimController = useAnimationControls();
 
   const router = useRouter();
   const dispatch = useAppDispatch();
+
+  const { data: user, refetch } = useGetMeQuery(undefined, {
+    skip: status !== 'authenticated',
+  });
+
+  const [userImagePath, setUserImagePath] = useState<string>(
+    user?.user.image || '/images/profile-images/default.png'
+  );
 
   const toggleModalHandler = () => {
     dispatch(toggleModal());
@@ -166,6 +150,7 @@ const Header = ({}) => {
               <Image src="/images/pizza-logo.svg" alt="pizza shop logo" fill />
             </Logo>
           </LogoWrapper>
+
           {status === 'authenticated' && router.pathname !== '/cart' && (
             <WrapperIconButton
               variants={headerVariants}
@@ -186,6 +171,7 @@ const Header = ({}) => {
               </IconButton>
             </WrapperIconButton>
           )}
+
           <AuthButtonContainer as={motion.div}>
             {status === 'authenticated' && router.pathname !== '/' && (
               <IconButton
@@ -204,7 +190,6 @@ const Header = ({}) => {
                 onClick={profileRouteHandler}
                 style={{ margin: '0 .4rem' }}
               >
-                {/* <FaUserCircle size="1.6rem" /> */}
                 {user?.user.image ? (
                   <img
                     src={`/${userImagePath}`}

@@ -1,11 +1,10 @@
 import React from 'react';
-
 import { ToastContainer as DefaultToastContainer } from 'react-toastify';
-
-import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components';
+
 import CloseIcon from '../close-icon/close-icon';
 import IconButton from '../icon-button/icon-button';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ToastContainer = () => {
   return (
