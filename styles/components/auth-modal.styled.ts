@@ -19,7 +19,7 @@ export const StyledModal = styled.div`
   background: #fff;
   border-radius: 0.5rem;
   padding: 1rem;
-  max-height: 60vh;
+  max-height: 70vh;
   position: relative;
 
   &::-webkit-scrollbar {
@@ -39,16 +39,21 @@ export const StyledModal = styled.div`
 `;
 
 export const ModalHeader = styled.div`
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 1rem 0 2rem;
+
+  & h3 {
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
 `;
 
 export const StyledCloseButton = styled.div`
   position: absolute;
-  top: -5px;
-  right: 0px;
+  top: 0.5rem;
+  right: 0.5rem;
 `;
 
 export const StyledForm = styled.form`
@@ -96,7 +101,7 @@ export const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
 
   & button {
     width: 150px;
@@ -106,7 +111,7 @@ export const ButtonsContainer = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     flex-direction: row;
-
+    gap: 1.5rem;
     align-items: flex-end;
     width: 80%;
     margin: 0 auto;

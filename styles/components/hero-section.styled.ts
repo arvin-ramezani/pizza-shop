@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.section`
   height: 90vh;
-
+  margin-top: -3rem;
   background: url('/images/hero-section-vertical.svg') no-repeat top;
   background-size: cover;
 

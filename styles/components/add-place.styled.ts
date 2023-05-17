@@ -3,6 +3,11 @@ import styled from 'styled-components';
 
 export const StyledAddPlaceBlock = styled(motion.div)`
   margin-bottom: 2rem;
+
+  & h4 {
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
 `;
 
 export const AuthMapWrapper = styled(motion.div)`

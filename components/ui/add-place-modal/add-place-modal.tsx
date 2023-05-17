@@ -211,6 +211,18 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
     }
   }, [initialPlace]);
 
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+    }
+
+    return () => {
+      document.body.style.position = 'static';
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   const content = (
     <>
       <ConfirmModal

@@ -46,24 +46,11 @@ import { validatePlaceInputs } from '@/utils/validation/add-place.validation';
 import { toast } from 'react-toastify';
 import AddPlace from '../add-place/add-place';
 import Image from 'next/image';
-import { authModalVariants } from './auth-modal.variants';
-
-const issueContainerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2, when: 'beforeChildren' },
-  },
-};
-
-const issueChildrenVariants: Variants = {
-  hidden: { opacity: 0, x: 50 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.5 },
-  },
-};
+import {
+  authModalVariants,
+  issueChildrenVariants,
+  issueContainerVariants,
+} from './auth-modal.variants';
 
 const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
   const [isSingup, setIsSingup] = useState(false);
@@ -79,6 +66,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
     register: placeRegister,
     getValues: getPlaceValues,
     reset: placeFormReset,
+    setValue: placeFormSetValue,
   } = useForm<IPlaceInputs>({
     resolver: yupResolver(addPlaceFormSchema),
   });
@@ -143,7 +131,9 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
 
     setPlaceList((prev) => [...prev, newPlace]);
     setCoordinates(undefined);
-    placeFormReset({ placeName: '', placeAddress: '' });
+    placeFormSetValue('placeAddress', '');
+    placeFormSetValue('placeName', '');
+    // placeFormReset({ placeName: '', placeAddress: '' });
   };
 
   const onDeletePlace = (placeName: IPlaceInputs['placeName']) => {
@@ -182,8 +172,10 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
         };
 
         // Vercel doesn't allow to upload images and files on the server
-        setShowSignupIssue(true);
-        return;
+        if (process.env.NODE_ENV === 'production') {
+          setShowSignupIssue(true);
+          return;
+        }
 
         const { data: createdUser } = await axios.post(
           '/api/auth/signup',
@@ -232,11 +224,21 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
     fileReader.readAsDataURL(selectedImage);
   }, [selectedImage]);
 
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   let titleContent;
   if (isSingup) {
-    titleContent = 'ثبت نام کنید.';
+    titleContent = 'ثبت نام کنید';
   } else {
-    titleContent = 'وارد شوید.';
+    titleContent = 'وارد شوید';
   }
 
   return (

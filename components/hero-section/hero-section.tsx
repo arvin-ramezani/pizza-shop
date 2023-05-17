@@ -48,26 +48,24 @@ const HeroSection = () => {
     buttonText = 'سبد خرید خالی است';
   }
   return (
-    <>
-      <Wrapper>
-        <Container>
-          <TextContainer>
-            <StyledHeading>خوش آمدید</StyledHeading>
+    <Wrapper>
+      <Container>
+        <TextContainer>
+          <StyledHeading>خوش آمدید</StyledHeading>
 
-            {status === 'authenticated' && (
-              <StyledUserName>{userName} عزیز</StyledUserName>
-            )}
+          {status === 'authenticated' && (
+            <StyledUserName>{userName} عزیز</StyledUserName>
+          )}
 
-            <PrimaryButton
-              text={buttonText}
-              onClick={buttonClickHandler}
-              disabled={status === 'loading'}
-              fullWidth
-            />
-          </TextContainer>
-        </Container>
-      </Wrapper>
-    </>
+          <PrimaryButton
+            text={buttonText}
+            onClick={buttonClickHandler}
+            disabled={status === 'loading'}
+            fullWidth
+          />
+        </TextContainer>
+      </Container>
+    </Wrapper>
   );
 };
 

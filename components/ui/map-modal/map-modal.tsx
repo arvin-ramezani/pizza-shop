@@ -86,6 +86,16 @@ const MapModal = ({
     onClose();
   };
 
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   let content = (
     <AnimatePresence>
       {show && (

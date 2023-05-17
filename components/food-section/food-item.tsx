@@ -1,14 +1,10 @@
 import Image from 'next/image';
 import React, { FC, MouseEventHandler, useEffect, useState } from 'react';
-import {
-  AnimatePresence,
-  motion,
-  useAnimationControls,
-  Variants,
-} from 'framer-motion';
+import { AnimatePresence, motion, useAnimationControls } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useSession } from 'next-auth/react';
 import { IoMdRemoveCircleOutline, IoMdAddCircleOutline } from 'react-icons/io';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 
 import {
   CommentsContainer,
@@ -33,7 +29,6 @@ import ButtonSm from '../ui/button-sm/button-sm';
 import { theme } from '@/utils/theme.styled';
 import PrimaryButton from '../ui/primary-button/primary-button';
 import IconButton from '@/components/ui/icon-button/icon-button';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import OutlineButton from '@/components/ui/outline-button/outline-button';
 import ConfirmModal from '@/components/ui/confirm-modal/confirm-modal';
 import { setLoader } from '@/redux/features/loadingBarSlice';
@@ -47,6 +42,7 @@ import {
   foodItemTotalPriceVariants,
   foodItemVariants,
 } from './food-item.variants';
+import { toast } from 'react-toastify';
 
 const FoodItem: FC<IFood> = ({
   name,
@@ -114,7 +110,14 @@ const FoodItem: FC<IFood> = ({
   };
 
   const addLikeHandler = async () => {
-    if (status !== 'authenticated') return;
+    if (status !== 'authenticated') {
+      toast(<p>لطفا ابتدا وارد شوید</p>, {
+        type: 'warning',
+        position: 'top-center',
+      });
+      return;
+    }
+
     try {
       setIsAlreadyLike((prev) => !prev);
       setLikesLength((prev) => (isAlreadyLike ? --prev : ++prev));

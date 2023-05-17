@@ -75,6 +75,7 @@ const AddPlace: FC<AddPlaceProps> = ({
             register={register}
             invalid={!!inputErrors?.placeName}
             errorMessage={inputErrors?.placeName || undefined}
+            errorTextMargin={'.3rem 0 0 0'}
           />
           <AddLocationWrapper>
             <OutlineButton
@@ -117,7 +118,7 @@ const AddPlace: FC<AddPlaceProps> = ({
             register={register}
             invalid={!!inputErrors?.placeAddress}
             errorMessage={inputErrors?.placeAddress}
-            errorTextMargin={'-0.3rem 0 1rem'}
+            errorTextMargin={'0.2rem 0 1rem'}
           />
         </div>
       </AuthInputWrapper>

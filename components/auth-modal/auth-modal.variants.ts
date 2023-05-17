@@ -10,3 +10,20 @@ export const authModalVariants: Variants = {
     scale: 1,
   },
 };
+
+export const issueContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.2, when: 'beforeChildren' },
+  },
+};
+
+export const issueChildrenVariants: Variants = {
+  hidden: { opacity: 0, x: 50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5 },
+  },
+};
