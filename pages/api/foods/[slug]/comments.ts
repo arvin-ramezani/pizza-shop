@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 
 import {
-  foodsCommentsDeleteHandler,
   foodsCommentsGetHandler,
   foodsCommentsPatchHandler,
   foodsCommentsPostHandler,
@@ -26,6 +25,5 @@ const foodsCommentsRoutes = nextConnect<NextApiRequest, NextApiResponse>({
 foodsCommentsRoutes.get(foodsCommentsGetHandler);
 foodsCommentsRoutes.post(foodsCommentsPostHandler);
 foodsCommentsRoutes.patch(foodsCommentsPatchHandler);
-foodsCommentsRoutes.delete(foodsCommentsDeleteHandler);
 
 export default foodsCommentsRoutes;

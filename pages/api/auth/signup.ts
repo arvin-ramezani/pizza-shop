@@ -96,7 +96,7 @@ async function signupHandler(req: SignupApiRequest, res: NextApiResponse) {
     return;
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: 'Somethin went wrong !' });
+    res.status(500).json({ message: 'Something went wrong !' });
   }
 }
 

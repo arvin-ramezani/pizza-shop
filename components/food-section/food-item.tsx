@@ -37,7 +37,7 @@ import { foodsSelector, likeFood } from '@/redux/features/foodsSlice';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { useAddLikeMutation } from '@/redux/features/apiSlice';
 import CommentsModal from '@/components/comments-modal/comments-modal';
-import priceToText from '@/utils/common/priceTextSeperator';
+import priceToText from '@/utils/common/priceTextSeparator';
 import {
   foodItemTotalPriceVariants,
   foodItemVariants,
@@ -212,7 +212,7 @@ const FoodItem: FC<IFood> = ({
               <IconButton
                 ariaLabel="add quantity"
                 onClick={addQuantity}
-                disabled={!!isInCart}
+                disabled={!!isInCart || status !== 'authenticated'}
                 tapEffect
                 boxShadow
                 style={{ width: '25px', height: '25px' }}

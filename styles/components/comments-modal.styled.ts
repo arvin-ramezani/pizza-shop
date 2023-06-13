@@ -14,7 +14,7 @@ export const StyledCommentModal = styled(motion.div)`
 `;
 
 export const StyledCommentsWrapper = styled(motion.div)`
-  background: #fff;
+  background: ${({ theme }) => theme.backgroundColors.white};
   padding: 0 0.5rem;
   border-radius: 0.5rem;
   width: 90%;

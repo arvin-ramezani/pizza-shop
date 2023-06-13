@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { CSSProperties, FC, Fragment, useState } from 'react';
+import React, { CSSProperties, FC, Fragment, useEffect, useState } from 'react';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { BiMinus, BiPlus } from 'react-icons/bi';
 import moment from 'moment';
@@ -28,7 +28,7 @@ import IconButton from '../ui/icon-button/icon-button';
 import { IOrdersApiRes } from '@/utils/types/order/order.types';
 import MapModal from '../ui/map-modal/map-modal';
 import { ICoordinates } from '@/utils/types/map/map.types';
-import priceToText from '@/utils/common/priceTextSeperator';
+import priceToText from '@/utils/common/priceTextSeparator';
 import { theme } from '@/utils/theme.styled';
 import {
   orderFoodContainerVariants,
@@ -64,12 +64,25 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
     fontSize: '.6rem',
     fontWeight: 'bold',
     transform: 'none',
-  };
+  } as CSSProperties;
 
   const closeAddressStyle = {
     position: 'absolute',
     top: '-.6rem',
   } as CSSProperties;
+
+  useEffect(() => {
+    if (typeof document !== 'undefined' && showMapModal) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      console.log('profileOrderItem');
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.style.position = 'static';
+    };
+  }, [showMapModal]);
 
   return (
     <>
@@ -170,13 +183,7 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
                 <OrderFoodQuantity>{food.quantity} عدد</OrderFoodQuantity>
                 <OrderFoodPrice>
                   {priceToText(+food.foodPrice, food.quantity)}
-
-                  <Image
-                    src="/images/price.svg"
-                    alt="price"
-                    width={24}
-                    height={24}
-                  />
+                  <span>تومان</span>
                 </OrderFoodPrice>
               </OrderFoodsItem>
             ))}
@@ -207,8 +214,7 @@ const ProfileOrderItem: FC<ProfileOrderItemProps> = ({
 
           <TotalPriceText>
             {priceToText(totalPrice)}
-
-            <Image src="/images/price.svg" alt="price" width={24} height={24} />
+            <span>تومان</span>
           </TotalPriceText>
         </TotalPriceBlock>
       </StyledOrderItem>

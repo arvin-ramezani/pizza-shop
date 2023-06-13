@@ -25,6 +25,11 @@ export const CartItemsContainer = styled(motion.div)`
     margin: 0;
   }
 
+  & h2 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     width: 40%;
     padding: 0.3rem;

@@ -87,14 +87,18 @@ const MapModal = ({
   };
 
   useEffect(() => {
-    if (typeof document !== 'undefined') {
+    if (typeof document !== 'undefined' && show) {
       document.body.style.overflow = 'hidden';
+      console.log('mapModal');
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      if (show) {
+        document.body.style.overflow = 'unset';
+      }
+      console.log('mapModalllll', show);
     };
-  }, []);
+  }, [show]);
 
   let content = (
     <AnimatePresence>
@@ -147,8 +151,14 @@ const MapModal = ({
               }
             />
             <MapModalButtonsContainer>
-              <PrimaryButton text="ذخیره" onClick={onAddLocation} />
-              <SecondaryButton text="لغو" onClick={onCloseModal} />
+              {!stableCoordinates && (
+                <PrimaryButton text="ذخیره" onClick={onAddLocation} />
+              )}
+
+              <SecondaryButton
+                text={stableCoordinates ? 'بستن' : 'لغو'}
+                onClick={onCloseModal}
+              />
             </MapModalButtonsContainer>
           </StyledMapModal>
         </MapModalContainer>

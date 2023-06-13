@@ -17,11 +17,14 @@ const AnimateAuthModal = () => {
 
   // Prevent body to scroll when the modal is opened.
   useEffect(() => {
-    if (document) {
-      showModal
-        ? (document.body.style.overflow = 'hidden')
-        : (document.body.style.overflow = 'auto');
+    if (typeof document !== 'undefined' && showModal) {
+      document.body.style.overflow = 'hidden';
+      console.log('animateModal');
     }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [showModal]);
 
   return (

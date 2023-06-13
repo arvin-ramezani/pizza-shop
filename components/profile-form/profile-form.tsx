@@ -21,6 +21,7 @@ import { IGetMeApiResponse } from '@/utils/types/user/user.types';
 import IconButton from '../ui/icon-button/icon-button';
 import { meSchema } from '@/utils/yup-schema/me.schema';
 import { editButtonVariant } from './profile-form.variants';
+import { useSession } from 'next-auth/react';
 
 export interface IFormInputs {
   firstName: string;
@@ -30,7 +31,12 @@ export interface IFormInputs {
 }
 
 const ProfileForm = () => {
-  const { data: userData, isLoading, error } = useGetMeQuery();
+  const { status } = useSession();
+  const {
+    data: userData,
+    isLoading,
+    error,
+  } = useGetMeQuery(undefined, { skip: status !== 'authenticated' });
 
   const {
     formState: { errors },

@@ -66,6 +66,7 @@ const Comments: FC<CommentsProps> = ({ modalMode, closeModal, foodSlug }) => {
     register,
     handleSubmit,
     setValue,
+    setFocus,
   } = useForm<CommentFieldValues>({
     resolver: yupResolver(commentSechema),
   });
@@ -117,15 +118,16 @@ const Comments: FC<CommentsProps> = ({ modalMode, closeModal, foodSlug }) => {
   const deleteCommentHandler = async () => {
     if (!commentToDel) return;
     try {
-      console.log(commentToDel);
-      const ress = await deleteComment(commentToDel);
+      await deleteComment(commentToDel);
     } catch (error) {
       console.log(error);
     }
   };
 
   const editCommentHandler = (comment: IComment) => {
+    setFocus('comment');
     setValue('comment', comment.text);
+
     setCommentToEdit(comment);
   };
 

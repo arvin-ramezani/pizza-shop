@@ -55,6 +55,12 @@ const UserOrdersSection: FC = () => {
   }
 
   useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'unset';
+    }
+  });
+
+  useEffect(() => {
     if (userOrders) {
       setPageCount(userOrders.pagination.pageCount);
     }

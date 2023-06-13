@@ -1,34 +1,17 @@
-import React, {
-  FC,
-  MouseEventHandler,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { motion } from 'framer-motion';
-import { BsCheckCircleFill } from 'react-icons/bs';
-import { BiCircle } from 'react-icons/bi';
-import { AnimatePresence, Variants } from 'framer-motion';
-import { useSession } from 'next-auth/react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { RiMapPinAddFill } from 'react-icons/ri';
 
 import {
-  AnimateStyledPlace,
-  PlaceMore,
-  PLaceMoreWrapper,
-  StyledActivePlace,
-  StyledDeactivePlace,
-  StyledPlace,
   StyledPlaceListContainer,
   StyledPlaces,
 } from '@/styles/components/places.styled';
-import { theme } from '@/utils/theme.styled';
 import { useGetUserPlacesQuery } from '@/redux/features/apiSlice';
 import { IPlace } from '@/utils/types/place/place.types';
 import { IPlaceApiResponse } from '@/utils/types/place/place.types';
 import AddPlaceModal from '../ui/add-place-modal/add-place-modal';
 import OutlineButton from '../ui/outline-button/outline-button';
-import { placeListVariants, placeVariants } from './places.variants';
+import { placeListVariants } from './places.variants';
 import PlaceItem from './place-item/place-item';
 
 interface CartPlacesProps {
@@ -98,13 +81,6 @@ const Places: FC<CartPlacesProps> = ({ selectable, onAddPlace }) => {
   }, [currentSelectedPlace]);
 
   useEffect(() => {
-    // Prevent body to scroll when the modal is opened.
-    if (document) {
-      showAddPlaceModal
-        ? (document.body.style.overflow = 'hidden')
-        : (document.body.style.overflow = 'auto');
-    }
-
     if (!showAddPlaceModal) {
       setMapEditMode(false);
       setInitialModalPlace(undefined);

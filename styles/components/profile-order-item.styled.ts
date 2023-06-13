@@ -8,7 +8,7 @@ export const StyledOrderItem = styled(motion.div)`
   padding: 0.5rem 1rem;
   width: 100%;
 
-  box-shadow: -1px 1px 8px 0px ${({ theme }) => theme.colors.primary};
+  box-shadow: -1px 2px 4px 1px ${({ theme }) => theme.colors.darkWhite};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     width: 40%;
@@ -123,6 +123,12 @@ export const OrderFoodPrice = styled(motion.div)`
   display: flex;
   align-items: center;
   gap: 0.2rem;
+
+  & span {
+    font-size: 0.7rem;
+    font-weight: 500;
+    margin-right: 0.2rem;
+  }
 `;
 
 export const TotalPriceBlock = styled(motion.div)`

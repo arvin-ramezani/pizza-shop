@@ -1,3 +1,4 @@
+import { modalBackdropVariants } from './../../components/ui/add-place-modal/add-place-modal.variants';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
@@ -36,7 +37,6 @@ export const CommentListWrapper = styled.div`
   overflow-y: auto;
   direction: ltr;
   margin-right: -0.7rem;
-  flex: 1;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -101,7 +101,6 @@ export const AddCommentForm = styled(motion.form)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  flex: 1;
 
   & > span {
     margin-top: 0.5rem;

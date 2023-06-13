@@ -215,13 +215,16 @@ const AddPlaceModal: FC<AddPlaceModalProps> = ({
     if (typeof document !== 'undefined') {
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
+      document.body.style.right = '0';
+      document.body.style.left = '0';
+      console.log('addPlaceModal');
     }
 
     return () => {
       document.body.style.position = 'static';
       document.body.style.overflow = 'unset';
     };
-  }, []);
+  }, [document]);
 
   const content = (
     <>

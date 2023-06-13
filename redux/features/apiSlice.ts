@@ -98,11 +98,9 @@ export const commentsApi = createApi({
 
       deleteComment: build.mutation<void, IComment>({
         query(data) {
-          const { foodSlug } = data;
           return {
-            url: `foods/${foodSlug}/comments`,
+            url: `/comments/${encodeURIComponent(data.id)}`,
             method: 'DELETE',
-            body: data,
           };
         },
         invalidatesTags: ['Comment'],
@@ -111,7 +109,6 @@ export const commentsApi = createApi({
       editComment: build.mutation<void, IComment>({
         query(data) {
           const { foodSlug, ...body } = data;
-          console.log(data);
           return {
             url: `foods/${foodSlug}/comments`,
             method: 'PATCH',

@@ -14,10 +14,10 @@ export const StyledForm = styled.form`
     font-weight: 700;
     font-size: 1.6rem;
   }
-
+  /* 
   & input:disabled {
     background-color: #fff;
-  }
+  } */
 `;
 
 export const ProfileImageWrapper = styled.div`

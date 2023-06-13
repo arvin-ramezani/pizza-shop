@@ -4,9 +4,7 @@ import { getToken } from 'next-auth/jwt';
 import dbConnect from '@/utils/db/dbConnect';
 import { Comment } from '@/models/Comment';
 import { User } from '@/models/User';
-import { Food, FoodDoc } from '@/models/Food';
-import { Types } from 'mongoose';
-import { friesList, saladList } from '@/DUMMY_DATA/foods';
+import { Food } from '@/models/Food';
 
 export async function foodsCommentsGetHandler(
   req: NextApiRequest,
@@ -71,54 +69,6 @@ export async function foodsCommentsPostHandler(
     await commentFood.save();
 
     res.status(201).json(newComment);
-    return;
-  } catch (error) {
-    res.status(500).json({ message: 'Somethin went wrong !' });
-  }
-}
-
-export async function foodsCommentsDeleteHandler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  try {
-    const secret = process.env.JWT_SECRET;
-    const session = await getToken({ req, secret });
-    if (!session) {
-      res.status(401).json({ message: 'You are not authenticated' });
-      return;
-    }
-
-    await dbConnect();
-
-    if (session.email !== req.body.user.email) {
-      return res.status(401).json({ message: 'You are not authenticated' });
-    }
-
-    const foodComment = await Food.findOne({ slug: req.body.foodSlug });
-    if (!foodComment) {
-      return res.status(400).json({ message: 'Food slug is wrong !' });
-    }
-
-    const commentToDelete = await Comment.findById(req.body.id).populate(
-      'user'
-    );
-    if (!commentToDelete) {
-      return res.status(404).json({ message: 'Comment not found' });
-    }
-    if (commentToDelete.user.email !== session.email) {
-      return res.status(401).json({ message: 'You are not authenticated' });
-    }
-
-    const ress = await commentToDelete.delete();
-
-    if (foodComment.commentsLength! > 0) {
-      foodComment.commentsLength = --foodComment.commentsLength!;
-    }
-
-    await foodComment.save();
-
-    res.status(200).json({});
     return;
   } catch (error) {
     res.status(500).json({ message: 'Somethin went wrong !' });

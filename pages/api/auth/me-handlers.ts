@@ -60,7 +60,7 @@ export async function usersPatchHandler(
 ) {
   try {
     if (process.env.NODE_ENV !== 'production') {
-      // await runMulterMiddleware(req, res, upload.single('image'));
+      await runMulterMiddleware(req, res, upload.single('image'));
 
       const secret = process.env.JWT_SECRET;
       const session = await getToken({ req, secret });

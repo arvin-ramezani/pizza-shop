@@ -47,8 +47,13 @@ export const UserOrdersPagination = styled.div`
 `;
 
 export const UserOrdersPaginationSelectBox = styled.select`
-  padding: 0.5rem 1rem;
+  padding: 0.1rem 1rem;
   border-radius: 0.5rem;
+  cursor: pointer;
+
+  & option {
+    cursor: pointer;
+  }
 `;
 
 export const UserOrdersPaginationText = styled.div`

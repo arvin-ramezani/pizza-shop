@@ -59,6 +59,20 @@ const AddPlace: FC<AddPlaceProps> = ({
     addCoordinatesAnimeController.start(addCoordinatesVariant.visible);
   }, [coordinates?.lat, coordinates?.lng]);
 
+  useEffect(() => {
+    if (typeof document !== 'undefined' && showMapModal) {
+      document.body.style.overflow = 'hidden';
+      console.log('mapModal');
+    }
+
+    return () => {
+      if (showMapModal) {
+        document.body.style.overflow = 'unset';
+      }
+      console.log('showmapmodal', showMapModal);
+    };
+  }, [showMapModal]);
+
   return (
     <StyledAddPlaceBlock as={motion.div}>
       <h4>افزودن آدرس</h4>

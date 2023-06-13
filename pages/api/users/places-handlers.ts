@@ -167,7 +167,6 @@ export async function usersPlacesDeleteHandler(
 
     res.status(200).json({ message: 'Place deleted successfully' });
     return;
-    return;
   } catch (error) {
     res.status(500).json({ message: 'Somethin went wrong !' });
   }

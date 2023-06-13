@@ -59,11 +59,20 @@ const ConfirmModal: FC<confirmModalProps> = ({
   };
 
   useEffect(() => {
-    if (document) {
-      show
-        ? (document.body.style.overflow = 'hidden')
-        : (document.body.style.overflow = 'auto');
+    // if (document) {
+    //   show
+    //     ? (document.body.style.overflow = 'hidden')
+    //     : (document.body.style.overflow = 'unset');
+    // }
+
+    if (typeof document !== 'undefined' && show) {
+      document.body.style.overflow = 'hidden';
+      console.log('confirmModal');
     }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [show]);
 
   let content = (

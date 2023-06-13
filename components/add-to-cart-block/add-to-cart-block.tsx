@@ -22,6 +22,7 @@ import {
 import { theme } from '@/utils/theme.styled';
 import { useAddLikeMutation } from '@/redux/features/apiSlice';
 import { foodItemVariants } from './add-to-cart-block.variants';
+import { toast } from 'react-toastify';
 
 interface AddToCartProps {
   name: IFood['name'];
@@ -59,7 +60,15 @@ const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image, likes }) => {
   };
 
   const addLikeHandler = async () => {
-    if (status !== 'authenticated') return;
+    if (status !== 'authenticated') {
+      toast(<p>لطفا ابتدا وارد شوید !</p>, {
+        type: 'warning',
+        position: 'top-center',
+      });
+
+      return;
+    }
+
     try {
       setIsAlreadyLike((prev) => !prev);
 
@@ -98,7 +107,7 @@ const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image, likes }) => {
         <IconButton
           ariaLabel="add quantity"
           onClick={addQuantity}
-          disabled={!!isInCart}
+          disabled={!!isInCart || status !== 'authenticated'}
           tapEffect
         >
           <IoMdAddCircleOutline color={'#9747FF'} size={'1.6rem'} />
@@ -129,6 +138,7 @@ const AddToCartBlock: FC<AddToCartProps> = ({ price, name, image, likes }) => {
             style={{ outline: 'none' }}
             tapEffect
             onClick={addLikeHandler}
+            disabled={status !== 'authenticated'}
           >
             <BsHeart size="1.4rem" color={theme.colors.primary} />
           </IconButton>

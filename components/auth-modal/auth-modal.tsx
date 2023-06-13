@@ -1,16 +1,13 @@
-import React, {
-  ChangeEvent,
-  FC,
-  MouseEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { motion, Variants } from 'framer-motion';
 import axios from 'axios';
 import { signIn, SignInResponse } from 'next-auth/react';
+import { toast } from 'react-toastify';
+import LoadingBar from 'react-top-loading-bar';
+import Image from 'next/image';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 
 import CloseIcon from '../ui/close-icon/close-icon';
 import Input from '../ui/input/input';
@@ -19,7 +16,6 @@ import SecondaryButton from '../ui/secondary-button/secondary-button';
 import signupSchema from '../../utils/yup-schema/signup.schema';
 import { AuthModalProps, IFormInputs } from '../../utils/types/auth.types';
 import signinSchema from '../../utils/yup-schema/signin.schema';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
   loadingBarSelector,
   setLoader,
@@ -36,16 +32,13 @@ import {
   StyledModal,
   Wrapper,
 } from '@/styles/components/auth-modal.styled';
-import LoadingBar from 'react-top-loading-bar';
 import { theme } from '@/utils/theme.styled';
 import OutlineButton from '../ui/outline-button/outline-button';
 import { ICoordinates } from '@/utils/types/map/map.types';
 import addPlaceFormSchema from '@/utils/yup-schema/add-place.schema';
 import { IPlaceInputs, IPlace } from '@/utils/types/place/place.types';
 import { validatePlaceInputs } from '@/utils/validation/add-place.validation';
-import { toast } from 'react-toastify';
 import AddPlace from '../add-place/add-place';
-import Image from 'next/image';
 import {
   authModalVariants,
   issueChildrenVariants,
@@ -227,12 +220,13 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
   useEffect(() => {
     if (typeof document !== 'undefined') {
       document.body.style.overflow = 'hidden';
+      console.log('authModal');
     }
 
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, []);
+  }, [isSingup]);
 
   let titleContent;
   if (isSingup) {
@@ -351,6 +345,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
                       register={register}
                       invalid={!!errors.firstName}
                       errorMessage={errors.firstName?.message}
+                      errorTextMargin={'.4rem 0.4rem 0 0'}
                     />
 
                     <Input
@@ -360,6 +355,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
                       register={register}
                       invalid={!!errors.lastName}
                       errorMessage={errors.lastName?.message}
+                      errorTextMargin={'.4rem 0.4rem 0 0'}
                     />
                   </AuthInputWrapper>
 
@@ -372,6 +368,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
                       register={register}
                       invalid={!!errors.email}
                       errorMessage={errors.email?.message}
+                      errorTextMargin={'.4rem 0.4rem 0 0'}
                     />
 
                     <Input
@@ -382,6 +379,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
                       register={register}
                       invalid={!!errors.phone}
                       errorMessage={errors.phone?.message}
+                      errorTextMargin={'.4rem 0.4rem 0 0'}
                     />
                   </AuthInputWrapper>
 
@@ -395,6 +393,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
                       register={register}
                       invalid={!!errors.password}
                       errorMessage={errors.password?.message}
+                      errorTextMargin={'.4rem 0.4rem 0 0'}
                     />
 
                     <Input
@@ -405,6 +404,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
                       register={register}
                       invalid={!!errors.confirmPassword}
                       errorMessage={errors.confirmPassword?.message}
+                      errorTextMargin={'.4rem 0.4rem 0 0'}
                     />
                   </AuthInputWrapper>
 
@@ -429,6 +429,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
                     register={register}
                     invalid={!!errors.email}
                     errorMessage={errors.email?.message}
+                    errorTextMargin={'.4rem 0.4rem 0 0'}
                     defaultValue="user@test.com"
                   />
 
@@ -440,6 +441,7 @@ const AuthModal: FC<AuthModalProps> = ({ onClose }) => {
                     register={register}
                     invalid={!!errors.password}
                     errorMessage={errors.password?.message}
+                    errorTextMargin={'.4rem 0.4rem 0 0'}
                     defaultValue="123456"
                   />
                 </AuthInputWrapper>

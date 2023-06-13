@@ -23,7 +23,8 @@ usersRoutes.patch(usersPatchHandler);
 
 export const config = {
   api: {
-    bodyParser: process.env.NODE_ENV === 'production' ? true : false,
+    // bodyParser: process.env.NODE_ENV === 'production' ? true : false,
+    bodyParser: false,
   },
 };
 

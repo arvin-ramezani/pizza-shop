@@ -20,7 +20,7 @@ import {
   StyledImage,
 } from '@/styles/components/cart-item.styled';
 import useAddToCart from '@/hooks/use-add-to-cart/use-add-to-cart';
-import priceToText from '@/utils/common/priceTextSeperator';
+import priceToText from '@/utils/common/priceTextSeparator';
 import { cartItemVariants } from './cart-item.variants';
 
 const CartItem: FC<CartItemProps> = ({

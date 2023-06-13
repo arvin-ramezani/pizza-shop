@@ -6,7 +6,7 @@ interface UserAttrs {
   firstName: string;
   lastName?: string;
   email: string;
-  phone: string;
+  phone?: string;
   password: string;
   image?: string;
 }
@@ -23,7 +23,7 @@ export interface UserDoc extends mongoose.Document {
   firstName: string;
   lastName?: string;
   email: string;
-  phone: string;
+  phone?: string;
   password: string;
   image?: string;
 }
@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: true,
+      // required: true,
     },
     password: {
       type: String,

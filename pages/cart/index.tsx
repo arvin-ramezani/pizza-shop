@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
-
+import { useSession } from 'next-auth/react';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useRouter } from 'next/router';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { NextPage } from 'next';
+import { toast } from 'react-toastify';
+
 import { cartSelector, clearCart } from '@/redux/features/cartSlice';
 import CartItem from '@/components/cart-item/cart-item';
 import CartDetails from '@/components/cart-details/cart-details';
 import PrimaryButton from '@/components/ui/primary-button/primary-button';
 import { theme } from '@/utils/theme.styled';
-import { useRouter } from 'next/router';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
-import { useSession } from 'next-auth/react';
 import { setLoader } from '@/redux/features/loadingBarSlice';
-import { useDispatch } from 'react-redux';
 import { CartItemsContainer, Container } from '@/styles/pages/cart-page.styled';
-import { NextPage } from 'next';
 import { useAddOrderMutation } from '@/redux/features/apiSlice';
 import ConfirmModal from '@/components/ui/confirm-modal/confirm-modal';
-import { toast } from 'react-toastify';
 import { IPlace } from '@/utils/types/place/place.types';
 
 const cartItemsContainerVariant: Variants = {
@@ -84,14 +83,6 @@ const Cart: NextPage = () => {
 
         router.push(`/`);
       }
-
-      // toast(
-      //   <p>
-      //     سفارش شما ثبت شد. برای مشاهده و پیگیری وارد <strong>پروفایل</strong>{' '}
-      //     شوید.
-      //   </p>,
-      //   { type: 'success', autoClose: false, position: 'top-center' }
-      // );
     } catch (error) {
       console.log(error);
     }

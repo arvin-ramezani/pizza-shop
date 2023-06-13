@@ -34,7 +34,6 @@ export async function usersOrdersGetHandler(
       user: userId,
     };
 
-    console.log(req.query.page, page, 'page');
     const isValidUserId = mongoose.isValidObjectId(userId);
 
     if (!isValidUserId) {
