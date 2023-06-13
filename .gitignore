@@ -27,6 +27,8 @@ yarn-error.log*
 
 # local env files
 .env*.local
+# Do not ignore file
+!/.env.local_template
 
 # vercel
 .vercel
